@@ -1,0 +1,45 @@
+{
+	"version": 1,
+	"author": "Pete Cooke",
+	"title": "Softly Softly!",
+	"behaviour": {
+		"camera": true,
+		"destroysfloor": false,
+		"timebombspeed": 0
+	},
+	"conditions": {
+		"klondikes": 3,
+		"robots": 0,
+		"timelimit":0
+	},
+	"elements": {
+		"offset": [ 4, 4 ],
+		"0": [
+			[ "---", "---", "KLD", "---", "---" ],
+			[ "---", "FLR", "KLD", "---", "---" ],
+			[ "FPE", "BLK", "KLD", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ],
+			[ "FZE", "LFD", "GRB", "PSH", "FLR" ],
+			[ "---", "BOX", "FLR", "FLR", "FLR" ],
+			[ "LFD", "BOX", "FLR", "FLR", "FLR" ],
+			[ "---", "LFU", "FLR", "ZAP", "FLR" ]
+		],
+		"1": [
+			[ "---", "---", "---", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ],
+			[ "---", "FLR", "---", "---", "---" ],
+			[ "---", "FLR", "---", "---", "---" ],
+			[ "---", "---", "---", "---", "---" ]
+		]
+	},
+	"fx": {
+		"pattern": 0,
+		"patterncolor1": "0xFFA500A5",
+		"patterncolor2": "0xFFE10000",
+		"groundcolor1": "0xFF004B4B",
+		"groundcolor2": "0xFF006969"
+	}
+}

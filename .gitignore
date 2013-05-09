@@ -1,0 +1,28 @@
+###### C/C++ ######
+*.a
+*.cc
+*.hh
+*.o
+*.so
+
+###### Other stuff (editor temp files, log files etc.) ######
+*.bak
+*.log
+*.nfs*
+*.out
+*.swp
+*~
+*.pyc
+.DS_Store
+
+proj.linux/bin
+proj.linux/obj
+
+proj.android/bin
+proj.android/obj
+proj.android/gen
+proj.android/assets
+.settings
+
+proj.*/*.xcodeproj/project.xcworkspace/
+proj.*/*.xcodeproj/xcuserdata/
