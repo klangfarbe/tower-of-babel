@@ -14,6 +14,9 @@ unity3d/*.svd
 !Library/guidmapper
 !Library/unity default resources
 !Library/unity editor resources
+
+# Blender backup files
+*.blend[0-9]*
   
 # Project files for Monodevelop, Visual Studio etc.
 *.userprefs
