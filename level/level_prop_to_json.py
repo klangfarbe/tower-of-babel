@@ -9,7 +9,10 @@ import json
 def save_json_file(filename, data):
 	if filename:
 		f = open(filename, 'w')
-		json.dump(data, f, sort_keys=True, indent=2, ensure_ascii=True)
+		s = json.dumps(data, sort_keys=True, indent=2, ensure_ascii=True)
+		s = re.sub(r'\s*("...;...",?)\s*\n', r'\1 ', s)
+		s = re.sub(r'\s*(],?\s*\n)', r'\1', s)
+		f.write(s)
 		f.close()
 
 # ------------------------------------------------------------------------------
@@ -31,7 +34,7 @@ def new_tower(id):
 			'timelimit': None
 		},
 		'elements': {
-			'offset': { 'x': None, 'y': None }
+#			'offset': { 'x': None, 'y': None }
 		},
 		'fx': {
 			'pattern': None,
@@ -60,6 +63,22 @@ def process_elements(tower, match):
 	if not match:
 		return
 
+	level = tower['elements']
+	floor = match.group('floor')
+	row = int(match.group('row')) - 4
+	elements = match.group('elements')
+
+	if floor not in level:
+		level[floor]  = {}
+	level[floor][row] = []
+
+	for tile in elements.split(';'):
+		tile = tile.replace('-', ';')
+		tile = tile.replace('SPC', '---')
+		level[floor][row].append(tile)
+#		tile = tile.split('-')
+#		level[floor][row].append([tile[0].replace('SPC', '---'), tile[0].replace('SPC', '---')])
+
 # ------------------------------------------------------------------------------
 
 def process_offset(tower, match):
@@ -69,9 +88,10 @@ def process_offset(tower, match):
 
 # ------------------------------------------------------------------------------
 
+
 def process_levels(filename):
 	# the regular expressions
-	regex_tower = re.compile(r'tower\.(?P<id>\d{3})')
+	regex_tower = re.compile(r'tower\.(?P<id>\d{3})\.(?P<data>.*)$')
 	regex_header = re.compile(r'header\.(?P<key>\w+)=(?P<val>.*)$')
 	regex_elements = re.compile(r'elements\.\d(?P<floor>\d)\.(?P<row>\d\d)=(?P<elements>.*)$')
 	regex_elements_offset = re.compile(r'offset(?P<axis>x|y)=(?P<offset>\d)$')
@@ -82,17 +102,26 @@ def process_levels(filename):
 	f = open(filename, 'r')
 	for line in f:
 		match = regex_tower.match(line)
-		if match and match.group('id') != tower['id']:
+		if not match:
+			continue
+
+		data = match.group('data')
+
+		# create new tower if needed
+		if match.group('id') != tower['id']:
 			save_json_file(tower['id'] + '.json', tower)
 			tower = new_tower(match.group('id'))
 
-		match = regex_header.search(line)
+		match = regex_header.search(data)
 		if match:
 			tower[match.group('key')] = match.group('val')
 
-		process_offset(tower, regex_elements_offset.search(line))
-		process_meta(tower, regex_meta.search(line))
-		process_elements(tower, regex_elements.search(line))
+#		process_offset(tower, regex_elements_offset.search(data))
+		process_meta(tower, regex_meta.search(data))
+		process_elements(tower, regex_elements.search(data))
+
+	# save the last tower
+	save_json_file(tower['id'] + '.json', tower)
 
 
 # ------------------------------------------------------------------------------
