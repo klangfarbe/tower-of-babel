@@ -1,0 +1,44 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "---;---", "FLR;---", "FLR;---", "FLR;---", "FLR;KLD"], 
+      "1": ["---;---", "---;---", "FLR;---", "FLR;FZW", "---;---", "FLR;---"], 
+      "2": ["---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "3": ["---;---", "---;---", "FLR;---", "FLR;FZW", "---;---", "---;---"], 
+      "4": ["---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "5": ["---;---", "---;---", "FLR;---", "FLR;FZW", "---;---", "---;---"], 
+      "6": ["FLR;GRB", "FLR;---", "FLR;ZAP", "---;---", "---;---", "---;---"], 
+      "7": ["FLR;FRZ", "---;---", "---;---", "---;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF2D4B2D", 
+    "groundcolor2": "0xFF4B694B", 
+    "groundheight": 2, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF874B87", 
+    "patterncolor2": "0xFF874B00", 
+    "skycolor1": "0xFF0087A5", 
+    "skycolor2": "0xFF0087A5", 
+    "stars": 0, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "010", 
+  "title": "Back to the old 'Freezerinos'", 
+  "version": 1
+}

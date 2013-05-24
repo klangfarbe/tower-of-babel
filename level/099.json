@@ -1,0 +1,54 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 3, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "---;---", "BOX;---", "FLR;KLD", "FLR;---", "BOX;---"], 
+      "1": ["---;---", "BOX;---", "FLR;KLD", "FLR;---", "FLR;---", "---;---"], 
+      "2": ["BOX;---", "LFD;---", "FLR;---", "FLR;---", "FLR;TMB", "FLR;FZW"], 
+      "3": ["---;---", "FLR;REL", "---;---", "LFD;---", "FLR;---", "FLR;FZW"], 
+      "4": ["BOX;---", "FLR;FPN", "FLR;---", "---;---", "BOX;---", "BOX;---"], 
+      "5": ["---;---", "---;---", "BOX;---", "FLR;FPE", "FLR;REL", "LFD;---"], 
+      "6": ["---;---", "---;---", "---;---", "---;---", "---;---", "FLR;---"], 
+      "7": ["BOX;---", "---;---", "BOX;---", "FLR;---", "FLR;KLD", "FLR;---"]
+    }, 
+    "1": {
+      "0": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "1": ["FLR;---", "FLR;---", "---;---", "---;---", "FLR;---", "FLR;PSH"], 
+      "2": ["FLR;---", "---;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "3": ["FLR;---", "---;---", "FLR;---", "---;---", "FLR;---", "FLR;---"], 
+      "4": ["FLR;---", "---;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "5": ["FLR;---", "---;---", "FLR;GRB", "FLR;---", "FLR;---", "---;---"], 
+      "6": ["FLR;---", "---;---", "---;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "7": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;ZAP", "FLR;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF000000", 
+    "groundcolor2": "0xFF000000", 
+    "groundheight": 1, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 4, 
+    "patterncolor1": "0xFFD25A00", 
+    "patterncolor2": "0xFF5A5A00", 
+    "skycolor1": "0xFF1E0000", 
+    "skycolor2": "0xFF1E0000", 
+    "stars": 0, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "099", 
+  "title": "Beelzebub's Lair", 
+  "version": 1
+}

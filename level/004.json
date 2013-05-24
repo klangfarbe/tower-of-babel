@@ -1,0 +1,44 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["FLR;PSH", "---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "1": ["FLR;---", "---;---", "FLR;---", "FLR;PRM", "FLR;---", "FLR;---", "FLR;KLD"], 
+      "2": ["FLR;---", "---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "3": ["FLR;---", "---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "4": ["FLR;---", "FLR;---", "FLR;---", "FLR;PRM", "FLR;---", "---;---", "---;---"], 
+      "5": ["FLR;---", "---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "6": ["FLR;GRB", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "7": ["FLR;ZAP", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF4B0000", 
+    "groundcolor2": "0xFF690000", 
+    "groundheight": 7, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFE16900", 
+    "patterncolor2": "0xFFE10000", 
+    "skycolor1": "0xFF00002D", 
+    "skycolor2": "0xFF00001E", 
+    "stars": 0, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "004", 
+  "title": "The Mini Minefield Puzzle", 
+  "version": 1
+}

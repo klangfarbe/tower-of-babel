@@ -1,0 +1,50 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 2, 
+    "robots": 1, 
+    "timelimit": 280
+  }, 
+  "elements": {
+    "0": {
+      "1": ["BOX;---", "---;---", "---;---", "---;---", "BOX;---", "---;---"], 
+      "2": ["---;---", "---;---", "LFU;---", "---;---", "---;---", "---;---"], 
+      "3": ["---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "4": ["---;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "5": ["---;---", "---;---", "LFD;---", "---;---", "---;---", "---;---"], 
+      "6": ["BOX;---", "---;---", "---;---", "---;---", "BOX;---", "---;---"]
+    }, 
+    "1": {
+      "1": ["FLR;---", "FLR;---", "FLR;---", "FLR;BFL", "FLR;---", "FLR;---"], 
+      "2": ["FLR;FPE", "FLR;KLD", "---;---", "FLR;KLD", "FLR;---", "---;---"], 
+      "3": ["FLR;---", "FLR;PRM", "FLR;---", "FLR;PRM", "FLR;---", "---;---"], 
+      "4": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---"], 
+      "5": ["FLR;---", "FLR;---", "---;---", "FLR;---", "FLR;---", "---;---"], 
+      "6": ["FLR;---", "FLR;ZAP", "FLR;---", "FLR;GRB", "FLR;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF3C5A00", 
+    "groundcolor2": "0xFF5A7800", 
+    "groundheight": 1, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFB4B45A", 
+    "patterncolor2": "0xFF965A00", 
+    "skycolor1": "0xFF783C78", 
+    "skycolor2": "0xFF003C78", 
+    "stars": 0, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "015", 
+  "title": "The Tunnel", 
+  "version": 1
+}

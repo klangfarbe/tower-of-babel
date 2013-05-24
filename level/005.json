@@ -1,0 +1,50 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 1, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "1": ["BOX;---", "FLR;GRB", "BOX;---", "FLR;KLD", "BOX;---", "FLR;---"], 
+      "2": ["FLR;---", "FLR;BLK", "FLR;---", "FLR;---", "FLR;---", "FLR;BFL"], 
+      "3": ["FLR;---", "BOX;---", "FLR;---", "BOX;---", "FLR;FZS", "BOX;---"], 
+      "4": ["FLR;PSH", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "5": ["BOX;---", "FLR;---", "BOX;---", "FLR;---", "BOX;---", "FLR;---"], 
+      "6": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;ZAP"]
+    }, 
+    "1": {
+      "1": ["FLR;---", "---;---", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "2": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "3": ["---;---", "FLR;---", "---;---", "FLR;---", "---;---", "FLR;---"], 
+      "4": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "5": ["FLR;---", "---;---", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "6": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF785A00", 
+    "groundcolor2": "0xFFB49600", 
+    "groundheight": 3, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF96D200", 
+    "patterncolor2": "0xFFD20000", 
+    "skycolor1": "0xFF3C005A", 
+    "skycolor2": "0xFF5A003C", 
+    "stars": 0, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "005", 
+  "title": "But Cameras Give The Game Away (Maze 1)", 
+  "version": 1
+}

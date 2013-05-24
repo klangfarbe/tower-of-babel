@@ -1,0 +1,44 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 6, 
+    "robots": 0, 
+    "timelimit": 100
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "FLR;---", "---;---"], 
+      "1": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "FLR;---", "---;---"], 
+      "2": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "FLR;WON", "---;---"], 
+      "3": ["---;---", "---;---", "FLR;WIP", "---;---", "---;---", "---;---", "FLR;---", "---;---"], 
+      "4": ["---;---", "---;---", "FLR;GRB", "---;---", "---;---", "---;---", "FLR;---", "---;---"], 
+      "5": ["---;---", "FLR;---", "FLR;---", "---;---", "---;---", "FLR;KLD", "FLR;---", "FLR;---"], 
+      "6": ["---;---", "FLR;---", "---;---", "---;---", "---;---", "FLR;KLD", "FLR;PRM", "FLR;---"], 
+      "7": ["FLR;REL", "FLR;KLD", "FLR;ZAP", "---;---", "---;---", "FLR;KLD", "FLR;KLD", "FLR;KLD"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF3C0000", 
+    "groundcolor2": "0xFF5A0000", 
+    "groundheight": 1, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFD2B478", 
+    "patterncolor2": "0xFFD2B4B4", 
+    "skycolor1": "0xFF3C3C78", 
+    "skycolor2": "0xFF00001E", 
+    "stars": 100, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "041", 
+  "title": "Worm your way out of this.", 
+  "version": 1
+}

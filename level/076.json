@@ -1,0 +1,44 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 0, 
+    "robots": 6, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "FLR;---", "---;---", "FLR;---", "---;---", "---;---", "FLR;FCD"], 
+      "1": ["FLR;GRB", "FLR;PSH", "---;---", "FLR;BLK", "FLR;---", "---;---", "---;---"], 
+      "2": ["FLR;---", "FLR;---", "---;---", "FLR;---", "---;---", "---;---", "---;---"], 
+      "3": ["---;---", "FLR;FPN", "---;---", "FLR;RPN", "---;---", "---;---", "---;---"], 
+      "4": ["---;---", "---;---", "FLR;---", "---;---", "LFD;---", "FLR;HOP", "FLR;HOP"], 
+      "5": ["---;---", "---;---", "FLR;ZAP", "---;---", "FLR;REL", "FLR;HOP", "FLR;HOP"], 
+      "6": ["---;---", "---;---", "FLR;---", "---;---", "LFD;---", "FLR;HOP", "FLR;HOP"], 
+      "7": ["---;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF694B00", 
+    "groundcolor2": "0xFFA58700", 
+    "groundheight": 1, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFA5E100", 
+    "patterncolor2": "0xFF00E1A5", 
+    "skycolor1": "0xFF00004B", 
+    "skycolor2": "0xFF00004B", 
+    "stars": 34, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 4
+  }, 
+  "id": "076", 
+  "title": "Like Rats in a Barrel", 
+  "version": 1
+}

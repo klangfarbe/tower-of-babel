@@ -1,0 +1,44 @@
+{
+  "author": "Chris Newcombe.", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 2
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 0, 
+    "timelimit": 29
+  }, 
+  "elements": {
+    "0": {
+      "0": ["FLR;FPS", "FLR;FPS", "FLR;FPS", "FLR;FPS", "FLR;FPS", "FLR;FPS", "---;---", "FLR;KLD"], 
+      "1": ["FLR;PRM", "FLR;PRM", "FLR;PRM", "FLR;PRM", "FLR;PRM", "FLR;PRM", "---;---", "---;---"], 
+      "2": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "3": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "4": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "5": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "6": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "FLR;FZS"], 
+      "7": ["FLR;---", "FLR;GRB", "FLR;PSH", "FLR;ZAP", "FLR;---", "FLR;---", "FLR;---", "FLR;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF1E3C1E", 
+    "groundcolor2": "0xFF3C5A3C", 
+    "groundheight": 4, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 3, 
+    "patterncolor1": "0xFFD2D2B4", 
+    "patterncolor2": "0xFFD2B4B4", 
+    "skycolor1": "0xFF00001E", 
+    "skycolor2": "0xFF00001E", 
+    "stars": 34, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "063", 
+  "title": "Quick 'n' Easy.", 
+  "version": 1
+}

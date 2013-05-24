@@ -1,0 +1,52 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 3, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "BOX;---", "---;---", "BOX;---", "---;---"], 
+      "1": ["LFD;---", "FLR;FZW", "BOX;---", "FLR;KLD", "LFD;---"], 
+      "2": ["---;---", "BOX;---", "---;---", "BOX;---", "---;---"], 
+      "3": ["LFD;---", "FLR;KLD", "BOX;---", "FLR;FZW", "LFD;---"], 
+      "4": ["---;---", "BOX;---", "---;---", "BOX;---", "---;---"], 
+      "5": ["LFD;---", "FLR;KLD", "BOX;---", "FLR;FZE", "LFD;---"], 
+      "6": ["---;---", "BOX;---", "---;---", "BOX;---", "---;---"]
+    }, 
+    "1": {
+      "0": ["---;---", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "1": ["---;---", "FLR;---", "FLR;---", "FLR;---", "---;---"], 
+      "2": ["---;---", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "3": ["---;---", "FLR;---", "FLR;---", "FLR;---", "---;---"], 
+      "4": ["---;---", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "5": ["---;---", "FLR;---", "FLR;---", "FLR;---", "---;---"], 
+      "6": ["---;---", "FLR;---", "---;---", "FLR;GRB", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF2D4B2D", 
+    "groundcolor2": "0xFF4B694B", 
+    "groundheight": 5, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFC3C3E1", 
+    "patterncolor2": "0xFF2DE1E1", 
+    "skycolor1": "0xFF4B6969", 
+    "skycolor2": "0xFF006969", 
+    "stars": 0, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "054", 
+  "title": "Wot Klondikes\\!", 
+  "version": 1
+}

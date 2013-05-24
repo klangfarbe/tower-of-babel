@@ -1,0 +1,54 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 3, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "1": ["BOX;---", "FLR;PRM", "FLR;---", "LFU;---", "BOX;---"], 
+      "2": ["BOX;---", "---;---", "FLR;---", "FLR;FZN", "BOX;---"], 
+      "3": ["BOX;---", "FLR;PRM", "FLR;---", "FLR;FCD", "BOX;---"], 
+      "4": ["BOX;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---"], 
+      "5": ["---;---", "---;---", "FLR;---", "---;---", "---;---"], 
+      "6": ["---;---", "FLR;---", "FLR;---", "FLR;---", "---;---"], 
+      "7": ["---;---", "FLR;ZAP", "FLR;PSH", "FLR;GRB", "---;---"]
+    }, 
+    "1": {
+      "0": ["LFD;---", "FLR;KLD", "LFD;---", "FLR;---", "LFD;---"], 
+      "1": ["FLR;KLD", "---;---", "---;---", "---;---", "FLR;---"], 
+      "2": ["LFD;---", "---;---", "---;---", "---;---", "LFD;---"], 
+      "3": ["FLR;---", "---;---", "---;---", "---;---", "FLR;KLD"], 
+      "4": ["LFD;---", "FLR;---", "LFD;---", "FLR;---", "LFD;---"], 
+      "5": ["---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "6": ["---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "7": ["---;---", "---;---", "---;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF4B1E00", 
+    "groundcolor2": "0xFF693C00", 
+    "groundheight": 5, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF5A785A", 
+    "patterncolor2": "0xFF785A5A", 
+    "skycolor1": "0xFF3C003C", 
+    "skycolor2": "0xFF00003C", 
+    "stars": 100, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 4
+  }, 
+  "id": "085", 
+  "title": "Storming The Castle", 
+  "version": 1
+}

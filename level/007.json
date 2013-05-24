@@ -1,0 +1,48 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 1, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["---;---", "---;---", "---;---", "FLR;HOP", "---;---", "---;---"], 
+      "1": ["---;---", "FLR;---", "---;---", "FLR;REL", "FLR;---", "---;---"], 
+      "2": ["---;---", "LFD;---", "---;---", "LFD;---", "---;---", "---;---"], 
+      "3": ["BOX;---", "LFU;---", "BOX;---", "LFU;---", "BOX;---", "---;---"], 
+      "4": ["---;---", "FLR;ZAP", "---;---", "FLR;PSH", "---;---", "---;---"]
+    }, 
+    "1": {
+      "0": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "1": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "2": ["FLR;KLD", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "3": ["FLR;---", "---;---", "FLR;---", "---;---", "FLR;---", "FLR;---"], 
+      "4": ["---;---", "---;---", "---;---", "---;---", "---;---", "FLR;GRB"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF787896", 
+    "groundcolor2": "0xFF9696B4", 
+    "groundheight": 3, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 3, 
+    "pattern": 3, 
+    "patterncolor1": "0xFF5A96D2", 
+    "patterncolor2": "0xFF5A5AD2", 
+    "skycolor1": "0xFF787896", 
+    "skycolor2": "0xFF00001E", 
+    "stars": 100, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "007", 
+  "title": "Up and Down and Up and Down", 
+  "version": 1
+}

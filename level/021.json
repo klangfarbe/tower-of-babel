@@ -1,0 +1,58 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 0, 
+    "robots": 3, 
+    "timelimit": 400
+  }, 
+  "elements": {
+    "0": {
+      "2": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "FLR;GRB"], 
+      "3": ["BOX;---", "LFD;---", "FLR;HOP", "BOX;---", "LFU;---", "FLR;PSH"], 
+      "4": ["BOX;---", "FLR;HOP", "FLR;KLD", "BOX;---", "---;---", "FLR;ZAP"], 
+      "5": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "---;---"]
+    }, 
+    "1": {
+      "2": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "---;---"], 
+      "3": ["BOX;---", "---;---", "LFD;---", "BOX;---", "---;---", "---;---"], 
+      "4": ["BOX;---", "---;---", "---;---", "BOX;---", "LFU;---", "---;---"], 
+      "5": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "---;---"]
+    }, 
+    "2": {
+      "2": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "---;---"], 
+      "3": ["BOX;---", "---;---", "---;---", "BOX;---", "---;---", "---;---"], 
+      "4": ["BOX;---", "---;---", "LFD;---", "BOX;---", "---;---", "---;---"], 
+      "5": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "LFU;---", "---;---"]
+    }, 
+    "3": {
+      "2": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "3": ["FLR;---", "---;---", "---;---", "FLR;---", "---;---", "---;---"], 
+      "4": ["FLR;---", "---;---", "---;---", "FLR;---", "---;---", "---;---"], 
+      "5": ["FLR;FZE", "FLR;CVE", "FLR;---", "FLR;---", "---;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF003C1E", 
+    "groundcolor2": "0xFF005A3C", 
+    "groundheight": 4, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF967878", 
+    "patterncolor2": "0xFF787896", 
+    "skycolor1": "0xFF7878B4", 
+    "skycolor2": "0xFFB47800", 
+    "stars": 0, 
+    "style": 2, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "021", 
+  "title": "Guessing Games", 
+  "version": 1
+}

@@ -1,0 +1,74 @@
+{
+  "author": "drawneK legiN", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 6, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "FLR;KLD"], 
+      "1": ["BOX;---", "FLR;---", "FLR;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---", "LFD;---"], 
+      "2": ["BOX;---", "BOX;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "3": ["BOX;---", "BOX;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "BOX;---", "BOX;---"], 
+      "4": ["BOX;---", "FLR;---", "FLR;---", "FLR;---", "BOX;---", "FLR;---", "FLR;---", "BOX;---"], 
+      "5": ["FLR;ZAP", "FLR;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "FLR;---", "BOX;---"], 
+      "6": ["FLR;GRB", "FLR;---", "BOX;---", "BOX;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "7": ["FLR;PSH", "LFU;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "FLR;HOP"]
+    }, 
+    "1": {
+      "0": ["BOX;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---", "FLR;---", "---;---"], 
+      "1": ["BOX;---", "BOX;---", "FLR;HOP", "FLR;---", "FLR;---", "BOX;---", "LFD;---", "---;---"], 
+      "2": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "3": ["BOX;---", "BOX;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;HOP", "FLR;---"], 
+      "4": ["BOX;---", "BOX;---", "FLR;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "5": ["BOX;---", "BOX;---", "FLR;---", "BOX;---", "FLR;---", "FLR;---", "FLR;---", "BOX;---"], 
+      "6": ["BOX;---", "LFU;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "7": ["---;---", "---;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"]
+    }, 
+    "2": {
+      "0": ["BOX;---", "BOX;---", "---;---", "BOX;---", "BOX;---", "BOX;---", "LFD;---", "---;---"], 
+      "1": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "---;---", "FLR;---", "---;---", "---;---"], 
+      "2": ["BOX;---", "FLR;---", "FLR;HOP", "BOX;---", "BOX;---", "BOX;---", "FLR;---", "BOX;---"], 
+      "3": ["BOX;---", "FLR;---", "BOX;---", "---;---", "FLR;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "4": ["BOX;---", "FLR;---", "BOX;---", "BOX;---", "---;---", "FLR;HOP", "BOX;---", "BOX;---"], 
+      "5": ["FLR;---", "FLR;HOP", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "BOX;---"], 
+      "6": ["FLR;---", "---;---", "FLR;---", "BOX;---", "BOX;---", "FLR;---", "FLR;---", "BOX;---"], 
+      "7": ["---;---", "---;---", "LFU;---", "BOX;---", "BOX;---", "FLR;---", "BOX;---", "BOX;---"]
+    }, 
+    "3": {
+      "0": ["FLR;---", "FLR;---", "---;---", "FLR;---", "FLR;---", "FLR;---", "---;---", "---;---"], 
+      "1": ["FLR;HOP", "FLR;---", "FLR;---", "FLR;---", "FLR;WON", "FLR;---", "---;---", "---;---"], 
+      "2": ["FLR;---", "---;---", "---;---", "FLR;---", "FLR;---", "FLR;HOP", "FLR;---", "FLR;---"], 
+      "3": ["FLR;---", "---;---", "FLR;---", "---;---", "---;---", "FLR;---", "FLR;---", "FLR;HOP"], 
+      "4": ["FLR;HOP", "FLR;---", "FLR;HOP", "FLR;---", "---;---", "---;---", "FLR;---", "FLR;---"], 
+      "5": ["---;---", "FLR;---", "FLR;HOP", "FLR;---", "FLR;---", "FLR;---", "---;---", "FLR;---"], 
+      "6": ["---;---", "---;---", "---;---", "FLR;---", "FLR;WON", "FLR;---", "FLR;---", "FLR;HOP"], 
+      "7": ["---;---", "---;---", "---;---", "FLR;---", "FLR;---", "FLR;---", "FLR;HOP", "FLR;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF002D4B", 
+    "groundcolor2": "0xFF004B69", 
+    "groundheight": 2, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF0087E1", 
+    "patterncolor2": "0xFF8700E1", 
+    "skycolor1": "0xFF00002D", 
+    "skycolor2": "0xFF00002D", 
+    "stars": 100, 
+    "style": 10, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "044", 
+  "title": "Really Amazing", 
+  "version": 1
+}

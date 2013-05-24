@@ -1,0 +1,41 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "2": ["---;---", "---;---", "FLR;FCU", "FLR;GRB", "---;---", "FLR;PSH", "FLR;FCD"], 
+      "3": ["---;---", "FLR;FZE", "FLR;---", "LFU;---", "FLR;---", "FLR;---", "---;---"], 
+      "4": ["---;---", "---;---", "---;---", "FLR;---", "---;---", "FLR;---", "FLR;KLD"], 
+      "5": ["FLR;---", "FLR;---", "FLR;BLK", "FLR;---", "---;---", "FLR;---", "---;---"], 
+      "6": ["---;---", "---;---", "FLR;ZAP", "---;---", "---;---", "FLR;---", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF1E3C1E", 
+    "groundcolor2": "0xFF3C5A3C", 
+    "groundheight": 7, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF5A96D2", 
+    "patterncolor2": "0xFF5A5AD2", 
+    "skycolor1": "0xFFE1E1B4", 
+    "skycolor2": "0xFFE10000", 
+    "stars": 0, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 3
+  }, 
+  "id": "011", 
+  "title": "When is a lift not a lift?", 
+  "version": 1
+}

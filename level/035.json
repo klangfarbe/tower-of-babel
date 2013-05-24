@@ -1,0 +1,43 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 0
+  }, 
+  "conditions": {
+    "klondikes": 0, 
+    "robots": 6, 
+    "timelimit": 100
+  }, 
+  "elements": {
+    "0": {
+      "1": ["FLR;HOP", "FLR;---", "FLR;HOP", "FLR;HOP", "FLR;HOP", "FLR;---", "FLR;HOP", "FLR;HOP"], 
+      "2": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "3": ["FLR;---", "FLR;WOE", "FLR;---", "---;---", "---;---", "FLR;---", "FLR;---", "FLR;WOE"], 
+      "4": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "5": ["FLR;WOE", "FLR;---", "---;---", "FLR;WOE", "FLR;---", "---;---", "FLR;WOE", "FLR;---"], 
+      "6": ["---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---", "---;---"], 
+      "7": ["FLR;ZAP", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF1E3C1E", 
+    "groundcolor2": "0xFF3C5A3C", 
+    "groundheight": 4, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 0, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFD2D2B4", 
+    "patterncolor2": "0xFFD2B4B4", 
+    "skycolor1": "0xFF00001E", 
+    "skycolor2": "0xFF00001E", 
+    "stars": 100, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 4
+  }, 
+  "id": "035", 
+  "title": "Duck Shoot", 
+  "version": 1
+}

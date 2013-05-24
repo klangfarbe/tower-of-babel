@@ -1,0 +1,44 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 1, 
+    "robots": 3, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "0": ["FLR;---", "FLR;PSH", "FLR;---", "---;---", "---;---", "---;---"], 
+      "1": ["---;---", "FLR;PRM", "---;---", "---;---", "---;---", "FLR;WON"], 
+      "2": ["---;---", "FLR;WOE", "FLR;BLK", "---;---", "---;---", "FLR;PRM"], 
+      "3": ["---;---", "---;---", "FLR;PRM", "---;---", "FLR;WOE", "FLR;WOE"], 
+      "4": ["---;---", "---;---", "FLR;WAT", "FLR;WOE", "FLR;PRM", "---;---"], 
+      "5": ["FLR;EXC", "---;---", "FLR;KLD", "---;---", "FLR;EXC", "---;---"], 
+      "6": ["---;---", "---;---", "FLR;EXC", "---;---", "FLR;GRB", "---;---"], 
+      "7": ["---;---", "---;---", "---;---", "---;---", "FLR;WON", "---;---"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF4B4B4B", 
+    "groundcolor2": "0xFF878787", 
+    "groundheight": 7, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFF96D200", 
+    "patterncolor2": "0xFF00D296", 
+    "skycolor1": "0xFF878787", 
+    "skycolor2": "0xFF4B0087", 
+    "stars": 34, 
+    "style": 0, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 4
+  }, 
+  "id": "079", 
+  "title": "The Domino Effect", 
+  "version": 1
+}

@@ -1,0 +1,50 @@
+{
+  "author": "Pete Cooke", 
+  "behaviour": {
+    "cameras": true, 
+    "destroysfloor": true, 
+    "timebombspeed": 1
+  }, 
+  "conditions": {
+    "klondikes": 3, 
+    "robots": 0, 
+    "timelimit": 0
+  }, 
+  "elements": {
+    "0": {
+      "1": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"], 
+      "2": ["BOX;---", "FLR;KLD", "---;---", "---;---", "FLR;---", "BOX;---"], 
+      "3": ["BOX;---", "FLR;FPE", "FLR;REL", "FLR;KLD", "LFD;---", "BOX;---"], 
+      "4": ["BOX;---", "FLR;KLD", "---;---", "FLR;FZS", "FLR;---", "BOX;---"], 
+      "5": ["BOX;---", "FLR;---", "FLR;PRM", "FLR;---", "FLR;---", "BOX;---"], 
+      "6": ["BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---", "BOX;---"]
+    }, 
+    "1": {
+      "1": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "2": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "3": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "---;FCD", "FLR;---"], 
+      "4": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "5": ["FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;---"], 
+      "6": ["FLR;ZAP", "FLR;---", "FLR;---", "FLR;---", "FLR;---", "FLR;GRB"]
+    }
+  }, 
+  "fx": {
+    "groundcolor1": "0xFF694B00", 
+    "groundcolor2": "0xFFA58700", 
+    "groundheight": 5, 
+    "liftcolor": "0xFFFFFFFF", 
+    "moons": 1, 
+    "pattern": 0, 
+    "patterncolor1": "0xFFA5A5A5", 
+    "patterncolor2": "0xFFA587A5", 
+    "skycolor1": "0xFF3C003C", 
+    "skycolor2": "0xFF00003C", 
+    "stars": 34, 
+    "style": 8, 
+    "suncolor": "0xFFFFFFFF", 
+    "sunsize": 2
+  }, 
+  "id": "110", 
+  "title": "Elementary, Dr. Watson.  Elementary.", 
+  "version": 1
+}
