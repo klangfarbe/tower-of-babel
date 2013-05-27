@@ -10,8 +10,12 @@ def save_json_file(filename, data):
 	if filename:
 		f = open(filename, 'w')
 		s = json.dumps(data, sort_keys=True, indent=2, ensure_ascii=True)
-		s = re.sub(r'\s*("...;...",?)\s*\n', r'\1 ', s)
+		s = re.sub(r'\s*("(f|o)": "...",?)\s*\n', r'\1 ', s)
+		s = re.sub(r'\s*"\s*(},?)\s*\n', r'"\1 ', s)
+		s = re.sub(r'},\s*{', r'}, {', s)
 		s = re.sub(r'\s*(],?\s*\n)', r'\1', s)
+		s = re.sub(r'("[0-9]": \[)\s*\n', r'\1', s)
+		s = re.sub(r'("[0-9]": \[)\s*{', r'\1{', s)
 		f.write(s)
 		f.close()
 
@@ -73,11 +77,8 @@ def process_elements(tower, match):
 	level[floor][row] = []
 
 	for tile in elements.split(';'):
-		tile = tile.replace('-', ';')
-		tile = tile.replace('SPC', '---')
-		level[floor][row].append(tile)
-#		tile = tile.split('-')
-#		level[floor][row].append([tile[0].replace('SPC', '---'), tile[0].replace('SPC', '---')])
+		tile = tile.split('-')
+		level[floor][row].append({ "f": tile[0].replace('SPC', '---'), "o": tile[1].replace('SPC', '---')})
 
 # ------------------------------------------------------------------------------
 
