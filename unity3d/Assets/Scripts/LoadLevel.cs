@@ -76,6 +76,10 @@ public class LoadLevel : MonoBehaviour {
 			Destroy(o);
 		}
 		objects.Clear();
+		maxHeight = 0;
+		maxWidth = 0;
+		maxLength = 0;
+		levelData = null;
 	}
 
 	// ------------------------------------------------------------------------
