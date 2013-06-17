@@ -8,15 +8,20 @@ using System.IO;
 public class LoadLevel : MonoBehaviour {
 	public int level = 0;
 	public float floorOffset = 0.0f;
+	public GameObject grabber;
+	public GameObject pusher;
+	public GameObject zapper;
 	public GameObject floorPattern1;
 	public GameObject floorPattern2;
 	public GameObject boxPattern1;
 	public GameObject boxPattern2;
 	public GameObject liftDown;
 	public GameObject liftUp;
+
 	public Material materialPattern1;
 	public Material materialPattern2;
 
+	public GUIText levelName;
 
 	private JsonData levelData;
 	private int maxWidth = 0;
@@ -42,7 +47,7 @@ public class LoadLevel : MonoBehaviour {
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.RightArrow)) {
-			if(level < 117) {
+			if(level < 116) {
 				level++;
 				build();
 			}
@@ -66,6 +71,11 @@ public class LoadLevel : MonoBehaviour {
 			}
 		}
 		calculateLevelCenter();
+		setLevelName();
+	}
+
+	void setLevelName() {
+		levelName.text = levelData["title"].ToString();
 	}
 
 	// ------------------------------------------------------------------------
@@ -133,17 +143,29 @@ public class LoadLevel : MonoBehaviour {
 	
 	void buildElement (int x, int y, int z) {
 		try {
-			JsonData row = levelData ["elements"] [y] [x];
-			string f = row[z]["f"].ToString();
-
 			UnityEngine.Object obj = null;
+			JsonData row = levelData ["elements"] [y] [x];
 
+			string f = row[z]["f"].ToString();
 			if(f == "FLR" || f == "LFU") {
 				obj = Instantiate (decideFloorObject(f, x, z), new Vector3 (x, y + floorOffset, z), Quaternion.identity);
 			} else if(f == "BOX" || f == "LFD") {
 				obj = Instantiate (decideFloorObject(f, x, z), new Vector3 (x, y + floorOffset + 0.5f, z), Quaternion.identity);
 			}
-			objects.Add(obj);
+			if(obj != null)
+				objects.Add(obj);
+
+			string o = row[z]["o"].ToString();
+			if(o == "GRB") {
+				obj = Instantiate (grabber, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+			} else if(o == "PSH") {
+				obj = Instantiate (pusher, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+			} else if(o == "ZAP") {
+				obj = Instantiate (zapper, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+			}
+			if(obj != null)
+				objects.Add(obj);
+
 			updateMaximumLevelDimensions(x, y, z);
 		} catch (Exception e) {
 			// Ignore
