@@ -59,6 +59,6 @@
     "sunsize": 4
   }, 
   "id": "045", 
-  "title": "Worms ho\\!", 
+  "title": "Worms ho!", 
   "version": 1
 }

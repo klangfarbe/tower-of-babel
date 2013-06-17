@@ -49,6 +49,6 @@
     "sunsize": 3
   }, 
   "id": "000", 
-  "title": "Softly Softly\\!", 
+  "title": "Softly Softly!", 
   "version": 1
 }

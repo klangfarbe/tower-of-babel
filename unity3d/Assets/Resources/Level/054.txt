@@ -47,6 +47,6 @@
     "sunsize": 3
   }, 
   "id": "054", 
-  "title": "Wot Klondikes\\!", 
+  "title": "Wot Klondikes!", 
   "version": 1
 }

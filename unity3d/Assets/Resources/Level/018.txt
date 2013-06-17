@@ -45,6 +45,6 @@
     "sunsize": 2
   }, 
   "id": "018", 
-  "title": "A Simple Problem\\!", 
+  "title": "A Simple Problem!", 
   "version": 1
 }

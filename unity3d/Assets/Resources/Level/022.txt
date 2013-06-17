@@ -45,6 +45,6 @@
     "sunsize": 3
   }, 
   "id": "022", 
-  "title": "The Staggering Descent\\!", 
+  "title": "The Staggering Descent!", 
   "version": 1
 }

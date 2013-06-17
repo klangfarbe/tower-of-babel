@@ -49,6 +49,6 @@
     "sunsize": 2
   }, 
   "id": "069", 
-  "title": "Gulp\\!", 
+  "title": "Gulp!", 
   "version": 1
 }
