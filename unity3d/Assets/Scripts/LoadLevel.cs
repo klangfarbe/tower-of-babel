@@ -53,10 +53,9 @@ public class LoadLevel : MonoBehaviour {
 
 	public void build() {
 		Debug.Log("Building level...");
-
+		clearScene();
 		loadResource();
 		setMaterialColors();
-		clearScene();
 
 		// create Objects
 		for (int y = 0; y < 4; y++) {
@@ -120,8 +119,6 @@ public class LoadLevel : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void calculateLevelCenter() {
-
-		Debug.Log(camera);
 		float x = maxWidth / 2f;
 		float y = maxHeight / 2f;
 		float z = maxLength / 2f;
