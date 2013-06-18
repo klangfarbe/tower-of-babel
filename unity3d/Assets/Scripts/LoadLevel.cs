@@ -8,6 +8,7 @@ using System.IO;
 public class LoadLevel : MonoBehaviour {
 	public int level = 0;
 	public float floorOffset = 0.0f;
+	public float klondikeHeight = 0.15f;
 	public GameObject grabber;
 	public GameObject pusher;
 	public GameObject zapper;
@@ -17,6 +18,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject boxPattern2;
 	public GameObject liftDown;
 	public GameObject liftUp;
+	public GameObject klondike;
 
 	public Material materialPattern1;
 	public Material materialPattern2;
@@ -157,18 +159,21 @@ public class LoadLevel : MonoBehaviour {
 
 			string o = row[z]["o"].ToString();
 			if(o == "GRB") {
-				obj = Instantiate (grabber, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+				obj = Instantiate (grabber, new Vector3 (x, y, z), Quaternion.identity);
 			} else if(o == "PSH") {
-				obj = Instantiate (pusher, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+				obj = Instantiate (pusher, new Vector3 (x, y, z), Quaternion.identity);
 			} else if(o == "ZAP") {
-				obj = Instantiate (zapper, new Vector3 (x, y + floorOffset, z), Quaternion.identity);
+				obj = Instantiate (zapper, new Vector3 (x, y, z), Quaternion.identity);
+			} else if(o == "KLD") {
+				Debug.Log("Creating klondike at " + new Vector3 (x, y, z));
+				obj = Instantiate (klondike, new Vector3 (x, y + klondikeHeight, z), Quaternion.identity);
 			}
 			if(obj != null)
 				objects.Add(obj);
 
 			updateMaximumLevelDimensions(x, y, z);
 		} catch (Exception e) {
-			// Ignore
+			//Debug.LogException(e);
 		}
 	}
 
