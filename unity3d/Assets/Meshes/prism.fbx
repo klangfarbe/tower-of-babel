@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2013
 		Month: 06
-		Day: 19
-		Hour: 23
-		Minute: 18
-		Second: 44
+		Day: 20
+		Hour: 21
+		Minute: 31
+		Second: 23
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2013-06-19 23:18:44:000"
+CreationTime: "2013-06-20 21:31:23:000"
 Creator: "Blender version 2.67 (sub 0)"
 
 ; Object definitions
@@ -29,7 +29,7 @@ Creator: "Blender version 2.67 (sub 0)"
 
 Definitions:  {
 	Version: 100
-	Count: 3
+	Count: 5
 	ObjectType: "Model" {
 		Count: 1
 	}
@@ -37,7 +37,7 @@ Definitions:  {
 		Count: 1
 	}
 	ObjectType: "Material" {
-		Count: 1
+		Count: 3
 	}
 	ObjectType: "Pose" {
 		Count: 1
@@ -51,7 +51,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: "Model::klondike", "Mesh" {
+	Model: "Model::Prism", "Mesh" {
 		Version: 232
 		Properties60:  {
 			Property: "QuaternionInterpolate", "bool", "",0
@@ -130,20 +130,30 @@ Objects:  {
 		MultiTake: 1
 		Shading: Y
 		Culling: "CullingOff"
-		Vertices: -0.138363,0.000000,0.262877,-0.296427,-0.000000,0.019479,0.138363,-0.000000,-0.262877,0.296427,0.000000,-0.019479,-0.110765,0.107862,0.133039,-0.166589,0.107862,0.047077,0.110765,0.107862,-0.133039
-		,0.166589,0.107862,-0.047077
-		PolygonVertexIndex: 1,0,4,-6,5,6,2,-2,6,7,3,-3,0,3,7,-5,0,1,2,-4,7,6,5,-5
-		Edges: 4,5,5,1,1,0,0,4,5,6,6,2,2,1,6,7,7,3,3,2,7,4,0,3
+		Vertices: -0.285633,-0.000000,-0.285633,0.285633,-0.000000,-0.285633,0.285633,0.000000,0.285633,0.258408,0.047861,0.231182,0.258408,0.047860,-0.258408,-0.231182,0.047860,-0.258408,0.236311,0.047861,0.186988
+		,0.236311,0.047860,-0.236311,-0.186988,0.047860,-0.236311,0.236311,0.262885,0.186988,0.236311,0.262885,-0.236311,-0.186988,0.262885,-0.236311
+		PolygonVertexIndex: 1,4,3,-3,0,5,4,-2,5,0,2,-4,5,3,6,-9,6,7,10,-10,4,5,8,-8,3,4,7,-7,11,9,-11,7,8,11,-11,8,6,9,-12,6,8,-8
+		Edges: 5,0,4,1,2,3,1,0,5,3,3,4,2,1,0,2,4,5,8,6,6,7,7,8,3,6
+		,8,5,7,4,11,9,9,10,10,11,7,10,9,6,8,11
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
 			Version: 101
 			Name: ""
 			MappingInformationType: "ByVertice"
 			ReferenceInformationType: "Direct"
-			Normals: -0.201361119747162,-0.248664811253548,0.947386085987091,-0.947386085987091,-0.248695328831673,-0.201361119747162
-			 ,0.201361119747162,-0.248695328831673,-0.947386085987091,0.947386085987091,-0.248664811253548,0.201361119747162
-			 ,-0.096224859356880,0.886410117149353,0.452772617340088,-0.452772617340088,0.886410117149353,-0.096224859356880
-			 ,0.096224859356880,0.886410117149353,-0.452772617340088,0.452772617340088,0.886410117149353,0.096224859356880
+			Normals: -0.566667675971985,0.785729527473450,-0.247901856899261,0.550950646400452,0.626819670200348,-0.550950646400452
+			 ,0.247901856899261,0.785729527473450,0.566667675971985,0.139927372336388,0.865474402904510,0.480971693992615
+			 ,0.404461801052094,0.820215463638306,-0.404461801052094,-0.480971693992615,0.865474402904510,-0.139927372336388
+			 ,0.094576857984066,0.968962669372559,0.228370010852814,0.408246099948883,0.816492199897766,-0.408246099948883
+			 ,-0.228370010852814,0.968962669372559,-0.094576857984066,0.320352792739868,0.546891689300537,0.773430585861206
+			 ,0.577349185943604,0.577349185943604,-0.577349185943604,-0.773430585861206,0.546891689300537,-0.320352792739868
+		}
+		LayerElementMaterial: 0 {
+			Version: 101
+			Name: ""
+			MappingInformationType: "ByPolygon"
+			ReferenceInformationType: "IndexToDirect"
+			Materials: 0,0,0,0,1,0,0,1,1,1,0
 		}
 		Layer: 0 {
 			Version: 100
@@ -151,6 +161,70 @@ Objects:  {
 				Type: "LayerElementNormal"
 				TypedIndex: 0
 			}
+			LayerElement:  {
+				Type: "LayerElementMaterial"
+				TypedIndex: 0
+			}
+		}
+	}
+	Material: "Material::base", "" {
+		Version: 102
+		ShadingModel: "lambert"
+		MultiLayer: 0
+		Properties60:  {
+			Property: "ShadingModel", "KString", "", "Lambert"
+			Property: "MultiLayer", "bool", "",0
+			Property: "EmissiveColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "EmissiveFactor", "double", "",0.0000
+			Property: "AmbientColor", "ColorRGB", "",0.0000,0.0000,0.0000
+			Property: "AmbientFactor", "double", "",1.0000
+			Property: "DiffuseColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "DiffuseFactor", "double", "",0.8000
+			Property: "Bump", "Vector3D", "",0,0,0
+			Property: "TransparentColor", "ColorRGB", "",1,1,1
+			Property: "TransparencyFactor", "double", "",0.0000
+			Property: "SpecularColor", "ColorRGB", "",1.0000,1.0000,1.0000
+			Property: "SpecularFactor", "double", "",0.2500
+			Property: "ShininessExponent", "double", "",80.0
+			Property: "ReflectionColor", "ColorRGB", "",0,0,0
+			Property: "ReflectionFactor", "double", "",1
+			Property: "Emissive", "ColorRGB", "",0,0,0
+			Property: "Ambient", "ColorRGB", "",0.0,0.0,0.0
+			Property: "Diffuse", "ColorRGB", "",0.8,0.8,0.8
+			Property: "Specular", "ColorRGB", "",1.0,1.0,1.0
+			Property: "Shininess", "double", "",9.6
+			Property: "Opacity", "double", "",1.0
+			Property: "Reflectivity", "double", "",0
+		}
+	}
+	Material: "Material::glas", "" {
+		Version: 102
+		ShadingModel: "lambert"
+		MultiLayer: 0
+		Properties60:  {
+			Property: "ShadingModel", "KString", "", "Lambert"
+			Property: "MultiLayer", "bool", "",0
+			Property: "EmissiveColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "EmissiveFactor", "double", "",0.0000
+			Property: "AmbientColor", "ColorRGB", "",0.0000,0.0000,0.0000
+			Property: "AmbientFactor", "double", "",1.0000
+			Property: "DiffuseColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "DiffuseFactor", "double", "",0.8000
+			Property: "Bump", "Vector3D", "",0,0,0
+			Property: "TransparentColor", "ColorRGB", "",1,1,1
+			Property: "TransparencyFactor", "double", "",0.0000
+			Property: "SpecularColor", "ColorRGB", "",1.0000,1.0000,1.0000
+			Property: "SpecularFactor", "double", "",0.2500
+			Property: "ShininessExponent", "double", "",80.0
+			Property: "ReflectionColor", "ColorRGB", "",0,0,0
+			Property: "ReflectionFactor", "double", "",1
+			Property: "Emissive", "ColorRGB", "",0,0,0
+			Property: "Ambient", "ColorRGB", "",0.0,0.0,0.0
+			Property: "Diffuse", "ColorRGB", "",0.8,0.8,0.8
+			Property: "Specular", "ColorRGB", "",1.0,1.0,1.0
+			Property: "Shininess", "double", "",9.6
+			Property: "Opacity", "double", "",1.0
+			Property: "Reflectivity", "double", "",0
 		}
 	}
 	Material: "Material::unnamed", "" {
@@ -190,7 +264,7 @@ Objects:  {
 		}
 		NbPoseNodes: 1
 		PoseNode:  {
-			Node: "Model::klondike"
+			Node: "Model::Prism"
 			Matrix: 0.000000075497901,1.000000000000000,0.000000000000000,0.000000000000000,-1.000000000000000,0.000000075497901,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000
 		}
 	}
@@ -212,7 +286,7 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Relations:  {
-	Model: "Model::klondike", "Mesh" {
+	Model: "Model::Prism", "Mesh" {
 	}
 	Model: "Model::Producer Perspective", "Camera" {
 	}
@@ -230,6 +304,10 @@ Relations:  {
 	}
 	Model: "Model::Camera Switcher", "CameraSwitcher" {
 	}
+	Material: "Material::base", "" {
+	}
+	Material: "Material::glas", "" {
+	}
 	Material: "Material::unnamed", "" {
 	}
 }
@@ -238,7 +316,9 @@ Relations:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	Connect: "OO", "Model::klondike", "Model::Scene"
+	Connect: "OO", "Model::Prism", "Model::Scene"
+	Connect: "OO", "Material::base", "Model::Prism"
+	Connect: "OO", "Material::glas", "Model::Prism"
 }
 ;Takes and animation section
 ;----------------------------------------------------

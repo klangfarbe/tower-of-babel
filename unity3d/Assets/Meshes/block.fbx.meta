@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9951624fd04564f1fb226167f4db5cea
+guid: 6f750ec3c320441e48498461dca27531
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -7,13 +7,8 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Klondike
-    4300002: Block
-    4300004: klondike
-    6400000: //RootNode
-    7400000: Default Take
+    4300000: Block
     9500000: //RootNode
-    11100000: //RootNode
   materials:
     importMaterials: 0
     materialName: 0
@@ -30,14 +25,14 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .600000024
+    globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
+    optimizeMeshForGPU: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001

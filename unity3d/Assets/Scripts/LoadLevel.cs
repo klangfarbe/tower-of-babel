@@ -19,16 +19,20 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject liftDown;
 	public GameObject liftUp;
 	public GameObject klondike;
+	public GameObject block;
+	public GameObject reflector;
+	public GameObject prism;
 
 	public Material materialPattern1;
 	public Material materialPattern2;
 
 	public GUIText levelName;
+	public GUIText levelNr;
 
 	private JsonData levelData;
-	private int maxWidth = 0;
-	private int maxLength = 0;
-	private int maxHeight = 0;
+	private int maxColumns = 0;
+	private int maxRows = 0;
+	private int maxFloors = 0;
 
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
@@ -65,10 +69,10 @@ public class LoadLevel : MonoBehaviour {
 		setMaterialColors();
 
 		// create Objects
-		for (int y = 0; y < 4; y++) {
-			for (int x = 0; x < 8; x++) {
-				for (int z = 0; z < 8; z++) {
-					buildElement (x, y, z);
+		for (int floor = 3; floor >= 0; floor--) { // level
+			for (int row = 7; row >= 0; row--) { //row
+				for (int column = 7; column >= 0; column--) { // column
+					buildPosition (floor, row, column);
 				}
 			}
 		}
@@ -78,6 +82,7 @@ public class LoadLevel : MonoBehaviour {
 
 	void setLevelName() {
 		levelName.text = levelData["title"].ToString();
+		levelNr.text = "Level: " + level.ToString();
 	}
 
 	// ------------------------------------------------------------------------
@@ -87,9 +92,9 @@ public class LoadLevel : MonoBehaviour {
 			Destroy(o);
 		}
 		objects.Clear();
-		maxHeight = 0;
-		maxWidth = 0;
-		maxLength = 0;
+		maxFloors = 0;
+		maxColumns = 0;
+		maxRows = 0;
 		levelData = null;
 	}
 
@@ -122,56 +127,35 @@ public class LoadLevel : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void updateMaximumLevelDimensions(int x, int y, int z) {
-		maxWidth = x > maxWidth ? x : maxWidth;
-		maxHeight = y > maxHeight ? y : maxHeight;
-		maxLength = z > maxLength ? z : maxLength;
+	void updateMaximumLevelDimensions(int floor, int row, int column) {
+		maxFloors = floor > maxFloors ? floor : maxFloors;
+		maxRows = row > maxRows ? row : maxRows;
+		maxColumns = column > maxColumns ? column : maxColumns;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void calculateLevelCenter() {
-		float x = maxWidth / 2f;
-		float y = maxHeight / 2f;
-		float z = maxLength / 2f;
+		float x = maxColumns / 2f;
+		float y = maxFloors / 2f;
+		float z = maxRows / 2f;
 		Debug.Log("Position: " + y + ", field: " + x + ", " + z);
 
 		// Transform the camera and lights
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
-		GameObject.Find("Lights").transform.position = new Vector3(x, maxHeight + 2, z);
+		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 2, z);
 	}
 
 	// ------------------------------------------------------------------------
 	
-	void buildElement (int x, int y, int z) {
+	void buildPosition (int floor, int row, int column) {
 		try {
-			UnityEngine.Object obj = null;
-			JsonData row = levelData ["elements"] [y] [x];
+			JsonData field = levelData ["elements"] [floor] [row] [column];
+			updateMaximumLevelDimensions(floor, row, column);
+			Debug.Log("Building " + floor + "/" + row + "/" + column);
 
-			string f = row[z]["f"].ToString();
-			if(f == "FLR" || f == "LFU") {
-				obj = Instantiate (decideFloorObject(f, x, z), new Vector3 (x, y + floorOffset, z), Quaternion.identity);
-			} else if(f == "BOX" || f == "LFD") {
-				obj = Instantiate (decideFloorObject(f, x, z), new Vector3 (x, y + floorOffset + 0.5f, z), Quaternion.identity);
-			}
-			if(obj != null)
-				objects.Add(obj);
-
-			string o = row[z]["o"].ToString();
-			if(o == "GRB") {
-				obj = Instantiate (grabber, new Vector3 (x, y, z), Quaternion.identity);
-			} else if(o == "PSH") {
-				obj = Instantiate (pusher, new Vector3 (x, y, z), Quaternion.identity);
-			} else if(o == "ZAP") {
-				obj = Instantiate (zapper, new Vector3 (x, y, z), Quaternion.identity);
-			} else if(o == "KLD") {
-				Debug.Log("Creating klondike at " + new Vector3 (x, y, z));
-				obj = Instantiate (klondike, new Vector3 (x, y + klondikeHeight, z), Quaternion.identity);
-			}
-			if(obj != null)
-				objects.Add(obj);
-
-			updateMaximumLevelDimensions(x, y, z);
+			buildFloor(field["f"].ToString(), floor, maxRows - row, column);
+			buildObject(field["o"].ToString(), floor, maxRows - row, column);
 		} catch (Exception e) {
 			//Debug.LogException(e);
 		}
@@ -179,25 +163,72 @@ public class LoadLevel : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	GameObject getObjectForPattern(string type, int pattern) {
-		if(type == "FLR")
-			return pattern == 1 ? floorPattern1 : floorPattern2;
-		if(type == "BOX")
-			return pattern == 1 ? boxPattern1 : boxPattern2;
-		if(type == "LFD")
-			return liftDown;
-		if(type == "LFU")
-			return liftUp;
-		return null;
+	void buildObject(string type, int floor, int row, int column) {
+		UnityEngine.Object obj = null;
+		Quaternion rotation = Quaternion.identity;
+
+		switch(type) {
+		case "GRB":
+			obj = grabber; break;
+		case "PSH":
+			obj = pusher; break;
+		case "ZAP":
+			obj = zapper; break;
+		case "KLD":
+			obj = klondike; break;
+		case "BLK":
+			obj = block; break;
+		case "REL":
+			obj = reflector; break;
+		case "PSW":
+			rotation = Quaternion.Euler(0, 0, 0);
+			obj = prism; break;
+		case "PNW":
+			rotation = Quaternion.Euler(0, 90.0f, 0);
+			obj = prism; break;
+		case "PNE":
+			rotation = Quaternion.Euler(0, 180.0f, 0);
+			obj = prism; break;
+		case "PSE":
+			rotation = Quaternion.Euler(0, 270.0f, 0);
+			obj = prism; break;
+		}
+
+		if(obj != null) {
+			objects.Add(Instantiate(obj, new Vector3 (column, floor, row), rotation));
+		}
 	}
 
 	// ------------------------------------------------------------------------
-	
-	GameObject decideFloorObject (string f, int x, int z) {
-		if (x % 2 == 0) {
-			return (z % 2 == 0) ? getObjectForPattern(f, 1) : getObjectForPattern(f, 2);
+
+	void buildFloor(string type, int floor, int row, int column) {
+		int pattern = 0;
+		float pivotOffset = 0;
+
+		// calculate what color pattern we need
+		if (row % 2 == 0) {
+			pattern = (column % 2 == 0) ? 1 : 2;
 		} else {
-			return (z % 2 != 0) ? getObjectForPattern(f, 1) : getObjectForPattern(f, 2);
+			pattern = (column % 2 != 0) ? 1 : 2;
+		}
+
+		UnityEngine.Object obj = null;
+
+		switch(type) {
+		case "FLR":
+			obj = pattern == 1 ? floorPattern1 : floorPattern2; break;
+		case "BOX":
+			obj = pattern == 1 ? boxPattern1 : boxPattern2;
+			pivotOffset = 0.5f; break;
+		case "LFD":
+			obj = liftDown;
+			pivotOffset = 0.5f; break;
+		case "LFU":
+			obj = liftUp; break;
+		}
+
+		if(obj != null) {
+			objects.Add(Instantiate(obj, new Vector3 (column, floor + floorOffset + pivotOffset, row), Quaternion.identity));
 		}
 	}
 }
