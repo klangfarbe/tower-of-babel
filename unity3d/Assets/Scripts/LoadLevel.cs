@@ -22,6 +22,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject block;
 	public GameObject reflector;
 	public GameObject prism;
+	public GameObject converter;
 
 	public Material materialPattern1;
 	public Material materialPattern2;
@@ -192,6 +193,11 @@ public class LoadLevel : MonoBehaviour {
 		case "PSE":
 			rotation = Quaternion.Euler(0, 270.0f, 0);
 			obj = prism; break;
+		case "CVN":
+			obj = converter; break;
+		case "CVE":
+			rotation = Quaternion.Euler(0, 90.0f, 0);
+			obj = converter; break;
 		}
 
 		if(obj != null) {
