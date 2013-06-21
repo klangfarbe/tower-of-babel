@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 public class GameCameraRotation : MonoBehaviour {
-	public Transform targetX;
-	public Transform targetY;
-	public float maxAngle = 40.0f;
+	public Transform lookAtObject;
+	public float maxAngleMin = 0;
+	public float maxAngleMax = 80;
 	public float rotationSpeedX = 1.0f;
-	public float rotationSpeedY = 2.0f;	
-	public float mouseDeadZone = 0.2f;
+	public float rotationSpeedY = 1.0f;
+	public float distanceMin = 1;
+	public float distanceMax = 1;
 		
 	void Update () {
 		/*

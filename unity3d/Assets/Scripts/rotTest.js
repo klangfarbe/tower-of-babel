@@ -48,14 +48,12 @@ function HandlePlayerInput()
 {
     var deadZone = 0.01; // mousewheel deadZone
  
-    if (Input.GetMouseButton(1))
+    if (Input.GetMouseButton(0))
     {
        mouseX += Input.GetAxis("Mouse X") * X_MouseSensitivity;
        mouseY -= Input.GetAxis("Mouse Y") * Y_MouseSensitivity;
     }
  
-    // this is where the mouseY is limited - Helper script
-    mouseY = ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);
  
     // get Mouse Wheel Input
     if (Input.GetAxis("Mouse ScrollWheel") < -deadZone || Input.GetAxis("Mouse ScrollWheel") > deadZone)
@@ -63,6 +61,29 @@ function HandlePlayerInput()
        desiredDistance = Mathf.Clamp(Distance - (Input.GetAxis("Mouse ScrollWheel") * MouseWheelSensitivity), 
                                                  DistanceMin, DistanceMax);
     }
+    
+    if (Input.GetKey(KeyCode.Q)) {
+    	desiredDistance = Mathf.Clamp(Distance + 1 * MouseWheelSensitivity, DistanceMin, DistanceMax);	
+    }
+    if (Input.GetKey(KeyCode.E)) {
+    	desiredDistance = Mathf.Clamp(Distance - 1 * MouseWheelSensitivity, DistanceMin, DistanceMax);	
+    }
+    
+    if (Input.GetKey(KeyCode.A)) {
+    	mouseX += 2.5f * MouseWheelSensitivity;	
+    }
+    if (Input.GetKey(KeyCode.D)) {
+    	mouseX -= 2.5f * MouseWheelSensitivity;
+    }
+    if (Input.GetKey(KeyCode.W)) {
+    	mouseY += 2.5f * MouseWheelSensitivity;	
+    }
+    if (Input.GetKey(KeyCode.S)) {
+    	mouseY -= 2.5f * MouseWheelSensitivity;
+    }
+    
+    // this is where the mouseY is limited - Helper script
+    mouseY = ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);    
 }
  
 function CalculateDesiredPosition()
