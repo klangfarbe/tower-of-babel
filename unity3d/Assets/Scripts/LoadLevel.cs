@@ -7,7 +7,7 @@ using System.IO;
 
 public class LoadLevel : MonoBehaviour {
 	public int level = 0;
-	public float floorOffset = 0.0f;
+	public float floorOffset = -0.03f;
 	public float klondikeHeight = 0.15f;
 	public GameObject grabber;
 	public GameObject pusher;
@@ -16,8 +16,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject floorPattern2;
 	public GameObject boxPattern1;
 	public GameObject boxPattern2;
-	public GameObject liftDown;
-	public GameObject liftUp;
+	public GameObject lift;
 	public GameObject klondike;
 	public GameObject block;
 	public GameObject reflector;
@@ -70,9 +69,9 @@ public class LoadLevel : MonoBehaviour {
 		setMaterialColors();
 
 		// create Objects
-		for (int floor = 3; floor >= 0; floor--) { // level
-			for (int row = 7; row >= 0; row--) { //row
-				for (int column = 7; column >= 0; column--) { // column
+		for (int floor = 0; floor < 4; floor++) { // level
+			for (int row = 0; row < 7; row++) { //row
+				for (int column = 0; column < 7; column++) { // column
 					buildPosition (floor, row, column);
 				}
 			}
@@ -155,8 +154,8 @@ public class LoadLevel : MonoBehaviour {
 			updateMaximumLevelDimensions(floor, row, column);
 			Debug.Log("Building " + floor + "/" + row + "/" + column);
 
-			buildFloor(field["f"].ToString(), floor, maxRows - row, column);
-			buildObject(field["o"].ToString(), floor, maxRows - row, column);
+			buildFloor(field["f"].ToString(), floor, row, column);
+			buildObject(field["o"].ToString(), floor, row, column);
 		} catch (Exception e) {
 			//Debug.LogException(e);
 		}
@@ -209,8 +208,7 @@ public class LoadLevel : MonoBehaviour {
 
 	void buildFloor(string type, int floor, int row, int column) {
 		int pattern = 0;
-		float pivotOffset = 0;
-
+		
 		// calculate what color pattern we need
 		if (row % 2 == 0) {
 			pattern = (column % 2 == 0) ? 1 : 2;
@@ -219,22 +217,38 @@ public class LoadLevel : MonoBehaviour {
 		}
 
 		UnityEngine.Object obj = null;
-
+		
+		Debug.Log(floor + " "+ row + " "+ column);
+		
 		switch(type) {
 		case "FLR":
-			obj = pattern == 1 ? floorPattern1 : floorPattern2; break;
+			obj = pattern == 1 ? floorPattern1 : floorPattern2;
+			
+			// check if the field below is a box. if yes, do not add the floor element
+			// because the box is high enough
+			try {
+				
+				Debug.Log(levelData ["elements"] [floor - 1] [row] [column] ["f"].ToString());
+				if(floor > 0 && levelData ["elements"] [floor - 1] [row] [column] ["f"].ToString() == "BOX") {
+					obj = null;
+					Debug.Log("Lower Field is BOX, dismiss floor drawing");
+				}
+			} catch(Exception e) {
+				
+				Debug.LogException(e);
+			}
+			Debug.Log(obj);
+			break;
 		case "BOX":
-			obj = pattern == 1 ? boxPattern1 : boxPattern2;
-			pivotOffset = 0.5f; break;
+			obj = pattern == 1 ? boxPattern1 : boxPattern2; break;
 		case "LFD":
-			obj = liftDown;
-			pivotOffset = 0.5f; break;
+			obj = lift; break;
 		case "LFU":
-			obj = liftUp; break;
+			obj = lift; break;
 		}
 
 		if(obj != null) {
-			objects.Add(Instantiate(obj, new Vector3 (column, floor + floorOffset + pivotOffset, row), Quaternion.identity));
+			objects.Add(Instantiate(obj, new Vector3 (column, floor + floorOffset, row), Quaternion.identity));
 		}
 	}
 }
