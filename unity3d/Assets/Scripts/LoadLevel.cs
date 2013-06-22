@@ -70,15 +70,18 @@ public class LoadLevel : MonoBehaviour {
 
 		// create Objects
 		for (int floor = 0; floor < 4; floor++) { // level
-			for (int row = 0; row < 7; row++) { //row
-				for (int column = 0; column < 7; column++) { // column
+			for (int row = 0; row < 8; row++) { //row
+				for (int column = 0; column < 8; column++) { // column
 					buildPosition (floor, row, column);
 				}
 			}
 		}
 		calculateLevelCenter();
-		setLevelName();
+		setLevelName();	
+		translateToBottomLeftCornerAsZeroZero();
 	}
+
+	// ------------------------------------------------------------------------
 
 	void setLevelName() {
 		levelName.text = levelData["title"].ToString();
@@ -86,7 +89,17 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	// ------------------------------------------------------------------------
-
+	
+	void translateToBottomLeftCornerAsZeroZero() {
+		GameObject parent = GameObject.Find("Level");
+		foreach(UnityEngine.Object o in objects) {
+			((GameObject)o).transform.parent = parent.transform;
+		}
+		parent.transform.position = new Vector3(0, 0, maxRows);
+	}
+	
+	// ------------------------------------------------------------------------
+	
 	void clearScene() {
 		foreach(UnityEngine.Object o in objects) {
 			Destroy(o);
@@ -96,6 +109,7 @@ public class LoadLevel : MonoBehaviour {
 		maxColumns = 0;
 		maxRows = 0;
 		levelData = null;
+		GameObject.Find("Level").transform.position = new Vector3(0, 0, 0);
 	}
 
 	// ------------------------------------------------------------------------
@@ -154,8 +168,8 @@ public class LoadLevel : MonoBehaviour {
 			updateMaximumLevelDimensions(floor, row, column);
 			Debug.Log("Building " + floor + "/" + row + "/" + column);
 
-			buildFloor(field["f"].ToString(), floor, row, column);
-			buildObject(field["o"].ToString(), floor, row, column);
+			buildFloor(field["f"].ToString(), floor, -row, column);
+			buildObject(field["o"].ToString(), floor, -row, column);
 		} catch (Exception e) {
 			//Debug.LogException(e);
 		}
@@ -218,23 +232,18 @@ public class LoadLevel : MonoBehaviour {
 
 		UnityEngine.Object obj = null;
 		
-		Debug.Log(floor + " "+ row + " "+ column);
-		
 		switch(type) {
 		case "FLR":
 			obj = pattern == 1 ? floorPattern1 : floorPattern2;
 			
 			// check if the field below is a box. if yes, do not add the floor element
-			// because the box is high enough
+			// because the box is high enough. Otherwise we will have a florr and a box which looks strange
 			try {
-				
-				Debug.Log(levelData ["elements"] [floor - 1] [row] [column] ["f"].ToString());
-				if(floor > 0 && levelData ["elements"] [floor - 1] [row] [column] ["f"].ToString() == "BOX") {
+				if(floor > 0 && levelData ["elements"] [floor - 1] [-row] [column] ["f"].ToString() == "BOX") {
 					obj = null;
 					Debug.Log("Lower Field is BOX, dismiss floor drawing");
 				}
 			} catch(Exception e) {
-				
 				Debug.LogException(e);
 			}
 			Debug.Log(obj);
