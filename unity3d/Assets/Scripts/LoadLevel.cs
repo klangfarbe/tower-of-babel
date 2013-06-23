@@ -84,8 +84,17 @@ public class LoadLevel : MonoBehaviour {
 		calculateLevelCenter();
 		setLevelName();	
 		translateToBottomLeftCornerAsZeroZero();
+		loadCameras();
+		
 	}
-
+	
+	// ------------------------------------------------------------------------
+	
+	void loadCameras() {
+		SwitchCamera cameraScript = GetComponent<SwitchCamera>();
+		cameraScript.reset();
+	}
+	
 	// ------------------------------------------------------------------------
 
 	void setLevelName() {
