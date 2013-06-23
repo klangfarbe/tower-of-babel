@@ -8,7 +8,6 @@ using System.IO;
 public class LoadLevel : MonoBehaviour {
 	public int level = 0;
 	public float floorOffset = -0.03f;
-	public float klondikeHeight = 0.15f;
 	public GameObject grabber;
 	public GameObject pusher;
 	public GameObject zapper;
@@ -16,7 +15,8 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject floorPattern2;
 	public GameObject boxPattern1;
 	public GameObject boxPattern2;
-	public GameObject lift;
+	public GameObject liftUp;
+	public GameObject liftDown;
 	public GameObject klondike;
 	public GameObject block;
 	public GameObject reflector;
@@ -33,6 +33,11 @@ public class LoadLevel : MonoBehaviour {
 	private int maxColumns = 0;
 	private int maxRows = 0;
 	private int maxFloors = 0;
+	
+	// the current fields to build
+	private int floor;
+	private int row;
+	private int column;
 
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
@@ -69,10 +74,10 @@ public class LoadLevel : MonoBehaviour {
 		setMaterialColors();
 
 		// create Objects
-		for (int floor = 0; floor < 4; floor++) { // level
-			for (int row = 0; row < 8; row++) { //row
-				for (int column = 0; column < 8; column++) { // column
-					buildPosition (floor, row, column);
+		for (floor = 0; floor < 4; floor++) { // level
+			for (row = 0; row < 8; row++) { //row
+				for (column = 0; column < 8; column++) { // column
+					buildPosition ();
 				}
 			}
 		}
@@ -141,7 +146,7 @@ public class LoadLevel : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void updateMaximumLevelDimensions(int floor, int row, int column) {
+	void updateMaximumLevelDimensions() {
 		maxFloors = floor > maxFloors ? floor : maxFloors;
 		maxRows = row > maxRows ? row : maxRows;
 		maxColumns = column > maxColumns ? column : maxColumns;
@@ -162,26 +167,25 @@ public class LoadLevel : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 	
-	void buildPosition (int floor, int row, int column) {
+	void buildPosition () {
 		try {
 			JsonData field = levelData ["elements"] [floor] [row] [column];
-			updateMaximumLevelDimensions(floor, row, column);
 			Debug.Log("Building " + floor + "/" + row + "/" + column);
-
-			buildFloor(field["f"].ToString(), floor, -row, column);
-			buildObject(field["o"].ToString(), floor, -row, column);
+			updateMaximumLevelDimensions();
+			buildFloor();
+			buildObject();
 		} catch (Exception e) {
-			//Debug.LogException(e);
+			Debug.Log("Field not existent " + floor + "/" + row + "/" + column);
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	void buildObject(string type, int floor, int row, int column) {
-		UnityEngine.Object obj = null;
+	void buildObject() {
+		GameObject obj = null;
 		Quaternion rotation = Quaternion.identity;
-
-		switch(type) {
+		
+		switch(getObjectTypeAt(floor, row, column)) {
 		case "GRB":
 			obj = grabber; break;
 		case "PSH":
@@ -214,13 +218,13 @@ public class LoadLevel : MonoBehaviour {
 		}
 
 		if(obj != null) {
-			objects.Add(Instantiate(obj, new Vector3 (column, floor, row), rotation));
+			instantiateAndTag(obj, rotation);
 		}
 	}
-
+	
 	// ------------------------------------------------------------------------
 
-	void buildFloor(string type, int floor, int row, int column) {
+	void buildFloor() {
 		int pattern = 0;
 		
 		// calculate what color pattern we need
@@ -230,34 +234,67 @@ public class LoadLevel : MonoBehaviour {
 			pattern = (column % 2 != 0) ? 1 : 2;
 		}
 
-		UnityEngine.Object obj = null;
-		
-		switch(type) {
+		switch(getFloorTypeAt(floor, row, column)) {
 		case "FLR":
-			obj = pattern == 1 ? floorPattern1 : floorPattern2;
-			
-			// check if the field below is a box. if yes, do not add the floor element
-			// because the box is high enough. Otherwise we will have a florr and a box which looks strange
-			try {
-				if(floor > 0 && levelData ["elements"] [floor - 1] [-row] [column] ["f"].ToString() == "BOX") {
-					obj = null;
-					Debug.Log("Lower Field is BOX, dismiss floor drawing");
-				}
-			} catch(Exception e) {
-				Debug.LogException(e);
-			}
-			Debug.Log(obj);
+			if(getFloorTypeAt(floor - 1, row, column) != "BOX")
+				instantiateAndTag(pattern == 1 ? floorPattern1 : floorPattern2, floorOffset);
 			break;
 		case "BOX":
-			obj = pattern == 1 ? boxPattern1 : boxPattern2; break;
+			GameObject instance = instantiateAndTag(pattern == 1 ? boxPattern1 : boxPattern2, floorOffset); 
+			if(getFloorTypeAt(floor + 1, row, column) == "FLR") {
+				// increase box height by floorOffset
+				instance.transform.localScale += new Vector3(0, -floorOffset, 0);
+			}
+			break;
 		case "LFD":
-			obj = lift; break;
+			instantiateAndTag(liftDown, floorOffset); 
+			break;
 		case "LFU":
-			obj = lift; break;
+			instantiateAndTag(liftUp, floorOffset); 
+			break;
 		}
-
-		if(obj != null) {
-			objects.Add(Instantiate(obj, new Vector3 (column, floor + floorOffset, row), Quaternion.identity));
-		}
+	}
+		
+	// ------------------------------------------------------------------------
+	
+	GameObject instantiateAndTag(GameObject go, float floorOffset = 0.0f) {
+		return instantiateAndTag(go, Quaternion.identity, floorOffset);
+	}
+	
+	// ------------------------------------------------------------------------
+	
+	GameObject instantiateAndTag(GameObject go, Quaternion rotation, float floorOffset = 0.0f) {
+		if(go == null)
+			return null;
+		
+		GameObject instance = (GameObject)Instantiate(go, 
+			new Vector3 (column, floor + floorOffset, -row), 
+			rotation == null ? Quaternion.identity : rotation);
+		//instance.tag = "";
+		
+		objects.Add(instance);
+		return instance;
+	}
+	
+	// ------------------------------------------------------------------------
+	
+	string getFloorTypeAt(int floor, int row, int column) {
+		try {
+			return levelData ["elements"] [floor] [row] [column] ["f"].ToString();
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}	
+		return null;
+	}
+		
+	// ------------------------------------------------------------------------
+	
+	string getObjectTypeAt(int floor, int row, int column) {
+		try {
+			return levelData ["elements"] [floor] [row] [column] ["o"].ToString();
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}	
+		return null;
 	}
 }
