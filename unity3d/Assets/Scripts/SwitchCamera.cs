@@ -45,9 +45,9 @@ public class SwitchCamera : MonoBehaviour {
 		foreach(GameObject c in camList) {
 			Debug.Log (c.name);
 			if(cam == c.name) {
-				c.active = true;
+				c.SetActive(true);
 			} else {
-				c.active = false;
+				c.SetActive(false);
 			}
 		}
 	}

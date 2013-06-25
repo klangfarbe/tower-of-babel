@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3f0d4544dea2a1d479bc024ad9e8c99f
+guid: 1a3112da1c2ae8843a64bd35bbe81c73
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -11,9 +11,9 @@ ModelImporter:
     2300002: lift_rotator
     3300000: //RootNode
     3300002: lift_rotator
-    4300000: lift_rotator
-    4300002: lift_up
-    7400000: all_lifts_up
+    4300000: lift_up
+    4300002: lift_rotator
+    7400000: All Lifts down
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -29,7 +29,7 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations:
-    - name: all_lifts_up
+    - name: All Lifts down
       takeName: Default Take
       firstFrame: 0
       lastFrame: 71

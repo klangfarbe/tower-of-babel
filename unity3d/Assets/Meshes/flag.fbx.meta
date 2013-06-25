@@ -1,19 +1,14 @@
 fileFormatVersion: 2
-guid: 3f0d4544dea2a1d479bc024ad9e8c99f
+guid: 04eda9f3d63b960458d33d87af7b5ea4
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
     100000: //RootNode
-    100002: lift_rotator
     400000: //RootNode
-    400002: lift_rotator
     2300000: //RootNode
-    2300002: lift_rotator
     3300000: //RootNode
-    3300002: lift_rotator
-    4300000: lift_rotator
-    4300002: lift_up
-    7400000: all_lifts_up
+    4300000: flag
+    7400000: flag
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -29,10 +24,10 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations:
-    - name: all_lifts_up
+    - name: flag
       takeName: Default Take
       firstFrame: 0
-      lastFrame: 71
+      lastFrame: 397
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -67,10 +62,10 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
   tangentSpace:
-    normalSmoothAngle: 30
+    normalSmoothAngle: 28
     splitTangentsAcrossUV: 1
-    normalImportMode: 0
-    tangentImportMode: 0
+    normalImportMode: 1
+    tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

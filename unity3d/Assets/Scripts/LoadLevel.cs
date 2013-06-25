@@ -17,12 +17,18 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject boxPattern2;
 	public GameObject liftUp;
 	public GameObject liftDown;
+	public GameObject allLiftsUp;
+	public GameObject allLiftsDown;
 	public GameObject klondike;
 	public GameObject block;
 	public GameObject reflector;
 	public GameObject prism;
 	public GameObject converter;
-
+	public GameObject flag;
+	public GameObject pushingCannon;
+	public GameObject zappingCannon;
+	public GameObject watcher;
+	
 	public Material materialPattern1;
 	public Material materialPattern2;
 
@@ -33,6 +39,11 @@ public class LoadLevel : MonoBehaviour {
 	private int maxColumns = 0;
 	private int maxRows = 0;
 	private int maxFloors = 0;
+	
+	private Quaternion north = Quaternion.Euler(0,0,0);
+	private Quaternion east = Quaternion.Euler(0,90,0);
+	private Quaternion south = Quaternion.Euler(0,180,0);
+	private Quaternion west = Quaternion.Euler(0,270,0);
 	
 	// the current fields to build
 	private int floor;
@@ -184,7 +195,7 @@ public class LoadLevel : MonoBehaviour {
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
-			Debug.Log("Field not existent " + floor + "/" + row + "/" + column);
+			//Debug.Log("Field not existent " + floor + "/" + row + "/" + column);
 		}
 	}
 
@@ -205,25 +216,59 @@ public class LoadLevel : MonoBehaviour {
 			obj = klondike; break;
 		case "BLK":
 			obj = block; break;
+		case "WAT":
+			obj = watcher; break;
 		case "REL":
 			obj = reflector; break;
+		case "FCU":
+			obj = allLiftsUp; break;
+		case "FCD":
+			obj = allLiftsDown; break;
+		case "BFL":
+			obj = flag; break;
 		case "PSW":
-			rotation = Quaternion.Euler(0, 0, 0);
+			rotation = north; //Quaternion.Euler(0, 0, 0);
 			obj = prism; break;
 		case "PNW":
-			rotation = Quaternion.Euler(0, 90.0f, 0);
+			rotation = east; //Quaternion.Euler(0, 90.0f, 0);
 			obj = prism; break;
 		case "PNE":
-			rotation = Quaternion.Euler(0, 180.0f, 0);
+			rotation = south; //Quaternion.Euler(0, 180.0f, 0);
 			obj = prism; break;
 		case "PSE":
-			rotation = Quaternion.Euler(0, 270.0f, 0);
+			rotation = west; //Quaternion.Euler(0, 270.0f, 0);
 			obj = prism; break;
 		case "CVN":
 			obj = converter; break;
 		case "CVE":
-			rotation = Quaternion.Euler(0, 90.0f, 0);
+			rotation = east; //Quaternion.Euler(0, 90.0f, 0);
 			obj = converter; break;
+		case "FPN":
+		case "RPN":
+			rotation = north;
+			obj = pushingCannon; break;
+		case "FPE":
+			rotation = east;
+			obj = pushingCannon; break;
+		case "FPS":
+			rotation = south;
+			obj = pushingCannon; break;
+		case "FPW":
+			rotation = west;
+			obj = pushingCannon; break;
+		case "FZN":
+		case "RZN":
+			rotation = north;
+			obj = zappingCannon; break;
+		case "FZE":
+			rotation = east;
+			obj = zappingCannon; break;
+		case "FZS":
+			rotation = south;
+			obj = zappingCannon; break;
+		case "FZW":
+			rotation = west;
+			obj = zappingCannon; break;
 		}
 
 		if(obj != null) {
@@ -276,9 +321,7 @@ public class LoadLevel : MonoBehaviour {
 		if(go == null)
 			return null;
 		
-		GameObject instance = (GameObject)Instantiate(go, 
-			new Vector3 (column, floor + floorOffset, -row), 
-			rotation == null ? Quaternion.identity : rotation);
+		GameObject instance = (GameObject)Instantiate(go, new Vector3 (column, floor + floorOffset, -row), rotation);
 		//instance.tag = "";
 		
 		objects.Add(instance);
