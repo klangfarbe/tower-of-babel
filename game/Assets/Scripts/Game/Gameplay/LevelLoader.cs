@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
-
-using LitJson;
 using System;
 using System.IO;
 
+// 3rd party
+using LitJson;
+
+// babel classes
 using CardinalDirection;
 
-public class LoadLevel : MonoBehaviour {
+public class LevelLoader : MonoBehaviour {
 	public int level = 0;
 	public float floorOffset = -0.03f;
 
@@ -102,7 +104,6 @@ public class LoadLevel : MonoBehaviour {
 		}
 		calculateLevelCenter();
 		setLevelName();
-		translateToBottomLeftCornerAsZeroZero();
 		loadCameras();
 
 	}
@@ -119,16 +120,6 @@ public class LoadLevel : MonoBehaviour {
 	void setLevelName() {
 		levelName.text = levelData["title"].ToString();
 		levelNr.text = "Level: " + level.ToString();
-	}
-
-	// -------------------------------------------------------------------------
-
-	void translateToBottomLeftCornerAsZeroZero() {
-		GameObject parent = GameObject.Find("Level");
-		foreach(UnityEngine.Object o in objects) {
-			((GameObject)o).transform.parent = parent.transform;
-		}
-		parent.transform.position = new Vector3(0, 0, maxRows);
 	}
 
 	// -------------------------------------------------------------------------
@@ -302,7 +293,7 @@ public class LoadLevel : MonoBehaviour {
 
 	GameObject instantiateAndTag(GameObject go, Quaternion rotation, float floorOffset = 0.0f) {
 		if(go == null) return null;
-		GameObject instance = (GameObject)Instantiate(go, new Vector3 (column, floor + floorOffset, -row), rotation);
+		GameObject instance = (GameObject)Instantiate(go, new Vector3 (column, floor + floorOffset, row), rotation);
 		objects.Add(instance);
 		return instance;
 	}

@@ -3,6 +3,9 @@
 	[
 		{
 			"path": "game/Assets/Scripts"
+		},
+		{
+			"path": "game/Assets/Resources/Level"
 		}
 	]
 }
