@@ -27,6 +27,7 @@ game/*.svd
 *.user
 *.unityproj
 *.booproj
+*.sublime-workspace
 
 ###### Other stuff (editor temp files, log files etc.) ######
 *.bak
