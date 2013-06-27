@@ -1,8 +1,8 @@
 ###### Unity3D ######
-unity3d/Temp
-unity3d/Library/
-unity3d/obj/
-unity3d/*.svd
+game/Temp
+game/Library/
+game/obj/
+game/*.svd
  
 !Library/*.asset
 !Library/AssetImportState
