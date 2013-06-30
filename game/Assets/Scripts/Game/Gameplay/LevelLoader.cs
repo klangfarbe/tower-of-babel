@@ -15,37 +15,8 @@ public class LevelLoader : MonoBehaviour {
 	public int level = 0;
 	public float floorOffset = -0.03f;
 
-	public GameObject allLiftsDown;
-	public GameObject allLiftsUp;
-	public GameObject block;
-	public GameObject boxPattern1;
-	public GameObject boxPattern2;
-	public GameObject converter;
-	public GameObject exchanger;
-	public GameObject flag;
-	public GameObject floorPattern1;
-	public GameObject floorPattern2;
-	public GameObject freezer;
-	public GameObject grabber;
-	public GameObject hopper;
-	public GameObject klondike;
-	public GameObject liftDown;
-	public GameObject liftUp;
-	public GameObject lizard;
-	public GameObject proximityMine;
-	public GameObject prism;
-	public GameObject pusher;
-	public GameObject pushingCannon;
-	public GameObject reflector;
-	public GameObject timeBomb;
-	public GameObject watcher;
-	public GameObject wiper;
-	public GameObject worm;
-	public GameObject zapper;
-	public GameObject zappingCannon;
-
-	public Material materialPattern1;
-	public Material materialPattern2;
+	public Material patterncolor1;
+	public Material patterncolor2;
 
 	public GUIText levelName;
 	public GUIText levelNr;
@@ -67,7 +38,6 @@ public class LevelLoader : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void Start() {
-		Debug.Log("Awakening scene...");
 		build();
 	}
 
@@ -94,7 +64,7 @@ public class LevelLoader : MonoBehaviour {
 		Debug.Log("Building level...");
 		clearScene();
 		loadResource();
-		setMaterialColors();
+		setPatternColor();
 
 		// create Objects
 		for (floor = 0; floor < 4; floor++) { // level
@@ -112,9 +82,16 @@ public class LevelLoader : MonoBehaviour {
 
 	// -----------------------------------------------------------------------------------------------------------------
 
+	void setPatternColor() {
+		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
+		patterncolor2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
 	void loadCameras() {
-		SwitchCamera cameraScript = GetComponent<SwitchCamera>();
-		cameraScript.reset();
+//		SwitchCamera cameraScript = GetComponent<SwitchCamera>();
+//		cameraScript.reset();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -135,7 +112,6 @@ public class LevelLoader : MonoBehaviour {
 		maxColumns = 0;
 		maxRows = 0;
 		levelData = null;
-		GameObject.Find("Level").transform.position = new Vector3(0, 0, 0);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -144,15 +120,6 @@ public class LevelLoader : MonoBehaviour {
 		Debug.Log("Loading level data...");
 		TextAsset json = Resources.Load("Level/" + string.Format("{0:d3}", level)) as TextAsset;
 		levelData = JsonMapper.ToObject(json.text);
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	void setMaterialColors() {
-		materialPattern1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
-		materialPattern2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
-		Debug.Log(materialPattern1.color.ToString());
-		Debug.Log(materialPattern2.color.ToString());
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -179,7 +146,6 @@ public class LevelLoader : MonoBehaviour {
 		float x = maxColumns / 2f;
 		float y = maxFloors / 2f;
 		float z = maxRows / 2f;
-		Debug.Log("Position: " + y + ", field: " + x + ", " + z);
 
 		// Transform the camera and lights
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
@@ -190,8 +156,8 @@ public class LevelLoader : MonoBehaviour {
 
 	void buildPosition () {
 		try {
-			JsonData field = levelData ["elements"] [floor] [row] [column];
-			Debug.Log("Building " + floor + "/" + row + "/" + column);
+			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
+			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();
@@ -203,99 +169,44 @@ public class LevelLoader : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void buildObject() {
-		GameObject obj = null;
-		Quaternion rotation = Quaternion.identity;
-
-		switch(getObjectTypeAt(floor, row, column)) {
-			case "BFL":	obj = flag; break;
-			case "BLK":	obj = block; break;
-			case "EXC": obj = exchanger; break;
-			case "FCD":	obj = allLiftsDown; break;
-			case "FCU":	obj = allLiftsUp; break;
-			case "FRZ": obj = freezer; break;
-			case "GRB": obj = grabber; break;
-			case "HOP": obj = hopper; break;
-			case "KLD":	obj = klondike; break;
-			case "PRM": obj = proximityMine; break;
-			case "PSH":	obj = pusher; break;
-			case "REL":	obj = reflector; break;
-			case "TMB": obj = timeBomb; break;
-			case "WAT": obj = watcher; break;
-			case "WIP": obj = wiper; break;
-			case "ZAP":	obj = zapper; break;
-
-			case "WON": obj = worm; rotation = Quaternion.North; break;
-			case "WOE": obj = worm; rotation = Quaternion.East; break;
-
-			case "LZN": obj = lizard; rotation = Quaternion.North; break;
-			case "LZE": obj = lizard; rotation = Quaternion.East; break;
-
-			case "CVN": obj = converter; break;
-			case "CVE":	obj = converter; rotation = CardinalDirection.East; break;
-
-			case "RPN":
-			case "FPN": obj = pushingCannon; rotation = CardinalDirection.North; break;
-			case "FPE": obj = pushingCannon; rotation = CardinalDirection.East; break;
-			case "FPS": obj = pushingCannon; rotation = CardinalDirection.South; break;
-			case "FPW": obj = pushingCannon; rotation = CardinalDirection.West; break;
-
-			case "RZN":
-			case "FZN": obj = zappingCannon; rotation = CardinalDirection.North; break;
-			case "FZE": obj = zappingCannon; rotation = CardinalDirection.East; break;
-			case "FZS": obj = zappingCannon; rotation = CardinalDirection.South; break;
-			case "FZW": obj = zappingCannon; rotation = CardinalDirection.West; break;
-
-			case "PSW":	obj = prism; rotation = CardinalDirection.North; break;
-			case "PNW": obj = prism; rotation = CardinalDirection.East; break;
-			case "PNE": obj = prism; rotation = CardinalDirection.South; break;
-			case "PSE": obj = prism; rotation = CardinalDirection.West; break;
-		}
-
-		if(obj != null) {
-			instantiateAndTag(obj, rotation);
-		}
+		GameObject instance = createInstance(levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["o"].ToString());
+		instance.transform.parent = GameObject.Find("Actors").transform;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void buildFloor() {
-		int pattern = 0;
+		var type = getFloorTypeAt(floor, row, column);
+		string pattern = "";
 
-		// calculate what color pattern we need
-		if (row % 2 == 0) {
-			pattern = (column % 2 == 0) ? 1 : 2;
-		} else {
-			pattern = (column % 2 != 0) ? 1 : 2;
-		}
-
-		switch(getFloorTypeAt(floor, row, column)) {
-		case "LFD": instantiateAndTag(liftDown, floorOffset); break;
-		case "LFU": instantiateAndTag(liftUp, floorOffset); break;
-		case "FLR":
-			if(getFloorTypeAt(floor - 1, row, column) != "BOX")
-				instantiateAndTag(pattern == 1 ? floorPattern1 : floorPattern2, floorOffset);
-			break;
-		case "BOX":
-			GameObject instance = instantiateAndTag(pattern == 1 ? boxPattern1 : boxPattern2, floorOffset);
-			if(getFloorTypeAt(floor + 1, row, column) == "FLR") {
-				// increase box height by floorOffset
-				instance.transform.localScale += new Vector3(0, -floorOffset, 0);
+		// select correct pattern
+		if(type == "FLR" || type == "BOX") {
+			if (row % 2 == 0) {
+				pattern = (column % 2 == 0) ? "1" : "2";
+			} else {
+				pattern = (column % 2 != 0) ? "1" : "2";
 			}
-			break;
 		}
+		GameObject instance = createInstance(type + pattern, floorOffset);
+
+		// Delete the FLR in case a BOX is below the FLR
+		if(type == "FLR" && floor > 0 && getFloorTypeAt(floor - 1, row, column) == "BOX") {
+			Destroy(instance);
+		}
+
+		// If the field above the box is a FLR it is deleted and we increase the BOX height instead for a better look
+		if(type == "BOX" && floor < 2 && getFloorTypeAt(floor + 1, row, column) == "FLR") {
+			instance.transform.localScale += new Vector3(0, -floorOffset, 0);
+		}
+
+		instance.transform.parent = GameObject.Find("World").transform;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	GameObject instantiateAndTag(GameObject go, float floorOffset = 0.0f) {
-		return instantiateAndTag(go, Quaternion.identity, floorOffset);
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	GameObject instantiateAndTag(GameObject go, Quaternion rotation, float floorOffset = 0.0f) {
-		if(go == null) return null;
-		GameObject instance = (GameObject)Instantiate(go, new Vector3 (column, floor + floorOffset, row), rotation);
+	GameObject createInstance(string type, float floorOffset = 0.0f) {
+		GameObject prefab = (GameObject) Resources.Load(type);
+		GameObject instance = (GameObject)Instantiate(prefab, new Vector3 (column, floor + floorOffset, row), prefab.transform.rotation);
 		objects.Add(instance);
 		return instance;
 	}
@@ -304,18 +215,7 @@ public class LevelLoader : MonoBehaviour {
 
 	string getFloorTypeAt(int floor, int row, int column) {
 		try {
-			return levelData ["elements"] [floor] [row] [column] ["f"].ToString();
-		} catch(Exception e) {
-			Debug.LogException(e);
-		}
-		return null;
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	string getObjectTypeAt(int floor, int row, int column) {
-		try {
-			return levelData ["elements"] [floor] [row] [column] ["o"].ToString();
+			return levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["f"].ToString();
 		} catch(Exception e) {
 			Debug.LogException(e);
 		}
