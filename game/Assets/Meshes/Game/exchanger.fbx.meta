@@ -7,7 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube
+    4300000: Exchanger
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -40,7 +40,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
   tangentSpace:
-    normalSmoothAngle: 10
+    normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
     normalImportMode: 1
     tangentImportMode: 1

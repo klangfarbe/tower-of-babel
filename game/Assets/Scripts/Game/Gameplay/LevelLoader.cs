@@ -149,7 +149,7 @@ public class LevelLoader : MonoBehaviour {
 
 		// Transform the camera and lights
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
-		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 2, z);
+		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors, z);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------

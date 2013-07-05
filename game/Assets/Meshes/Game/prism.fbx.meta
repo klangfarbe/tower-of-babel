@@ -8,6 +8,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Prism
+    7400000: Default Take
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -39,7 +40,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
   tangentSpace:
-    normalSmoothAngle: 0
+    normalSmoothAngle: 103
     splitTangentsAcrossUV: 1
     normalImportMode: 1
     tangentImportMode: 1
