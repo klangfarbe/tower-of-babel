@@ -136,8 +136,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void updateMaximumLevelDimensions() {
 		maxFloors = floor > maxFloors ? floor : maxFloors;
-		maxRows = row > maxRows ? row : maxRows;
-		maxColumns = column > maxColumns ? column : maxColumns;
+		maxRows = row > maxRows ? row : maxRows;		maxColumns = column > maxColumns ? column : maxColumns;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -149,7 +148,7 @@ public class LevelLoader : MonoBehaviour {
 
 		// Transform the camera and lights
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
-		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors, z);
+		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -194,8 +193,9 @@ public class LevelLoader : MonoBehaviour {
 			Destroy(instance);
 		}
 
-		// If the field above the box is a FLR it is deleted and we increase the BOX height instead for a better look
-		if(type == "BOX" && floor < 2 && getFloorTypeAt(floor + 1, row, column) == "FLR") {
+		// If the field above the box
+		//Debug.Log(getFloorTypeAt(floor + 1, row, column));
+		if(type == "BOX" && floor < 3 && getFloorTypeAt(floor + 1, row, column) == "FLR") {
 			instance.transform.localScale += new Vector3(0, -floorOffset, 0);
 		}
 
