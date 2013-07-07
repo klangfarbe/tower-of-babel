@@ -3,45 +3,51 @@ using System.Collections;
 
 public class SwitchCamera : MonoBehaviour {
 	GameObject[] camList;
-	GameObject mainCamera;
-	
-	void Start() {
-		mainCamera = GameObject.Find("MainCamera");
-	}
-	
-	// ------------------------------------------------------------------------
-	
+
+	// -----------------------------------------------------------------------------------------------------------------
+
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Alpha1)) {
 			activateCamera("MainCamera");
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha2)) {
-			activateCamera("camera_grabber");
+			activateCamera("GrabberCamera");
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha3)) {
-			activateCamera("camera_zapper");
+			activateCamera("ZapperCamera");
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha4)) {
-			activateCamera("camera_pusher");
+			activateCamera("PusherZamera");
 		}
 	}
-	
-	// ------------------------------------------------------------------------
-	
+
+	// -----------------------------------------------------------------------------------------------------------------
+
 	public void reset() {
 		Debug.Log("Resetting Camera List");
 		camList = GameObject.FindGameObjectsWithTag("MainCamera");
-		System.Array.Resize(ref camList, camList.Length + 1);
-		camList[camList.Length - 1] = mainCamera;
-			//(mainCamera, camList.Length);
+		assignToCamera(GameObject.Find("GrabberCamera"), GameObject.Find("GRB"));
+		assignToCamera(GameObject.Find("PusherCamera"), GameObject.Find("PSH"));
+		assignToCamera(GameObject.Find("ZapperCamera"), GameObject.Find("ZAP"));
 		activateCamera("MainCamera");
 	}
-	
-	// ------------------------------------------------------------------------
-	
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	void assignToCamera(GameObject cam, GameObject spider) {
+		if(cam) {
+			SmoothFollow s = cam.GetComponent<SmoothFollow>();
+			if(spider) {
+				s.target = spider.transform;
+			}
+		}
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
 	void activateCamera(string cam) {
 		Debug.Log(cam);
-		 
+
 		foreach(GameObject c in camList) {
 			Debug.Log (c.name);
 			if(cam == c.name) {

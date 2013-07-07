@@ -90,8 +90,8 @@ public class LevelLoader : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void loadCameras() {
-//		SwitchCamera cameraScript = GetComponent<SwitchCamera>();
-//		cameraScript.reset();
+		SwitchCamera cameraScript = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
+		cameraScript.reset();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -207,6 +207,7 @@ public class LevelLoader : MonoBehaviour {
 	GameObject createInstance(string type, float floorOffset = 0.0f) {
 		GameObject prefab = (GameObject) Resources.Load(type);
 		GameObject instance = (GameObject)Instantiate(prefab, new Vector3 (column, floor + floorOffset, row), prefab.transform.rotation);
+		instance.name = type;
 		objects.Add(instance);
 		return instance;
 	}
