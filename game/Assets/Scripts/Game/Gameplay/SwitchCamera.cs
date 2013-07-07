@@ -2,59 +2,42 @@ using UnityEngine;
 using System.Collections;
 
 public class SwitchCamera : MonoBehaviour {
-	GameObject[] camList;
+	public GameObject mainCamera;
+	public GameObject spiderCamera;
+
+	void Start() {
+		mainCamera.SetActive(true);
+		spiderCamera.SetActive(false);
+	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Alpha1)) {
-			activateCamera("MainCamera");
+			mainCamera.SetActive(true);
+			spiderCamera.SetActive(false);
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha2)) {
-			activateCamera("GrabberCamera");
+			activateSpiderCamera(GameObject.Find("LookAtGrabber"));
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha3)) {
-			activateCamera("ZapperCamera");
+			activateSpiderCamera(GameObject.Find("LookAtPusher"));
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha4)) {
-			activateCamera("PusherZamera");
+			activateSpiderCamera(GameObject.Find("LookAtZapper"));
 		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	public void reset() {
-		Debug.Log("Resetting Camera List");
-		camList = GameObject.FindGameObjectsWithTag("MainCamera");
-		assignToCamera(GameObject.Find("GrabberCamera"), GameObject.Find("GRB"));
-		assignToCamera(GameObject.Find("PusherCamera"), GameObject.Find("PSH"));
-		assignToCamera(GameObject.Find("ZapperCamera"), GameObject.Find("ZAP"));
-		activateCamera("MainCamera");
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	void assignToCamera(GameObject cam, GameObject spider) {
-		if(cam) {
-			SmoothFollow s = cam.GetComponent<SmoothFollow>();
-			if(spider) {
-				s.target = spider.transform;
-			}
+	void activateSpiderCamera(GameObject spider) {
+		SpiderCamera s = spiderCamera.GetComponent<SpiderCamera>();
+		if(spider != null) {
+			s.target = spider.transform;
+		} else {
+			s.target = GameObject.Find("DisabledCamera").transform;
 		}
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	void activateCamera(string cam) {
-		Debug.Log(cam);
-
-		foreach(GameObject c in camList) {
-			Debug.Log (c.name);
-			if(cam == c.name) {
-				c.SetActive(true);
-			} else {
-				c.SetActive(false);
-			}
-		}
+		mainCamera.SetActive(false);
+		spiderCamera.SetActive(true);
 	}
 }

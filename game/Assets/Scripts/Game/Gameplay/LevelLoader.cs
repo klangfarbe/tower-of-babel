@@ -76,8 +76,6 @@ public class LevelLoader : MonoBehaviour {
 		}
 		calculateLevelCenter();
 		setLevelName();
-		loadCameras();
-
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -85,13 +83,6 @@ public class LevelLoader : MonoBehaviour {
 	void setPatternColor() {
 		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
 		patterncolor2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
-	}
-
-	// -----------------------------------------------------------------------------------------------------------------
-
-	void loadCameras() {
-		SwitchCamera cameraScript = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
-		cameraScript.reset();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
