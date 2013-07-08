@@ -68,14 +68,22 @@ public class LevelLoader : MonoBehaviour {
 
 		// create Objects
 		for (floor = 0; floor < 4; floor++) { // level
-			for (row = 0; row < 8; row++) { //row
-				for (column = 0; column < 8; column++) { // column
+			for (row = -1; row < 9; row++) { //row
+				for (column = -1; column < 9; column++) { // column
 					buildPosition ();
 				}
 			}
 		}
 		calculateLevelCenter();
 		setLevelName();
+		activateCamera();
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	void activateCamera() {
+		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
+		camera.activateOverview();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -127,7 +135,8 @@ public class LevelLoader : MonoBehaviour {
 
 	void updateMaximumLevelDimensions() {
 		maxFloors = floor > maxFloors ? floor : maxFloors;
-		maxRows = row > maxRows ? row : maxRows;		maxColumns = column > maxColumns ? column : maxColumns;
+		maxRows = row > maxRows ? row : maxRows;
+		maxColumns = column > maxColumns ? column : maxColumns;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -137,9 +146,11 @@ public class LevelLoader : MonoBehaviour {
 		float y = maxFloors / 2f;
 		float z = maxRows / 2f;
 
-		// Transform the camera and lights
+		// Transform the camera and lights and scale the level border bounding box
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
 		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
+		GameObject.Find("Bounds").transform.position = new Vector3(x, 1, z);
+		GameObject.Find("Bounds").transform.localScale = new Vector3(maxColumns + 1, maxFloors + 1, maxRows + 1);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -152,15 +163,19 @@ public class LevelLoader : MonoBehaviour {
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
-			//Debug.Log("Field not existent " + floor + "/" + row + "/" + column);
+//			GameObject instance = createInstance("---"); //Bounding box
+//			instance.transform.parent = GameObject.Find("Bounds").transform;
 		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void buildObject() {
-		GameObject instance = createInstance(levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["o"].ToString());
-		instance.transform.parent = GameObject.Find("Actors").transform;
+		string type = levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["o"].ToString();
+		if(type != "---") {
+			GameObject instance = createInstance(type);
+			instance.transform.parent = GameObject.Find("Actors").transform;
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -180,12 +195,15 @@ public class LevelLoader : MonoBehaviour {
 		GameObject instance = createInstance(type + pattern, floorOffset);
 
 		// Delete the FLR in case a BOX is below the FLR
-		if(type == "FLR" && floor > 0 && getFloorTypeAt(floor - 1, row, column) == "BOX") {
-			Destroy(instance);
+		if(floor > 0) {
+			var floorTypeBelow = getFloorTypeAt(floor - 1, row, column);
+			if((type == "FLR" && floorTypeBelow == "BOX")
+				|| (type == "---" && floorTypeBelow == "LFD")
+				|| (type == "---" && floorTypeBelow == "LFU")) {
+				Destroy(instance);
+			}
 		}
 
-		// If the field above the box
-		//Debug.Log(getFloorTypeAt(floor + 1, row, column));
 		if(type == "BOX" && floor < 3 && getFloorTypeAt(floor + 1, row, column) == "FLR") {
 			instance.transform.localScale += new Vector3(0, -floorOffset, 0);
 		}

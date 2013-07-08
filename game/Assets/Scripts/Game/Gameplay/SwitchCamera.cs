@@ -5,11 +5,6 @@ public class SwitchCamera : MonoBehaviour {
 	public GameObject mainCamera;
 	public GameObject spiderCamera;
 
-	void Start() {
-		mainCamera.SetActive(true);
-		spiderCamera.SetActive(false);
-	}
-
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void Update () {
@@ -18,13 +13,13 @@ public class SwitchCamera : MonoBehaviour {
 			spiderCamera.SetActive(false);
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha2)) {
-			activateSpiderCamera(GameObject.Find("LookAtGrabber"));
+			activateGrabber();
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha3)) {
-			activateSpiderCamera(GameObject.Find("LookAtPusher"));
+			activatePusher();
 		}
 		if(Input.GetKeyDown(KeyCode.Alpha4)) {
-			activateSpiderCamera(GameObject.Find("LookAtZapper"));
+			activateZapper();
 		}
 	}
 
@@ -34,10 +29,43 @@ public class SwitchCamera : MonoBehaviour {
 		SpiderCamera s = spiderCamera.GetComponent<SpiderCamera>();
 		if(spider != null) {
 			s.target = spider.transform;
+			setFieldOfView(35);
 		} else {
 			s.target = GameObject.Find("DisabledCamera").transform;
+			setFieldOfView(70);
 		}
 		mainCamera.SetActive(false);
 		spiderCamera.SetActive(true);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void activateGrabber() {
+		activateSpiderCamera(GameObject.Find("LookAtGrabber"));
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void activatePusher() {
+		activateSpiderCamera(GameObject.Find("LookAtPusher"));
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void activateZapper() {
+		activateSpiderCamera(GameObject.Find("LookAtZapper"));
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void activateOverview() {
+		mainCamera.SetActive(true);
+		spiderCamera.SetActive(false);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	void setFieldOfView(int angle) {
+		spiderCamera.GetComponent<Camera>().fieldOfView = angle;
 	}
 }
