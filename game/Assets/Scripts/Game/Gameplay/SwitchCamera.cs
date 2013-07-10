@@ -28,10 +28,10 @@ public class SwitchCamera : MonoBehaviour {
 	void activateSpiderCamera(GameObject spider) {
 		SpiderCamera s = spiderCamera.GetComponent<SpiderCamera>();
 		if(spider != null) {
-			s.target = spider.transform;
+			s.target = spider;
 			setFieldOfView(35);
 		} else {
-			s.target = GameObject.Find("DisabledCamera").transform;
+			s.target = GameObject.Find("DisabledCamera");
 			setFieldOfView(70);
 		}
 		mainCamera.SetActive(false);
@@ -41,19 +41,19 @@ public class SwitchCamera : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateGrabber() {
-		activateSpiderCamera(GameObject.Find("LookAtGrabber"));
+		activateSpiderCamera(GameObject.Find("GRB"));
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activatePusher() {
-		activateSpiderCamera(GameObject.Find("LookAtPusher"));
+		activateSpiderCamera(GameObject.Find("PSH"));
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateZapper() {
-		activateSpiderCamera(GameObject.Find("LookAtZapper"));
+		activateSpiderCamera(GameObject.Find("ZAP"));
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
