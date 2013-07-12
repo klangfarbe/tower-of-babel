@@ -17,9 +17,13 @@ public class LevelLoader : MonoBehaviour {
 
 	public Material patterncolor1;
 	public Material patterncolor2;
+	public Material groundcolor;
 
 	public GUIText levelName;
 	public GUIText levelNr;
+
+	public GameObject mainCamera;
+	public GameObject spiderCamera;
 
 	private JsonData levelData;
 	private int maxColumns = 0;
@@ -64,12 +68,12 @@ public class LevelLoader : MonoBehaviour {
 		Debug.Log("Building level...");
 		clearScene();
 		loadResource();
-		setPatternColor();
+		setColors();
 
 		// create Objects
 		for (floor = 0; floor < 4; floor++) { // level
-			for (row = -1; row < 9; row++) { //row
-				for (column = -1; column < 9; column++) { // column
+			for (row = 0; row < 8; row++) { //row
+				for (column = 0; column < 8; column++) { // column
 					buildPosition ();
 				}
 			}
@@ -83,14 +87,27 @@ public class LevelLoader : MonoBehaviour {
 
 	void activateCamera() {
 		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
-		camera.activateOverview();
+		camera.activateGrabber();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	void setPatternColor() {
+	void setColors() {
 		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
 		patterncolor2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
+		groundcolor.color = hexToColor(levelData["fx"]["groundcolor1"].ToString().Substring(2));
+		setSkycolor(mainCamera);
+		setSkycolor(spiderCamera);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	void setSkycolor(GameObject cam) {
+		GradientBackground script = cam.GetComponent<GradientBackground>();
+		script.CreateBackground(
+			hexToColor(levelData["fx"]["skycolor1"].ToString().Substring(2)),
+			hexToColor(levelData["fx"]["skycolor2"].ToString().Substring(2))
+		);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -149,8 +166,6 @@ public class LevelLoader : MonoBehaviour {
 		// Transform the camera and lights and scale the level border bounding box
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
 		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
-		GameObject.Find("Bounds").transform.position = new Vector3(x, 1, z);
-		GameObject.Find("Bounds").transform.localScale = new Vector3(maxColumns + 1, maxFloors + 1, maxRows + 1);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -163,8 +178,6 @@ public class LevelLoader : MonoBehaviour {
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
-//			GameObject instance = createInstance("---"); //Bounding box
-//			instance.transform.parent = GameObject.Find("Bounds").transform;
 		}
 	}
 

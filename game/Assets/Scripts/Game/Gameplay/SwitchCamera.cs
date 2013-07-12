@@ -21,19 +21,23 @@ public class SwitchCamera : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Alpha4)) {
 			activateZapper();
 		}
+
+		if(!spiderCamera.GetComponent<SpiderCamera>().target) {
+			if(GameObject.Find("GRB")) {
+				activateGrabber();
+			} else if(GameObject.Find("PSH")) {
+				activatePusher();
+			} else if(GameObject.Find("ZAP")) {
+				activateZapper();
+			}
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void activateSpiderCamera(GameObject spider) {
-		SpiderCamera s = spiderCamera.GetComponent<SpiderCamera>();
-		if(spider != null) {
-			s.target = spider;
-			setFieldOfView(35);
-		} else {
-			s.target = GameObject.Find("DisabledCamera");
-			setFieldOfView(70);
-		}
+		Debug.Log(spider);
+		spiderCamera.GetComponent<SpiderCamera>().target = spider;
 		mainCamera.SetActive(false);
 		spiderCamera.SetActive(true);
 	}
@@ -41,18 +45,21 @@ public class SwitchCamera : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateGrabber() {
+		Debug.Log("Activating Grabber");
 		activateSpiderCamera(GameObject.Find("GRB"));
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activatePusher() {
+		Debug.Log("Activating Pusher");
 		activateSpiderCamera(GameObject.Find("PSH"));
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateZapper() {
+		Debug.Log("Activating Zapper");
 		activateSpiderCamera(GameObject.Find("ZAP"));
 	}
 
