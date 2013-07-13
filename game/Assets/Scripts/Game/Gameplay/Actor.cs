@@ -58,6 +58,8 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void moveForward() {
+		if(walking)
+			return;
 		endPosition += transform.forward;
 		direction = Direction.FORWARD;
 	}
@@ -65,6 +67,8 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void moveBack() {
+		if(walking)
+			return;
 		endPosition -= transform.forward;
 		direction = Direction.BACK;
 	}
@@ -90,19 +94,19 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateLiftUp() {
-		if(direction != Direction.NONE) {
+		if(walking) {
 			return;
 		}
 
-		Debug.DrawRay(transform.position, Vector3.down * 0.5f);
+		Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down);
 
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, Vector3.down, out hit, 0.25f)) {
+		if(Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 1)) {
 			if(hit.collider.tag == "lift") {
 				Debug.Log("Hit lift");
 				direction = Direction.UP;
 				hit.collider.GetComponentInChildren<Animation>().Play("up");
-				endPosition = transform.up;
+				endPosition += transform.up;
 			}
 		}
 	}
@@ -110,14 +114,28 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateLiftDown() {
-		endPosition -= transform.up;
-		direction = Direction.DOWN;
+		if(walking) {
+			return;
+		}
+				Debug.DrawRay(transform.position, Vector3.down * 0.5f);
+
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position, Vector3.down, out hit, 0.25f)) {
+			if(hit.collider.tag == "lift") {
+				Debug.Log("Hit lift");
+				direction = Direction.UP;
+				hit.collider.GetComponentInChildren<Animation>().Play("down");
+				Debug.Log(endPosition);
+				endPosition += -transform.up;
+				Debug.Log(endPosition);
+			}
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	void OnTriggerEnter(Collider other) {
-		Debug.Log(direction);
+		//Debug.Log("OnTriggerEnter: " + direction + ", " + other.gameObject.name);
 		var type = other.gameObject.name;
 		switch(type) {
 			case "---":
@@ -128,13 +146,13 @@ public class Actor : MonoBehaviour {
 			case "FLR1":
 			case "FLR2":
 				if(direction == Direction.FORWARD) {
-					moveBack();
+					endPosition -= transform.forward;
 				} else if(direction == Direction.BACK) {
-					moveForward();
+					endPosition += transform.forward;
 				}
 				break;
 			case "lift":
-				Debug.Log("lift up");//transform. endPosition other.gameObject.transform
+				//Debug.Log("lift");//transform. endPosition other.gameObject.transform
 				break;
 		}
 	}
