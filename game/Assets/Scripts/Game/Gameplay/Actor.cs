@@ -13,8 +13,8 @@ public class Actor : MonoBehaviour {
 	private enum Direction {
 		FORWARD, BACK, UP, DOWN, NONE
 	}
-
 	private Direction direction;
+	private Quaternion cardinalDirection;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -22,6 +22,7 @@ public class Actor : MonoBehaviour {
 		enable = false;
 		endPosition = transform.position;
 		direction = Direction.NONE;
+		cardinalDirection = CardinalDirection.North;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -89,8 +90,21 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void activateLiftUp() {
-		endPosition += transform.up;
-		direction = Direction.UP;
+		if(direction != Direction.NONE) {
+			return;
+		}
+
+		Debug.DrawRay(transform.position, Vector3.down * 0.5f);
+
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position, Vector3.down, out hit, 0.25f)) {
+			if(hit.collider.tag == "lift") {
+				Debug.Log("Hit lift");
+				direction = Direction.UP;
+				hit.collider.GetComponentInChildren<Animation>().Play("up");
+				endPosition = transform.up;
+			}
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -117,14 +131,10 @@ public class Actor : MonoBehaviour {
 					moveBack();
 				} else if(direction == Direction.BACK) {
 					moveForward();
-				} else if(direction == Direction.UP) {
-					activateLiftDown();
-				} else if(direction == Direction.DOWN) {
-					Debug.Log("Moving up again");
-					Debug.Log(endPosition);
-					activateLiftUp();
-					Debug.Log(endPosition);
 				}
+				break;
+			case "lift":
+				Debug.Log("lift up");//transform. endPosition other.gameObject.transform
 				break;
 		}
 	}
