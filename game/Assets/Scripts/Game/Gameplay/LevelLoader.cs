@@ -165,7 +165,7 @@ public class LevelLoader : MonoBehaviour {
 
 		// Transform the camera and lights and scale the level border bounding box
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
-		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
+//		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
