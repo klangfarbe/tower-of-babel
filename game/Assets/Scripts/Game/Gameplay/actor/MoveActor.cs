@@ -3,25 +3,15 @@ using System.Collections;
 
 public class MoveActor : MonoBehaviour {
 	public float speed = 0.05f;
-	
-	private bool enable;
 	private bool walking = false;
 	private Vector3 endPosition;
 	private float startTime;
-	
-	// save the current movement direction
-	private enum Direction {
-		FORWARD, BACK, UP, DOWN, NONE
-	}
-	private Direction direction;
 	private Quaternion cardinalDirection;
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	void Start () {
-		enable = false;
 		endPosition = transform.position;
-		direction = Direction.NONE;
 		cardinalDirection = CardinalDirection.North;
 	}
 	
@@ -40,21 +30,9 @@ public class MoveActor : MonoBehaviour {
 			transform.position = Vector3.Lerp(startPosition, endPosition, fracJourney);
 		} else {
 			walking = false;
-			direction = Direction.NONE;
 		}
 	}
 	
-	// -----------------------------------------------------------------------------------------------------------------
-	
-	public bool Enable {
-		get {
-			return this.enable;
-		}
-		set {
-			this.enable = value;
-		}
-	}
-
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public bool targetFieldIsFree() {
@@ -81,7 +59,6 @@ public class MoveActor : MonoBehaviour {
 		if(walking || !targetFieldIsFree ())
 			return;
 		endPosition += transform.forward;
-		direction = Direction.FORWARD;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -90,7 +67,6 @@ public class MoveActor : MonoBehaviour {
 		if(walking || !targetFieldIsFree())
 			return;
 		endPosition -= transform.forward;
-		direction = Direction.BACK;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -116,9 +92,8 @@ public class MoveActor : MonoBehaviour {
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
 			Debug.Log("Hit " + hit.collider.gameObject.name);
 			if(hit.collider.tag == "lift") {
-				direction = Direction.UP;
 				hit.collider.GetComponentInChildren<Animation>().Play("up");
-				endPosition += transform.up;
+	//			endPosition += transform.up;
 			}
 		}
 	}
@@ -134,9 +109,8 @@ public class MoveActor : MonoBehaviour {
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
 			Debug.Log("Hit down: " + hit.collider.gameObject.name + " " + hit.collider.tag);
 			if(hit.collider.tag == "lift") {
-				direction = Direction.DOWN;
 				hit.collider.GetComponentInChildren<Animation>().Play("down");
-				endPosition += -transform.up;
+//				endPosition += -transform.up;
 			}
 		}
 	}
@@ -144,8 +118,7 @@ public class MoveActor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	void OnTriggerEnter(Collider other) {
-		Debug.Log("OnTriggerEnter: " + direction + ", " + other.gameObject.name);
-		return;
+		Debug.Log("OnTriggerEnter: " + other.gameObject.name);
 		var type = other.gameObject.name;
 		switch(type) {
 		case "---":
@@ -155,11 +128,6 @@ public class MoveActor : MonoBehaviour {
 		case "LFU":
 		case "FLR1":
 		case "FLR2":
-			if(direction == Direction.FORWARD) {
-				endPosition -= transform.forward;
-			} else if(direction == Direction.BACK) {
-				endPosition += transform.forward;
-			}
 			break;
 		case "lift":
 			//Debug.Log("lift");//transform. endPosition other.gameObject.transform
