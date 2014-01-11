@@ -3,6 +3,7 @@ game/Temp
 game/Library/
 game/obj/
 game/*.svd
+export/
  
 !Library/*.asset
 !Library/AssetImportState
