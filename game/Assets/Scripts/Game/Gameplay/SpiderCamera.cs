@@ -12,7 +12,7 @@ public class SpiderCamera : MonoBehaviour {
 			return;
 		}
 
-		MoveActor actor = target.GetComponent<MoveActor>();
+		Actor actor = target.GetComponent<Actor>();
 
 		if(Input.GetKey(KeyCode.W)) {
 			actor.move(target.transform.forward);
@@ -23,7 +23,7 @@ public class SpiderCamera : MonoBehaviour {
 		} else if(Input.GetKeyDown(KeyCode.D)) {
 			actor.turnRight();
 		} else if(Input.GetKeyDown(KeyCode.Space)) {
-			//actor.fire();
+			actor.fire();
 		} else if(Input.GetKeyDown(KeyCode.Q)) {
 			actor.down();
 		} else if(Input.GetKeyDown(KeyCode.E)) {

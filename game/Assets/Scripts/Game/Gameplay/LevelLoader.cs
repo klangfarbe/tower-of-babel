@@ -81,6 +81,11 @@ public class LevelLoader : MonoBehaviour {
 		calculateLevelCenter();
 		setLevelName();
 		activateCamera();
+
+		Conditions conditions = GameObject.Find("Level").GetComponent<Conditions>();
+		conditions.init((int)levelData["conditions"]["klondikes"],
+						(int)levelData["conditions"]["robots"],
+						(int)levelData["conditions"]["timelimit"]);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -121,6 +126,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void clearScene() {
 		foreach(UnityEngine.Object o in objects) {
+			Debug.Log("Destroyed " + o);
 			Destroy(o);
 		}
 		objects.Clear();
@@ -141,7 +147,7 @@ public class LevelLoader : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	Color hexToColor(string hex) {
-		Debug.Log(hex);
+		//Debug.Log(hex);
 		byte r = byte.Parse(hex.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
 		byte g = byte.Parse(hex.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
 		byte b = byte.Parse(hex.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
@@ -173,7 +179,7 @@ public class LevelLoader : MonoBehaviour {
 	void buildPosition () {
 		try {
 			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
-			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
+//			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();

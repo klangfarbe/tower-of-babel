@@ -25,6 +25,7 @@ public class Lift : MonoBehaviour {
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
 			transform.localScale = Vector3.Lerp(startScale, endScale, fracJourney);
+			getCarriedElement();
 			updateElementPosition();
 		} else {
 			element = null;
@@ -34,12 +35,14 @@ public class Lift : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void updateElementPosition() {
-		if(!element)
-			return;
 		RaycastHit hit;
 		Debug.DrawRay (transform.position + offsetVector, Vector3.down * 1.5f, Color.red);
-		if(Physics.Raycast(transform.position + offsetVector, Vector3.down, out hit, 1.5f, 1 << 8)) {
-			element.GetComponentInChildren<MoveActor>().set(hit.point);
+		if(element && Physics.Raycast(transform.position + offsetVector, Vector3.down, out hit, 1.5f, 1 << 8)) {
+			try {
+				element.GetComponentInChildren<MoveActor>().set(hit.point);
+			} catch(System.NullReferenceException e) {
+				// ignore
+			}
 		}
 	}
 
@@ -49,7 +52,6 @@ public class Lift : MonoBehaviour {
 		if(isUp || isPlaying())
 			return;
 		endScale = new Vector3(1, 34.33f, 1);
-		getCarriedElement();
 		isUp = !isUp;
 		startTime = Time.time;
 	}
@@ -60,7 +62,6 @@ public class Lift : MonoBehaviour {
 		if(!isUp || isPlaying())
 			return;
 		endScale = new Vector3(1, 1, 1);
-		getCarriedElement();
 		isUp = !isUp;
 		startTime = Time.time;
 	}
@@ -71,14 +72,16 @@ public class Lift : MonoBehaviour {
 		RaycastHit hit;
 //		Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
 		if(Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)) {
-			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
+//			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
 			element = hit.collider.gameObject;
+		} else {
+			element = null;
 		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	private bool isPlaying() {
+	public bool isPlaying() {
 		return endScale != transform.localScale;
 	}
 }

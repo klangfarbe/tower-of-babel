@@ -39,13 +39,17 @@ public class MoveActor : MonoBehaviour {
 		// check if something is standing on the field
 		Debug.DrawRay (transform.position + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, direction, out hit, 1f)) {
-			Debug.Log("Hit " + hit.collider.gameObject.name);
 			return false;
 		}
 
 		// check if floor is available
 		Debug.DrawRay(transform.position + direction + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
 		if(Physics.Raycast(transform.position + direction + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
+			// Prevent from moving if lift still in animation
+			if(hit.collider.tag == "Lift"
+				&& hit.collider.gameObject.transform.parent.gameObject.GetComponentInChildren<Lift>().isPlaying()) {
+				return false;
+			}
 			return true;
 		}
 		return false;
@@ -108,8 +112,7 @@ public class MoveActor : MonoBehaviour {
 		RaycastHit hit;
 //		Debug.DrawRay(transform.position + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 1f);
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
-			Debug.Log("Hit: " + hit.collider.gameObject.name + " " + hit.collider.tag);
-			if(hit.collider.tag == "lift") {
+			if(hit.collider.tag == "Lift") {
 				return hit.collider.gameObject.transform.parent.gameObject.GetComponentInChildren<Lift>();
 			}
 		}
