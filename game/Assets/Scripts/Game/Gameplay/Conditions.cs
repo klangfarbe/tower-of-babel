@@ -10,6 +10,8 @@ public class Conditions : MonoBehaviour {
 	public int timelimit = 0;
 	public float startTime;
 	public bool levelStarted = false;
+	public GUIText conditions;
+	public GUIText infotext;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -33,38 +35,44 @@ public class Conditions : MonoBehaviour {
 		GameObject grb = GameObject.Find("GRB");
 
 		if(!psh && !zap && !grb) {
-			levelFailed();
+			StartCoroutine(levelFailed());
 		}
 
 		if(!grb && klondikesGathered < klondikesToGather) {
-			levelFailed();
+			StartCoroutine(levelFailed());
 		}
 
 //		if(grb && klondikesGathered < klondikesToGather && ) {
-//			levelFailed();
+//			StartCoroutine(levelFailed());
 //		}
 
 		if(!zap && robotsDestroyed < robotsToDestroy) {
-			levelFailed();
+			StartCoroutine(levelFailed());
 		}
 
 		if(klondikesGathered == klondikesToGather && robotsDestroyed == robotsToDestroy) {
-			levelCompleted();
+			StartCoroutine(levelCompleted());
 		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	private void levelFailed() {
+	private IEnumerator levelFailed() {
 		Debug.Log("Level failed!");
 		levelStarted = false;
+		infotext.text = "Level failed!";
+		yield return new WaitForSeconds(2);
+		GameObject.Find("Level").GetComponent<LevelLoader>().build();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 
-	private void levelCompleted() {
+	private IEnumerator levelCompleted() {
 		Debug.Log("Level completed!");
 		levelStarted = false;
+		infotext.text = "Level completed!";
+		yield return new WaitForSeconds(2);
+		GameObject.Find("Level").GetComponent<LevelLoader>().next();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -87,12 +95,21 @@ public class Conditions : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public void init(int klondikes, int robots, int timelimit) {
+		infotext.text = "";
 		levelStarted = false;
 		klondikesGathered = 0;
 		klondikesToGather = klondikes;
 		robotsDestroyed = 0;
 		robotsToDestroy = robots;
 		this.timelimit = timelimit;
+		updateConditionsText();
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void updateConditionsText() {
+		conditions.text = klondikesGathered + "/" + klondikesToGather + " Klondikes collected\n"
+			+ robotsDestroyed + "/" + robotsToDestroy + " Objects destroyed";
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -101,6 +118,7 @@ public class Conditions : MonoBehaviour {
 		if(klondikesToGather == 0)
 			return;
 		klondikesGathered++;
+		updateConditionsText();
 		Debug.Log("Conditions: " + klondikesGathered + "/" + klondikesToGather + " Klondikes collected");
 	}
 
@@ -110,6 +128,7 @@ public class Conditions : MonoBehaviour {
 		if(robotsToDestroy == 0)
 			return;
 		robotsDestroyed++;
+		updateConditionsText();
 		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Objects destroyed");
 	}
 }
