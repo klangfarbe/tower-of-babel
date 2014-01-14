@@ -47,7 +47,11 @@ public class Actor : MonoBehaviour {
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public virtual void pushed(GameObject by) {
-		move(by.transform.forward);
+		if(!Enable)
+			Enable = true;
+		MoveActor m = GetComponent<MoveActor>();
+		if(m)
+			m.pushed(by);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
