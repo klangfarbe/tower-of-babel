@@ -49,16 +49,28 @@ public class LevelLoader : MonoBehaviour {
 
 	void Update() {
 		if(Input.GetKeyUp(KeyCode.LeftArrow)) {
-			if(level > 0) {
-				level--;
-				build();
-			}
+			prev();
 		}
 		if(Input.GetKeyUp(KeyCode.RightArrow)) {
-			if(level < 116) {
-				level++;
-				build();
-			}
+			next();
+		}
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void next() {
+		if(level < 116) {
+			level++;
+			build();
+		}
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public void prev() {
+		if(level > 0) {
+			level--;
+			build();
 		}
 	}
 
