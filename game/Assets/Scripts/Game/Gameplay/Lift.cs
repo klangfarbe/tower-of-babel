@@ -41,7 +41,7 @@ public class Lift : MonoBehaviour {
 			try {
 				element.GetComponentInChildren<MoveActor>().set(hit.point);
 			} catch(System.NullReferenceException e) {
-				// ignore
+				Debug.Log("update element position throws null reference " + e);
 			}
 		}
 	}
