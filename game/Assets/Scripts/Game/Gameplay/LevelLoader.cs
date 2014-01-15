@@ -8,9 +8,9 @@ using LitJson;
 
 public class LevelLoader : MonoBehaviour {
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// Attributes
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public int level = 0;
 	public float floorOffset = -0.03f;
@@ -37,15 +37,15 @@ public class LevelLoader : MonoBehaviour {
 
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// Methods
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void Start() {
 		build();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void Update() {
 		if(Input.GetKeyUp(KeyCode.LeftArrow)) {
@@ -56,7 +56,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void next() {
 		if(level < 116) {
@@ -65,7 +65,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void prev() {
 		if(level > 0) {
@@ -74,7 +74,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void build() {
 		Debug.Log("Building level...");
@@ -100,14 +100,14 @@ public class LevelLoader : MonoBehaviour {
 						(int)levelData["conditions"]["timelimit"]);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void activateCamera() {
 		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
 		camera.activateGrabber();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void setColors() {
 		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
@@ -117,7 +117,7 @@ public class LevelLoader : MonoBehaviour {
 		setSkycolor(spiderCamera);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void setSkycolor(GameObject cam) {
 		GradientBackground script = cam.GetComponent<GradientBackground>();
@@ -127,14 +127,14 @@ public class LevelLoader : MonoBehaviour {
 		);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void setLevelName() {
 		levelName.text = levelData["title"].ToString();
 		levelNr.text = "Level: " + level.ToString();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void clearScene() {
 		foreach(UnityEngine.Object o in objects) {
@@ -148,7 +148,7 @@ public class LevelLoader : MonoBehaviour {
 		levelData = null;
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void loadResource() {
 		Debug.Log("Loading level data...");
@@ -156,7 +156,7 @@ public class LevelLoader : MonoBehaviour {
 		levelData = JsonMapper.ToObject(json.text);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	Color hexToColor(string hex) {
 		//Debug.Log(hex);
@@ -166,7 +166,7 @@ public class LevelLoader : MonoBehaviour {
 		return new Color32(r,g,b, 255);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void updateMaximumLevelDimensions() {
 		maxFloors = floor > maxFloors ? floor : maxFloors;
@@ -174,7 +174,7 @@ public class LevelLoader : MonoBehaviour {
 		maxColumns = column > maxColumns ? column : maxColumns;
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void calculateLevelCenter() {
 		float x = maxColumns / 2f;
@@ -183,10 +183,9 @@ public class LevelLoader : MonoBehaviour {
 
 		// Transform the camera and lights and scale the level border bounding box
 		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
-//		GameObject.Find("Lights").transform.position = new Vector3(x, maxFloors + 1.3f, z);
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void buildPosition () {
 		try {
@@ -199,7 +198,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void buildObject() {
 		string type = levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["o"].ToString();
@@ -209,7 +208,7 @@ public class LevelLoader : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void buildFloor() {
 		var type = getFloorTypeAt(floor, row, column);
@@ -242,7 +241,7 @@ public class LevelLoader : MonoBehaviour {
 		instance.transform.parent = GameObject.Find("World").transform;
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	GameObject createInstance(string type, float floorOffset = 0.0f) {
 		GameObject prefab = (GameObject) Resources.Load(type);
@@ -252,7 +251,7 @@ public class LevelLoader : MonoBehaviour {
 		return instance;
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	string getFloorTypeAt(int floor, int row, int column) {
 		try {

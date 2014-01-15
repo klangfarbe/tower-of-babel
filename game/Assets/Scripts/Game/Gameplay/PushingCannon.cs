@@ -4,12 +4,17 @@ using System.Collections;
 public class PushingCannon : Actor {
 	public bool rotating = false;
 	public int timeBeforeRotation = 2;
+
 	private float lastTime;
 	private bool pushed = false;
+
+	// ------------------------------------------------------------------------
 
 	void Start() {
 		lastTime = Time.time;
 	}
+
+	// ------------------------------------------------------------------------
 
 	void Update() {
 		if(!Enable)

@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Conditions : MonoBehaviour {
-
 	public int klondikesToGather = 0;
 	public int klondikesGathered = 0;
 	public int robotsToDestroy = 0;
@@ -13,7 +12,7 @@ public class Conditions : MonoBehaviour {
 	public GUIText conditions;
 	public GUIText infotext;
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void Update () {
 		if(levelStarted) {
@@ -21,7 +20,7 @@ public class Conditions : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	private void checkWinningConditions() {
 		if(timelimit > 0 && Time.time - startTime > timelimit) {
@@ -55,7 +54,7 @@ public class Conditions : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	private IEnumerator levelFailed() {
 		Debug.Log("Level failed!");
@@ -65,7 +64,7 @@ public class Conditions : MonoBehaviour {
 		GameObject.Find("Level").GetComponent<LevelLoader>().build();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	private IEnumerator levelCompleted() {
 		Debug.Log("Level completed!");
@@ -75,7 +74,7 @@ public class Conditions : MonoBehaviour {
 		GameObject.Find("Level").GetComponent<LevelLoader>().next();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void startLevel() {
 		if(levelStarted)
@@ -92,7 +91,7 @@ public class Conditions : MonoBehaviour {
 		startTime = Time.time;
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void init(int klondikes, int robots, int timelimit) {
 		infotext.text = "";
@@ -105,14 +104,14 @@ public class Conditions : MonoBehaviour {
 		updateConditionsText();
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void updateConditionsText() {
 		conditions.text = klondikesGathered + "/" + klondikesToGather + " Klondikes collected\n"
 			+ robotsDestroyed + "/" + robotsToDestroy + " Objects destroyed";
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void pickupKlondike() {
 		if(klondikesToGather == 0)
@@ -122,7 +121,7 @@ public class Conditions : MonoBehaviour {
 		Debug.Log("Conditions: " + klondikesGathered + "/" + klondikesToGather + " Klondikes collected");
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void destroyRobot() {
 		if(robotsToDestroy == 0)

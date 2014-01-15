@@ -5,7 +5,7 @@ public class SpiderCamera : MonoBehaviour {
 	public GameObject target;
 	public float distance = 1;
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void Update() {
 		if(!target) {
@@ -31,12 +31,14 @@ public class SpiderCamera : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void LateUpdate () {
 		if(!target) {
 			return;
 		}
+
+		// todo: introduce damping to make rotation more smooth
 
 		Transform t = target.transform.Find("LookAt");
 

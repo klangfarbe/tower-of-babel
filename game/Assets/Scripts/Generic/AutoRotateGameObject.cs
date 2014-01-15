@@ -5,7 +5,7 @@ public class AutoRotateGameObject : MonoBehaviour {
 	public float speed = 0.8f;
 	public GameObject target;
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	void Update () {
 		float rotation = target.transform.eulerAngles.y + (speed * Time.deltaTime);

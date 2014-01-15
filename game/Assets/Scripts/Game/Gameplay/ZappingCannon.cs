@@ -4,11 +4,15 @@ using System.Collections;
 public class ZappingCannon : Actor {
 	public bool rotating = false;
 	public int timeBeforeRotation = 2;
+
 	private float lastTime;
 
+	// ------------------------------------------------------------------------
 	void Start() {
 		lastTime = Time.time;
 	}
+
+	// ------------------------------------------------------------------------
 
 	void Update() {
 		if(!Enable)

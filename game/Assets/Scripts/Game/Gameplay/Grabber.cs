@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class Grabber : Actor {
-
 	public override void fire() {
 		base.fire();
 		RaycastHit hit;
