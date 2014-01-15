@@ -9,6 +9,7 @@ public class MoveActor : MonoBehaviour {
 	private bool walking = false;
 	private float startTime;
 	private List<GameObject> pushedBy = new List<GameObject>();
+	private Queue<Vector3> moveQueue = new Queue<Vector3>();
 
 	// ------------------------------------------------------------------------
 
@@ -38,6 +39,7 @@ public class MoveActor : MonoBehaviour {
 
 	void FixedUpdate() {
 		// select the nearest pusher which pushed the object
+		// pushing has always priority over manual movements
 		if(pushedBy.Count > 0) {
 			Vector3 v = transform.position;
 			float distance = 9999;
@@ -49,7 +51,15 @@ public class MoveActor : MonoBehaviour {
 				}
 			}
 			pushedBy.Clear();
-			move(v);
+			moveQueue.Clear();
+			if(!walking && targetFieldIsFree(v)) {
+				endPosition += v;
+			}
+		} else if(moveQueue.Count > 0 && !walking) {
+			Vector3 v = moveQueue.Dequeue();
+			if(targetFieldIsFree(v)) {
+				endPosition += v;
+			}
 		}
 	}
 
@@ -87,15 +97,17 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void pushed(GameObject by) {
-		pushedBy.Add(by);
+		// prevent from adding the same pusher multiple times per step
+		if(!pushedBy.Contains(by))
+			pushedBy.Add(by);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public void move(Vector3 t) {
-		if(walking || pushedBy.Count != 0 || !targetFieldIsFree (t))
+		if(walking || pushedBy.Count > 0 || !targetFieldIsFree (t))
 			return;
-		endPosition += t;
+		moveQueue.Enqueue(t);
 	}
 
 	// ------------------------------------------------------------------------
