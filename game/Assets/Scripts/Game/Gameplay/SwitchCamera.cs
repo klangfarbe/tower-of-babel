@@ -9,17 +9,17 @@ public class SwitchCamera : MonoBehaviour {
 
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Alpha1)) {
-			mainCamera.SetActive(true);
-			spiderCamera.SetActive(false);
-		}
-		if(Input.GetKeyDown(KeyCode.Alpha2)) {
 			activateGrabber();
 		}
-		if(Input.GetKeyDown(KeyCode.Alpha3)) {
+		if(Input.GetKeyDown(KeyCode.Alpha2)) {
 			activatePusher();
 		}
-		if(Input.GetKeyDown(KeyCode.Alpha4)) {
+		if(Input.GetKeyDown(KeyCode.Alpha3)) {
 			activateZapper();
+		}
+		if(Input.GetKeyDown(KeyCode.Alpha4)) {
+			mainCamera.SetActive(true);
+			spiderCamera.SetActive(false);
 		}
 
 		if(!spiderCamera.GetComponent<SpiderCamera>().target) {
