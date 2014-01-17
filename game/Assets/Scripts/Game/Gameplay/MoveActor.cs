@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
 
-	private float speed = 0.015f;
+	private float speed = 0.01f;
 	private bool walking = false;
 	private float startTime;
 	private List<GameObject> pushedBy = new List<GameObject>();
@@ -48,7 +48,9 @@ public class MoveActor : MonoBehaviour {
 				if(d < distance) {
 					distance = d;
 					v = g.transform.forward;
-				}if(g.name == "PSH") {
+				}
+
+				if(g.name == "PSH") {
 					v = g.transform.forward;
 					break;
 				}
@@ -103,7 +105,7 @@ public class MoveActor : MonoBehaviour {
 
 	public void pushed(GameObject by) {
 		// prevent from adding the same pusher multiple times per step
-		if(!pushedBy.Contains(by))
+		if(targetFieldIsFree(by.transform.forward) && !pushedBy.Contains(by))
 			pushedBy.Add(by);
 	}
 
