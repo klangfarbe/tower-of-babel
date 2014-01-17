@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
-	public float speed = 0.05f;
 
+	private float speed = 0.015f;
 	private bool walking = false;
 	private float startTime;
 	private List<GameObject> pushedBy = new List<GameObject>();
@@ -48,6 +48,9 @@ public class MoveActor : MonoBehaviour {
 				if(d < distance) {
 					distance = d;
 					v = g.transform.forward;
+				}if(g.name == "PSH") {
+					v = g.transform.forward;
+					break;
 				}
 			}
 			pushedBy.Clear();
@@ -78,6 +81,8 @@ public class MoveActor : MonoBehaviour {
 		Debug.DrawRay(endPosition + direction + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
 		if(Physics.Raycast(endPosition + direction + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
 			// Prevent from moving if lift still in animation
+			if(hit.collider.tag != "Floor" && hit.collider.tag != "Lift")
+				return false;
 			if(hit.collider.tag == "Lift"
 				&& hit.collider.gameObject.transform.parent.gameObject.GetComponentInChildren<Lift>().isPlaying()) {
 				return false;
@@ -157,5 +162,13 @@ public class MoveActor : MonoBehaviour {
 			}
 		}
 		return null;
+	}
+
+	// ------------------------------------------------------------------------
+
+	public bool Walking {
+		get {
+			return walking;
+		}
 	}
 }
