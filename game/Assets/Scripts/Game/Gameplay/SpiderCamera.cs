@@ -4,6 +4,10 @@ using System.Collections;
 public class SpiderCamera : MonoBehaviour {
 	public GameObject target;
 	public float distance = 1;
+	public float rotationSpeed = 0.3f;
+
+	private float startTime;
+	public Vector3 endPosition;
 
 	// ------------------------------------------------------------------------
 
@@ -18,10 +22,12 @@ public class SpiderCamera : MonoBehaviour {
 			actor.move(target.transform.forward);
 		} else if(Input.GetKeyDown(KeyCode.A)) {
 			actor.turnLeft();
+			startTime = Time.time;
 		} else if(Input.GetKeyDown(KeyCode.S)) {
 			actor.move(-target.transform.forward);
 		} else if(Input.GetKeyDown(KeyCode.D)) {
 			actor.turnRight();
+			startTime = Time.time;
 		} else if(Input.GetKeyDown(KeyCode.Space)) {
 			actor.fire();
 		} else if(Input.GetKeyDown(KeyCode.Q)) {
@@ -38,13 +44,20 @@ public class SpiderCamera : MonoBehaviour {
 			return;
 		}
 
-		// todo: introduce damping to make rotation more smooth
-
 		Transform t = target.transform.Find("LookAt");
-
 		var currentRotation = Quaternion.Euler (0, t.eulerAngles.y, 0);
-		transform.position = t.position;
-		transform.position -= currentRotation * Vector3.forward * distance;
+
+		Vector3 startPosition = transform.position;
+		endPosition = t.position - currentRotation * Vector3.forward * distance;
+
+		float journeyLength = Vector3.Distance(startPosition, endPosition);
+
+		if(journeyLength > 0) {
+			float distCovered = (Time.time - startTime) * rotationSpeed;
+			float fracJourney = distCovered / journeyLength;
+			transform.position = Vector3.Slerp(startPosition - t.position, endPosition - t.position, fracJourney);
+			transform.position += t.position;
+		}
 		transform.LookAt(t);
 	}
 }
