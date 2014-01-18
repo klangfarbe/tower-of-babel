@@ -4,32 +4,34 @@ using System.Collections.Generic;
 
 public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
+	public Vector3 startPosition;
 
-	private float speed = 0.8f;
-	private bool walking = false;
+	private float speed = 0.9f;
 	private float startTime;
+
+	private bool walking = false;
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
 
 	// ------------------------------------------------------------------------
 
 	void Start () {
-		endPosition = transform.position;
+		startPosition = endPosition = transform.position;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void Update() {
-		Vector3 startPosition = transform.position;
-		float journeyLength = Vector3.Distance(startPosition, endPosition);
+		Vector3 currentPosition = transform.position;
+		float journeyLength = Vector3.Distance(currentPosition, endPosition);
 
 		if(!walking && journeyLength > 0) {
-			startTime = Time.time;
+			startTime = 0.0f;
 			walking = true;
+			startPosition = transform.position;
 		} else if(walking && journeyLength > 0) {
-			float distCovered = (Time.time - startTime) * speed;
-			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector3.Lerp(startPosition, endPosition, fracJourney * Time.deltaTime);
+			startTime += Time.deltaTime * speed;
+			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		} else {
 			walking = false;
 		}
@@ -76,12 +78,14 @@ public class MoveActor : MonoBehaviour {
 		// check if something is standing on the field
 		Debug.DrawRay (endPosition + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
 		if(Physics.Raycast(endPosition + Vector3.up * 0.25f, direction, out hit, 1f)) {
+			Debug.Log("!free");
 			return false;
 		}
 
 		// check if floor is available
 		Debug.DrawRay(endPosition + direction + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
 		if(Physics.Raycast(endPosition + direction + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
+			Debug.Log(hit.collider.gameObject.name);
 			// Prevent from moving if lift still in animation
 			if(hit.collider.tag != "Floor" && hit.collider.tag != "Lift")
 				return false;

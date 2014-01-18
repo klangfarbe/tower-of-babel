@@ -4,27 +4,27 @@ using System.Collections;
 public class Lift : MonoBehaviour {
 	public bool isUp = false;
 
-	private float speed = 3.5f;
+	private float speed = 0.7f;
 	private float startTime;
+
 	private Vector3 offsetVector = new Vector3(0, 1.2f, 0);
 	private Vector3 endScale;
+	private Vector3 startScale;
+
 	private GameObject element;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		endScale = transform.localScale;
+		startScale = endScale = transform.localScale;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void Update () {
 		if(isPlaying()) {
-			Vector3 startScale = transform.localScale;
-			float journeyLength = Vector3.Distance(startScale, endScale);
-			float distCovered = (Time.time - startTime) * speed;
-			float fracJourney = distCovered / journeyLength;
-			transform.localScale = Vector3.Lerp(startScale, endScale, fracJourney * Time.deltaTime);
+			startTime += Time.deltaTime * speed;
+			transform.localScale = Vector3.Lerp(startScale, endScale, startTime);
 			getCarriedElement();
 			updateElementPosition();
 		} else {
@@ -53,7 +53,8 @@ public class Lift : MonoBehaviour {
 			return;
 		endScale = new Vector3(1, 34.33f, 1);
 		isUp = !isUp;
-		startTime = Time.time;
+		startTime = 0;
+		startScale = transform.localScale;
 	}
 
 	// ------------------------------------------------------------------------
@@ -63,7 +64,8 @@ public class Lift : MonoBehaviour {
 			return;
 		endScale = new Vector3(1, 1, 1);
 		isUp = !isUp;
-		startTime = Time.time;
+		startTime = 0;
+		startScale = transform.localScale;
 	}
 
 	// ------------------------------------------------------------------------
