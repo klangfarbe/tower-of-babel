@@ -98,6 +98,12 @@ public class LevelLoader : MonoBehaviour {
 		conditions.init((int)levelData["conditions"]["klondikes"],
 						(int)levelData["conditions"]["robots"],
 						(int)levelData["conditions"]["timelimit"]);
+
+		Behaviour behaviour = GameObject.Find("Level").GetComponent<Behaviour>();
+		behaviour.destroysfloor = (bool)levelData["behaviour"]["destroysfloor"];
+		behaviour.cameras = (bool)levelData["behaviour"]["cameras"];
+		behaviour.timebombspeed = (int)levelData["behaviour"]["timebombspeed"];
+
 	}
 
 	// ------------------------------------------------------------------------
