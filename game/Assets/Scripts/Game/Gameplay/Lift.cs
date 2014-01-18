@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Lift : MonoBehaviour {
 	public bool isUp = false;
-	public float speed = 0.05f;
 
+	private float speed = 3.5f;
 	private float startTime;
 	private Vector3 offsetVector = new Vector3(0, 1.2f, 0);
 	private Vector3 endScale;
@@ -24,7 +24,7 @@ public class Lift : MonoBehaviour {
 			float journeyLength = Vector3.Distance(startScale, endScale);
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
-			transform.localScale = Vector3.Lerp(startScale, endScale, fracJourney);
+			transform.localScale = Vector3.Lerp(startScale, endScale, fracJourney * Time.deltaTime);
 			getCarriedElement();
 			updateElementPosition();
 		} else {

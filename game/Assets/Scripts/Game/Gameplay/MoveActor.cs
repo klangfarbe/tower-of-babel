@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
 
-	private float speed = 0.01f;
+	private float speed = 0.8f;
 	private bool walking = false;
 	private float startTime;
 	private List<GameObject> pushedBy = new List<GameObject>();
@@ -29,7 +29,7 @@ public class MoveActor : MonoBehaviour {
 		} else if(walking && journeyLength > 0) {
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector3.Lerp(startPosition, endPosition, fracJourney);
+			transform.position = Vector3.Lerp(startPosition, endPosition, fracJourney * Time.deltaTime);
 		} else {
 			walking = false;
 		}
