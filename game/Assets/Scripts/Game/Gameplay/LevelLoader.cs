@@ -137,7 +137,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void setLevelName() {
 		levelName.text = levelData["title"].ToString();
-		levelNr.text = "Level: " + level.ToString();
+		levelNr.text = "Level: " + (level + 1).ToString();
 	}
 
 	// ------------------------------------------------------------------------

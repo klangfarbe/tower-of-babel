@@ -31,6 +31,10 @@ public class SwitchCamera : MonoBehaviour {
 				activateZapper();
 			}
 		}
+
+		if(Input.GetKeyDown(KeyCode.R)) {
+			StartCoroutine(GameObject.Find("Level").GetComponent<Conditions>().levelFailed());
+		}
 	}
 
 	// ------------------------------------------------------------------------

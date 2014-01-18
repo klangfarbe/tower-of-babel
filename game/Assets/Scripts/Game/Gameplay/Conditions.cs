@@ -56,7 +56,7 @@ public class Conditions : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	private IEnumerator levelFailed() {
+	public IEnumerator levelFailed() {
 		Debug.Log("Level failed!");
 		levelStarted = false;
 		infotext.text = "Level failed!";
@@ -66,7 +66,7 @@ public class Conditions : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	private IEnumerator levelCompleted() {
+	public IEnumerator levelCompleted() {
 		Debug.Log("Level completed!");
 		levelStarted = false;
 		infotext.text = "Level completed!";
