@@ -108,7 +108,7 @@ public class Conditions : MonoBehaviour {
 
 	public void updateConditionsText() {
 		conditions.text = klondikesGathered + "/" + klondikesToGather + " Klondikes collected\n"
-			+ robotsDestroyed + "/" + robotsToDestroy + " Objects destroyed";
+			+ robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed";
 	}
 
 	// ------------------------------------------------------------------------
@@ -128,6 +128,6 @@ public class Conditions : MonoBehaviour {
 			return;
 		robotsDestroyed++;
 		updateConditionsText();
-		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Objects destroyed");
+		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed");
 	}
 }
