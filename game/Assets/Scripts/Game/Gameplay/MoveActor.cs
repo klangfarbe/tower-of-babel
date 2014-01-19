@@ -78,7 +78,7 @@ public class MoveActor : MonoBehaviour {
 		// check if something is standing on the field
 		Debug.DrawRay (endPosition + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
 		if(Physics.Raycast(endPosition + Vector3.up * 0.25f, direction, out hit, 1f)) {
-			Debug.Log("!free");
+			//Debug.Log("!free");
 			return false;
 		}
 
