@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 using System.Collections;
 
 public class Conditions : MonoBehaviour {
@@ -11,11 +12,13 @@ public class Conditions : MonoBehaviour {
 	public bool levelStarted = false;
 	public GUIText conditions;
 	public GUIText infotext;
+	public GUIText remainingTimeText;
 
 	// ------------------------------------------------------------------------
 
 	void Update () {
 		if(levelStarted) {
+			updateRemainingTimeText();
 			checkWinningConditions();
 		}
 	}
@@ -24,8 +27,7 @@ public class Conditions : MonoBehaviour {
 
 	private void checkWinningConditions() {
 		if(timelimit > 0 && Time.time - startTime > timelimit) {
-			Debug.Log("Level failed due to timeout");
-			levelFailed();
+			StartCoroutine(levelFailed());
 		}
 
 		// find necessary objects to complete the level
@@ -40,10 +42,6 @@ public class Conditions : MonoBehaviour {
 		if(!grb && klondikesGathered < klondikesToGather) {
 			StartCoroutine(levelFailed());
 		}
-
-//		if(grb && klondikesGathered < klondikesToGather && ) {
-//			StartCoroutine(levelFailed());
-//		}
 
 		if(!zap && robotsDestroyed < robotsToDestroy) {
 			StartCoroutine(levelFailed());
@@ -101,7 +99,23 @@ public class Conditions : MonoBehaviour {
 		robotsDestroyed = 0;
 		robotsToDestroy = robots;
 		this.timelimit = timelimit;
+		remainingTimeText.text = "";
 		updateConditionsText();
+		if(timelimit > 0) {
+			TimeSpan timeSpan = TimeSpan.FromSeconds(timelimit);
+			remainingTimeText.text = string.Format("{0:D}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void updateRemainingTimeText() {
+		float delta = Time.time - startTime;
+		if(!(timelimit > 0) || timelimit - delta < 0) {
+			return;
+		}
+		TimeSpan timeSpan = TimeSpan.FromSeconds(timelimit - delta);
+		remainingTimeText.text = string.Format("{0:D}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
 	}
 
 	// ------------------------------------------------------------------------
@@ -114,7 +128,7 @@ public class Conditions : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void pickupKlondike() {
-		if(klondikesToGather == 0)
+		if(klondikesToGather == 0 || klondikesToGather == klondikesGathered)
 			return;
 		klondikesGathered++;
 		updateConditionsText();
@@ -124,7 +138,7 @@ public class Conditions : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void destroyRobot() {
-		if(robotsToDestroy == 0)
+		if(robotsToDestroy == 0 || robotsToDestroy == robotsDestroyed)
 			return;
 		robotsDestroyed++;
 		updateConditionsText();
