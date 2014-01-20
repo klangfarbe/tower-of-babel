@@ -35,6 +35,8 @@ public class LevelLoader : MonoBehaviour {
 	private int row;
 	private int column;
 
+	private int instanceCounter = 0;
+
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
 	// ------------------------------------------------------------------------
@@ -152,6 +154,7 @@ public class LevelLoader : MonoBehaviour {
 		maxColumns = 0;
 		maxRows = 0;
 		levelData = null;
+		instanceCounter = 0;
 	}
 
 	// ------------------------------------------------------------------------
@@ -249,10 +252,14 @@ public class LevelLoader : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
+
 	GameObject createInstance(string type, float floorOffset = 0.0f) {
 		GameObject prefab = (GameObject) Resources.Load(type);
 		GameObject instance = (GameObject)Instantiate(prefab, new Vector3 (column, floor + floorOffset, row), prefab.transform.rotation);
 		instance.name = type;
+		if(instance.tag == "Actor") {
+			instance.name = type + ++instanceCounter;
+		}
 		objects.Add(instance);
 		return instance;
 	}
