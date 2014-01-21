@@ -199,11 +199,12 @@ public class LevelLoader : MonoBehaviour {
 	void buildPosition () {
 		try {
 			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
-//			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
+			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
+			Debug.LogException(e);
 		}
 	}
 
@@ -232,6 +233,7 @@ public class LevelLoader : MonoBehaviour {
 			}
 		}
 		GameObject instance = createInstance(type + pattern, floorOffset);
+		instance.name = floor + "_" + row + "_" + column;
 
 		// Delete the FLR in case a BOX is below the FLR
 		if(floor > 0) {

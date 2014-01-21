@@ -2,14 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Actor : MonoBehaviour {
-	protected Conditions conditions;
 	private bool enable = false;
-
-	// ------------------------------------------------------------------------
-
-	void Start() {
-		conditions = GameObject.Find("Level").GetComponent<Conditions>();
-	}
 
 	// ------------------------------------------------------------------------
 
@@ -51,7 +44,7 @@ public class Actor : MonoBehaviour {
 			Enable = true;
 		MoveActor m = GetComponent<MoveActor>();
 		if(m)
-			m.pushed(by);
+			m.push(by);
 	}
 
 	// ------------------------------------------------------------------------

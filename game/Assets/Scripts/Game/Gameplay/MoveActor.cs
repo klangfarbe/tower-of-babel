@@ -13,10 +13,14 @@ public class MoveActor : MonoBehaviour {
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
 
+	public Floor currentFloor;
+	public Floor nextFloor;
+
 	// ------------------------------------------------------------------------
 
 	void Start () {
 		startPosition = endPosition = transform.position;
+		getFloor().assign(gameObject);
 	}
 
 	// ------------------------------------------------------------------------
@@ -33,6 +37,11 @@ public class MoveActor : MonoBehaviour {
 			startTime += Time.deltaTime * speed;
 			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		} else {
+			if(currentFloor) {
+				currentFloor.release(gameObject);
+			}
+			currentFloor = null;
+			nextFloor = null;
 			walking = false;
 		}
 	}
@@ -42,8 +51,10 @@ public class MoveActor : MonoBehaviour {
 	void FixedUpdate() {
 		// select the nearest pusher which pushed the object
 		// pushing has always priority over manual movements
+		Vector3 v = Vector3.zero;
+
 		if(pushedBy.Count > 0) {
-			Vector3 v = transform.position;
+			v = transform.position;
 			float distance = 9999;
 			foreach(GameObject g in pushedBy) {
 				float d = Vector3.Distance(transform.position, g.transform.position);
@@ -59,40 +70,45 @@ public class MoveActor : MonoBehaviour {
 			}
 			pushedBy.Clear();
 			moveQueue.Clear();
-			if(!walking && targetFieldIsFree(v)) {
-				endPosition += v;
-			}
 		} else if(moveQueue.Count > 0 && !walking) {
-			Vector3 v = moveQueue.Dequeue();
-			if(targetFieldIsFree(v)) {
-				endPosition += v;
-			}
+			v = moveQueue.Dequeue();
+		}
+
+		if(!walking && v != Vector3.zero && assignNextField(v)) {
+			endPosition += v;
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	public bool targetFieldIsFree(Vector3 direction) {
+	public bool assignNextField(Vector3 direction) {
 		RaycastHit hit;
 
 		// check if something is standing on the field
 		Debug.DrawRay (endPosition + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
 		if(Physics.Raycast(endPosition + Vector3.up * 0.25f, direction, out hit, 1f)) {
-			//Debug.Log("!free");
 			return false;
 		}
 
 		// check if floor is available
 		Debug.DrawRay(endPosition + direction + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
 		if(Physics.Raycast(endPosition + direction + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
-			Debug.Log(hit.collider.gameObject.name);
-			// Prevent from moving if lift still in animation
+//			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);
 			if(hit.collider.tag != "Floor" && hit.collider.tag != "Lift")
 				return false;
-			if(hit.collider.tag == "Lift"
-				&& hit.collider.gameObject.transform.parent.gameObject.GetComponentInChildren<Lift>().isPlaying()) {
+
+			if(!hit.collider.gameObject.GetComponent<Floor>().isFree(gameObject)) {
 				return false;
 			}
+
+			// Prevent from moving if lift still in animation
+			if(hit.collider.tag == "Lift"
+				&& hit.collider.gameObject.GetComponent<Lift>().isPlaying()) {
+				return false;
+			}
+			currentFloor = getFloor();
+			nextFloor = hit.collider.gameObject.GetComponent<Floor>();
+			nextFloor.assign(gameObject);
 			return true;
 		}
 		return false;
@@ -107,18 +123,27 @@ public class MoveActor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void pushed(GameObject by) {
+	public void push(GameObject by) {
 		// prevent from adding the same pusher multiple times per step
-		if(targetFieldIsFree(by.transform.forward) && !pushedBy.Contains(by))
+		if(!walking && !pushedBy.Contains(by) && assignNextField(by.transform.forward))
 			pushedBy.Add(by);
 	}
 
 	// ------------------------------------------------------------------------
 
 	public void move(Vector3 t) {
-		if(walking || pushedBy.Count > 0 || !targetFieldIsFree (t))
+		if(walking || pushedBy.Count > 0)
 			return;
 		moveQueue.Enqueue(t);
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void returnToOldPosition() {
+		Debug.Log("name: " + gameObject.name + " / " + startPosition + " / " + endPosition + " / " + transform.position);
+		endPosition = startPosition;
+		startPosition = transform.position;
+		startTime = 0;
 	}
 
 	// ------------------------------------------------------------------------
@@ -161,10 +186,23 @@ public class MoveActor : MonoBehaviour {
 
 	Lift getLift() {
 		RaycastHit hit;
-//		Debug.DrawRay(transform.position + Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 1f);
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
+//			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);
 			if(hit.collider.tag == "Lift") {
-				return hit.collider.gameObject.transform.parent.gameObject.GetComponentInChildren<Lift>();
+				return hit.collider.gameObject.GetComponent<Lift>();
+			}
+		}
+		return null;
+	}
+
+	// ------------------------------------------------------------------------
+
+	Floor getFloor() {
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
+//			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);
+			if(hit.collider.tag == "Floor" || hit.collider.tag == "Lift") {
+				return hit.collider.gameObject.GetComponent<Floor>();
 			}
 		}
 		return null;

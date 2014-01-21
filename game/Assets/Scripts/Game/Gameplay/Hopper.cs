@@ -16,19 +16,19 @@ public class Hopper : Actor {
 		if(!Enable)
 			return;
 
-		if(actor.Walking) {
+		if(actor.Walking || actor.nextFloor) {
 			return;
 		}
 
-		if(actor.targetFieldIsFree(transform.right)) {
+		if(actor.assignNextField(transform.right)) {
 			actor.turnRight();
 			actor.move(transform.forward);
-		} else if(actor.targetFieldIsFree(transform.forward)) {
+		} else if(actor.assignNextField(transform.forward)) {
 			actor.move(transform.forward);
-		} else if(actor.targetFieldIsFree(-transform.right)) {
+		} else if(actor.assignNextField(-transform.right)) {
 			actor.turnLeft();
 			actor.move(transform.forward);
-		} else if(actor.targetFieldIsFree(-transform.forward)) {
+		} else if(actor.assignNextField(-transform.forward)) {
 			actor.turnRight();
 			actor.turnRight();
 			actor.move(transform.forward);

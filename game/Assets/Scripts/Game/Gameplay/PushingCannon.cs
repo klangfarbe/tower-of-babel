@@ -6,7 +6,7 @@ public class PushingCannon : Actor {
 	public int timeBeforeRotation = 2;
 
 	private float lastTime;
-	private bool pushed = false;
+	private bool hasPushedInThisFrame = false;
 
 	// ------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ public class PushingCannon : Actor {
 
 	// ------------------------------------------------------------------------
 
-	void Update() {
+	void FixedUpdate() {
 		if(!Enable)
 			return;
 
@@ -25,18 +25,18 @@ public class PushingCannon : Actor {
 		// push one time per turn if rotating
 		if(base.raycast(out hit)) {
 			Actor actor = hit.collider.gameObject.GetComponentInChildren<Actor>();
-			if(actor && !pushed) {
+			if(actor && !hasPushedInThisFrame) {
 				actor.pushed(gameObject);
-				pushed = true;
+				hasPushedInThisFrame = true;
 			}
 			if(!rotating) {
-				pushed = false;
+				hasPushedInThisFrame = false;
 			}
 		}
 		if(rotating && Time.time - lastTime > timeBeforeRotation) {
 			turnRight();
 			lastTime = Time.time;
-			pushed = false;
+			hasPushedInThisFrame = false;
 		}
 	}
 }
