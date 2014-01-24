@@ -49,19 +49,18 @@ public class ProximityMine : Actor {
 
 		foreach(GameObject g in hits) {
 			if(g) {
-				Debug.Log(g.name);
 				DestroyActor destroy = g.GetComponent<DestroyActor>();
-				if(destroy) {
-					destroy.destroy();
-					triggered = true;
+				if(!destroy) {
+					destroy = g.AddComponent("DestroyActor") as DestroyActor;
 				}
+				destroy.destroy();
 			}
 		}
 
 		GetComponent<DestroyActor>().destroy();
 		if(GameObject.Find("Level").GetComponent<Behaviour>().destroysfloor) {
 			Physics.Raycast(pos, -transform.up, out hit, 0.3f);
-			hit.collider.gameObject.SetActive(false);
+			Destroy(hit.collider.gameObject);
 		}
 	}
 
