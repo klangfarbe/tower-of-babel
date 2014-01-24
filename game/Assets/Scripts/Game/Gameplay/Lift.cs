@@ -4,7 +4,7 @@ using System.Collections;
 public class Lift : MonoBehaviour {
 	public bool isUp = false;
 
-	private float speed = 0.7f;
+	private float speed = 0.6f;
 	private float startTime;
 
 	private Vector3 offsetVector = new Vector3(0, 1.2f, 0);
@@ -27,8 +27,6 @@ public class Lift : MonoBehaviour {
 			transform.localScale = Vector3.Lerp(startScale, endScale, startTime);
 			getCarriedElement();
 			updateElementPosition();
-		} else {
-			element = null;
 		}
 	}
 
@@ -36,12 +34,12 @@ public class Lift : MonoBehaviour {
 
 	private void updateElementPosition() {
 		RaycastHit hit;
-		Debug.DrawRay (transform.position + offsetVector, Vector3.down * 1.5f, Color.red);
+		//Debug.DrawRay (transform.position + offsetVector, Vector3.down * 1.5f, Color.red);
 		if(element && Physics.Raycast(transform.position + offsetVector, Vector3.down, out hit, 1.5f, 1 << 8)) {
-			try {
-				element.GetComponentInChildren<MoveActor>().set(hit.point);
-			} catch(System.NullReferenceException e) {
-				Debug.Log("update element position throws null reference " + e);
+			//Debug.Log("Element: " + element.name + " / " + hit.collider.gameObject.name);
+			MoveActor actor = element.GetComponentInChildren<MoveActor>();
+			if(actor) {
+				actor.set(hit.point);
 			}
 		}
 	}
@@ -71,13 +69,13 @@ public class Lift : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	private void getCarriedElement() {
+		element = null;
 		RaycastHit hit;
-//		Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
+		Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
 		if(Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)) {
 //			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
-			element = hit.collider.gameObject;
-		} else {
-			element = null;
+			if(hit.collider.tag == "Actor" || hit.collider.tag == "Player")
+				element = hit.collider.gameObject;
 		}
 	}
 
