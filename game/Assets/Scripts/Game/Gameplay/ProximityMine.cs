@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ProximityMine : Actor {
 	private GameObject[] hits = new GameObject[4];
+	private bool triggered = false;
 
 	// ------------------------------------------------------------------------
 
@@ -20,26 +21,32 @@ public class ProximityMine : Actor {
 		RaycastHit hit;
 		if(Physics.Raycast(pos, transform.forward, out hit, 1.5f)) {
 			hits[0] = hit.collider.gameObject;
+			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[0] = null;
 		}
 		if(Physics.Raycast(pos, -transform.forward, out hit, 1.5f)) {
 			hits[1] = hit.collider.gameObject;
+			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[1] = null;
 		}
 		if(Physics.Raycast(pos, transform.right, out hit, 1.5f)) {
 			hits[2] = hit.collider.gameObject;
+			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[2] = null;
 		}
 		if(Physics.Raycast(pos, -transform.right, out hit, 1.5f)) {
 			hits[3] = hit.collider.gameObject;
+			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[3] = null;
 		}
 
-		bool triggered = false;
+		if(!triggered)
+			return;
+
 		foreach(GameObject g in hits) {
 			if(g) {
 				Debug.Log(g.name);
@@ -50,12 +57,20 @@ public class ProximityMine : Actor {
 				}
 			}
 		}
-		if(triggered) {
-			GetComponent<DestroyActor>().destroy();
-			if(GameObject.Find("Level").GetComponent<Behaviour>().destroysfloor) {
-				Physics.Raycast(pos, -transform.up, out hit, 0.3f);
-				hit.collider.gameObject.SetActive(false);
-			}
+
+		GetComponent<DestroyActor>().destroy();
+		if(GameObject.Find("Level").GetComponent<Behaviour>().destroysfloor) {
+			Physics.Raycast(pos, -transform.up, out hit, 0.3f);
+			hit.collider.gameObject.SetActive(false);
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	private void checkToTriggerMine(GameObject g) {
+		MoveActor actor = g.GetComponent<MoveActor>();
+		if(actor && actor.Walking) {
+			triggered = true;
 		}
 	}
 
