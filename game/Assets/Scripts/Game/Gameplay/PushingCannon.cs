@@ -5,20 +5,18 @@ public class PushingCannon : Actor {
 	public bool rotating = false;
 	public int timeBeforeRotation = 2;
 
-	private float lastTime;
+	private float lastTime = 0;
 	private bool hasPushedInThisFrame = false;
-
-	// ------------------------------------------------------------------------
-
-	void Start() {
-		lastTime = Time.time;
-	}
 
 	// ------------------------------------------------------------------------
 
 	void FixedUpdate() {
 		if(!Enable)
 			return;
+
+		if(lastTime == 0) {
+			lastTime = Time.time;
+		}
 
 		RaycastHit hit;
 
@@ -34,7 +32,7 @@ public class PushingCannon : Actor {
 			}
 		}
 		if(rotating && Time.time - lastTime > timeBeforeRotation) {
-			turnRight();
+			gameObject.transform.RotateAround(gameObject.transform.position, Vector3.up, 90);
 			lastTime = Time.time;
 			hasPushedInThisFrame = false;
 		}
