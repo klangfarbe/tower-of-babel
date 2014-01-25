@@ -96,7 +96,7 @@ public class Actor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public bool raycast(out RaycastHit hit) {
-		//Debug.DrawRay(transform.position + Vector3.up * 0.25f, transform.forward * 10, Color.yellow, 0.1f);
+		Debug.DrawRay(transform.position + Vector3.up * 0.25f, transform.forward * 10, Color.yellow, 0.2f);
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, transform.forward, out hit)) {
 			//Debug.Log("Fire: " + hit.collider.gameObject.name + " " + hit.collider.tag);
 			return true;
