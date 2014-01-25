@@ -4,20 +4,19 @@ using System.Collections;
 public class ForceLift : Actor {
 	public bool triggerUp = false;
 
-	private GameObject[] lifts;
-	private static bool liftsActive = false;
+	public static bool liftsActive = false;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		lifts = GameObject.FindGameObjectsWithTag("Lift");
+		ForceLift.liftsActive = false;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void FixedUpdate() {
 		if(ForceLift.liftsActive) {
-			foreach(GameObject lift in lifts) {
+			foreach(GameObject lift in GameObject.FindGameObjectsWithTag("Lift")) {
 				if(lift.GetComponent<Lift>().isPlaying()) {
 					return;
 				}
@@ -34,7 +33,7 @@ public class ForceLift : Actor {
 
 		ForceLift.liftsActive = true;
 
-		foreach(GameObject lift in lifts) {
+		foreach(GameObject lift in GameObject.FindGameObjectsWithTag("Lift")) {
 			if(triggerUp)
 				lift.GetComponent<Lift>().up();
 			else
