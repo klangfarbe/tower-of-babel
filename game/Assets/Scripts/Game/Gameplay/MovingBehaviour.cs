@@ -20,15 +20,15 @@ public class MovingBehaviour : Actor {
 			return;
 		}
 
-		if(actor.assignNextField(transform.right)) {
+		if(actor.nextFieldAvailable(transform.right)) {
 			actor.turnRight();
 			actor.move(transform.forward);
-		} else if(actor.assignNextField(transform.forward)) {
+		} else if(actor.nextFieldAvailable(transform.forward)) {
 			actor.move(transform.forward);
-		} else if(actor.assignNextField(-transform.right)) {
+		} else if(actor.nextFieldAvailable(-transform.right)) {
 			actor.turnLeft();
 			actor.move(transform.forward);
-		} else if(actor.assignNextField(-transform.forward)) {
+		} else if(actor.nextFieldAvailable(-transform.forward)) {
 			actor.turnRight();
 			actor.turnRight();
 			actor.move(transform.forward);

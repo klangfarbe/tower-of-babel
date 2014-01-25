@@ -204,7 +204,7 @@ public class LevelLoader : MonoBehaviour {
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
-			Debug.LogException(e);
+//			Debug.LogException(e);
 		}
 	}
 

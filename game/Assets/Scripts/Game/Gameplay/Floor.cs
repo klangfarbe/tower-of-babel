@@ -9,17 +9,21 @@ public class Floor : MonoBehaviour {
 	public void release(GameObject g) {
 		if(!objectOnFloor || objectOnFloor != g)
 			return;
-		Debug.Log(gameObject.name + ": released");
+		Debug.Log(gameObject.name + ": released by " + g.name);
 		objectOnFloor = null;
 	}
 
 	// ------------------------------------------------------------------------
 
-	public void assign(GameObject g) {
+	public bool assign(GameObject g) {
 		if(objectOnFloor == g)
-			return;
-		Debug.Log(gameObject.name + ": assigned by " + g.name);
-		objectOnFloor = g;
+			return true;
+		if(objectOnFloor == null) {
+			Debug.Log(gameObject.name + ": assigned by " + g.name);
+			objectOnFloor = g;
+			return true;
+		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------

@@ -37,13 +37,13 @@ public class Lizard : Actor {
 	public IEnumerator changeDirection() {
 		yield return new WaitForSeconds(0.2f);
 		direction = -direction;
-		floorToDestroy = actor.getFloor();
+		floorToDestroy = actor.getFloor(transform.position);
 	}
 
 	// ------------------------------------------------------------------------
 
 	private void destroyFloor() {
-		if(floorToDestroy && actor.getFloor() != floorToDestroy) {
+		if(floorToDestroy && actor.getFloor(transform.position) != floorToDestroy) {
 			ScaleAnimation anim = floorToDestroy.GetComponent<ScaleAnimation>();
 			if(anim.scale() > 0) {
 				anim.run();
