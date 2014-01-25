@@ -13,14 +13,12 @@ public class MoveActor : MonoBehaviour {
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
 
-	public Floor currentFloor;
 	public Floor nextFloor;
 
 	// ------------------------------------------------------------------------
 
 	void Start () {
 		startPosition = endPosition = transform.position;
-		getFloor().assign(gameObject);
 	}
 
 	// ------------------------------------------------------------------------
@@ -37,11 +35,6 @@ public class MoveActor : MonoBehaviour {
 			startTime += Time.deltaTime * speed;
 			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		} else {
-			if(currentFloor) {
-				currentFloor.release(gameObject);
-			}
-			currentFloor = null;
-			nextFloor = null;
 			walking = false;
 		}
 	}
@@ -74,8 +67,14 @@ public class MoveActor : MonoBehaviour {
 			v = moveQueue.Dequeue();
 		}
 
-		if(!walking && v != Vector3.zero && assignNextField(v)) {
-			endPosition += v;
+		if(!walking) {
+			if(nextFloor) {
+				nextFloor.release(gameObject);
+			}
+			nextFloor = null;
+			if(v != Vector3.zero && assignNextField(v)) {
+				endPosition += v;
+			}
 		}
 	}
 
@@ -106,7 +105,6 @@ public class MoveActor : MonoBehaviour {
 				&& hit.collider.gameObject.GetComponent<Lift>().isPlaying()) {
 				return false;
 			}
-			currentFloor = getFloor();
 			nextFloor = hit.collider.gameObject.GetComponent<Floor>();
 			nextFloor.assign(gameObject);
 			return true;
@@ -197,7 +195,7 @@ public class MoveActor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	Floor getFloor() {
+	public Floor getFloor() {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
 //			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);

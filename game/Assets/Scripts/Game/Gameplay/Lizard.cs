@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class Worm : Actor {
+public class Lizard : Actor {
 	MoveActor actor = null;
 	Vector3 direction;
+	Floor floorToDestroy = null;
 
 	// ------------------------------------------------------------------------
 
@@ -22,9 +23,11 @@ public class Worm : Actor {
 			return;
 		}
 
+		destroyFloor();
+
 		if(actor.assignNextField(direction)) {
 			actor.move(direction);
-		} else if(actor.assignNextField(-direction)) {
+		} else if(actor.assignNextField(-direction) && actor.nextFloor != floorToDestroy){
 			StartCoroutine(changeDirection());
 		}
 	}
@@ -34,12 +37,20 @@ public class Worm : Actor {
 	public IEnumerator changeDirection() {
 		yield return new WaitForSeconds(0.2f);
 		direction = -direction;
+		floorToDestroy = actor.getFloor();
 	}
 
 	// ------------------------------------------------------------------------
 
-	public override void zapped(GameObject by) {
-		direction = -direction;
-		actor.returnToOldPosition();
+	private void destroyFloor() {
+		if(floorToDestroy && actor.getFloor() != floorToDestroy) {
+			ScaleAnimation anim = floorToDestroy.GetComponent<ScaleAnimation>();
+			if(anim.scale() > 0) {
+				anim.run();
+			} else {
+				Destroy(floorToDestroy.gameObject);
+				floorToDestroy = null;
+			}
+		}
 	}
 }
