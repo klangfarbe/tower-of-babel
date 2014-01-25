@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Hopper : Actor {
+public class MovingBehaviour : Actor {
 	MoveActor actor = null;
 
 	// ------------------------------------------------------------------------
