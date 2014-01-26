@@ -9,6 +9,8 @@ public class ZappingCannon : Actor {
 	private bool hasZappedInThisFrame = false;
 	private FadingLight spotlight;
 
+	// ------------------------------------------------------------------------
+
 	void Start() {
 		spotlight = GetComponentInChildren<FadingLight>();
 	}
