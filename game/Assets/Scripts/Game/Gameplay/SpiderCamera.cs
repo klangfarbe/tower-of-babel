@@ -18,22 +18,20 @@ public class SpiderCamera : MonoBehaviour {
 
 		Actor actor = target.GetComponent<Actor>();
 
-		if(Input.GetKeyDown(KeyCode.W)) {
+		if(Input.GetKeyDown(KeyCode.UpArrow)) {
 			actor.move(target.transform.forward);
-		} else if(Input.GetKeyDown(KeyCode.A)) {
+		} else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
 			actor.turnLeft();
 			startTime = Time.time;
-		} else if(Input.GetKeyDown(KeyCode.S)) {
+		} else if(Input.GetKeyDown(KeyCode.DownArrow)) {
 			actor.move(-target.transform.forward);
-		} else if(Input.GetKeyDown(KeyCode.D)) {
+		} else if(Input.GetKeyDown(KeyCode.RightArrow)) {
 			actor.turnRight();
 			startTime = Time.time;
 		} else if(Input.GetKeyDown(KeyCode.Space)) {
 			actor.fire();
-		} else if(Input.GetKeyDown(KeyCode.Q)) {
-			actor.down();
-		} else if(Input.GetKeyDown(KeyCode.E)) {
-			actor.up();
+		} else if(Input.GetKeyDown(KeyCode.Return)) {
+			actor.lift();
 		}
 	}
 

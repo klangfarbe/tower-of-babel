@@ -17,7 +17,7 @@ public class SwitchCamera : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Alpha3)) {
 			activateZapper();
 		}
-		if(Input.GetKeyDown(KeyCode.Alpha4) && GameObject.Find("Level").GetComponent<Behaviour>().cameras) {
+		if(Input.GetKeyDown(KeyCode.M) && GameObject.Find("Level").GetComponent<Behaviour>().cameras) {
 			mainCamera.SetActive(true);
 			spiderCamera.SetActive(false);
 		}

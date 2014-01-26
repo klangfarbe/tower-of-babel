@@ -144,25 +144,16 @@ public class MoveActor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void up() {
+	public void lift() {
 		if(Walking) {
 			return;
 		}
 		Lift lift = getLift();
 		if(lift) {
-			lift.up();
-		}
-	}
-
-	// ------------------------------------------------------------------------
-
-	public void down() {
-		if(Walking) {
-			return;
-		}
-		Lift lift = getLift();
-		if(lift) {
-			lift.down();
+			if(lift.isUp)
+				lift.down();
+			else
+				lift.up();
 		}
 	}
 

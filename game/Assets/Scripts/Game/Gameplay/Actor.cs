@@ -75,22 +75,12 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public virtual void up() {
+	public virtual void lift() {
 		if(!Enable)
 			Enable = true;
 		MoveActor m = GetComponent<MoveActor>();
 		if(m)
-			m.up();
-	}
-
-	// ------------------------------------------------------------------------
-
-	public virtual void down() {
-		if(!Enable)
-			Enable = true;
-		MoveActor m = GetComponent<MoveActor>();
-		if(m)
-			m.down();
+			m.lift();
 	}
 
 	// ------------------------------------------------------------------------

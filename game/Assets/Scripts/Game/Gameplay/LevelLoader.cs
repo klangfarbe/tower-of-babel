@@ -50,10 +50,10 @@ public class LevelLoader : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Update() {
-		if(Input.GetKeyUp(KeyCode.LeftArrow)) {
+		if(Input.GetKeyUp(KeyCode.P)) {
 			prev();
 		}
-		if(Input.GetKeyUp(KeyCode.RightArrow)) {
+		if(Input.GetKeyUp(KeyCode.N)) {
 			next();
 		}
 	}
