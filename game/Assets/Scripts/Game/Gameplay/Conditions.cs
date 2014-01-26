@@ -122,7 +122,8 @@ public class Conditions : MonoBehaviour {
 
 	public void updateConditionsText() {
 		conditions.text = klondikesGathered + "/" + klondikesToGather + " Klondikes collected\n"
-			+ robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed";
+			+ robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed\n"
+			+ (!GameObject.Find("Level").GetComponent<Behaviour>().cameras ? "Map not allowed" : "");
 	}
 
 	// ------------------------------------------------------------------------
