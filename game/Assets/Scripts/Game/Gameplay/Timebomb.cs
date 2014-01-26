@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Timebomb : Actor {
 	private GameObject[] hits = new GameObject[4];
-	private bool triggered = false;
 	private float timebombspeed;
 
 	// ------------------------------------------------------------------------
