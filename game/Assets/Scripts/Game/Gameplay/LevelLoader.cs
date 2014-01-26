@@ -233,7 +233,7 @@ public class LevelLoader : MonoBehaviour {
 			}
 		}
 		GameObject instance = createInstance(type + pattern, floorOffset);
-		instance.name = floor + "_" + row + "_" + column;
+		instance.name = type + "_" + floor + "_" + row + "_" + column;
 
 		// Delete the FLR in case a BOX is below the FLR
 		if(floor > 0) {

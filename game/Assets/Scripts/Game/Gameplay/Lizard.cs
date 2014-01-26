@@ -38,6 +38,9 @@ public class Lizard : Actor {
 		yield return new WaitForSeconds(0.2f);
 		direction = -direction;
 		floorToDestroy = actor.getFloor(transform.position);
+		if(!floorToDestroy.gameObject.name.StartsWith("FLR")) {
+			floorToDestroy = null;
+		}
 	}
 
 	// ------------------------------------------------------------------------
