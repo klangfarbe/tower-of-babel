@@ -7,12 +7,20 @@ public class ZappingCannon : Actor {
 
 	private float lastTime = 0;
 	private bool hasZappedInThisFrame = false;
+	private FadingLight spotlight;
+
+	void Start() {
+		spotlight = GetComponentInChildren<FadingLight>();
+	}
 
 	// ------------------------------------------------------------------------
 
 	void FixedUpdate() {
-		if(!Enable)
+		if(!Enable) {
+			spotlight.fadeOn = false;
 			return;
+		} else
+			spotlight.fadeOn = true;
 
 		if(lastTime == 0) {
 			lastTime = Time.time;
