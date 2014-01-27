@@ -65,9 +65,11 @@ public class Wiper : Actor {
 			Debug.DrawRay(v, Vector3.down, Color.green, 0.5f);
 
 			if(Physics.Raycast(v, Vector3.down, out hit, 0.5f, 1 << 8)) {
-				Floor floor = hit.collider.gameObject.GetComponent<Floor>();
-				if(floor.isFree(gameObject) && floor.assign(gameObject))
-					floor.destroy();
+				if(hit.collider.gameObject.name.StartsWith("FLR")) {
+					Floor floor = hit.collider.gameObject.GetComponent<Floor>();
+					if(floor.isFree(gameObject) && floor.assign(gameObject))
+						floor.destroy();
+				}
 			}
 		}
 	}
