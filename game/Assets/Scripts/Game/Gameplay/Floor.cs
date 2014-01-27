@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Floor : MonoBehaviour {
+public class Floor : MonoBehaviour, ScaleAnimationCallback {
 	public GameObject objectOnFloor;
 
 	// ------------------------------------------------------------------------
@@ -9,7 +9,7 @@ public class Floor : MonoBehaviour {
 	public void release(GameObject g) {
 		if(!objectOnFloor || objectOnFloor != g)
 			return;
-		Debug.Log(gameObject.name + ": released by " + g.name);
+		//Debug.Log(gameObject.name + ": released by " + g.name);
 		objectOnFloor = null;
 	}
 
@@ -19,7 +19,7 @@ public class Floor : MonoBehaviour {
 		if(objectOnFloor == g)
 			return true;
 		if(objectOnFloor == null) {
-			Debug.Log(gameObject.name + ": assigned by " + g.name);
+		//	Debug.Log(gameObject.name + ": assigned by " + g.name);
 			objectOnFloor = g;
 			return true;
 		}
@@ -35,5 +35,20 @@ public class Floor : MonoBehaviour {
 			return hit.collider.gameObject == g;
 		}
 		return objectOnFloor == null || objectOnFloor == g;
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void destroy() {
+		ScaleAnimation anim = GetComponent<ScaleAnimation>();
+		if(anim.scale() > 0) {
+			anim.run(this);
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void scaleAnimationFinished() {
+		Destroy(gameObject);
 	}
 }

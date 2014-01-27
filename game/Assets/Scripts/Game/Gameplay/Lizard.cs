@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Lizard : Actor {
+public class Lizard : Actor, ScaleAnimationCallback {
 	MoveActor actor = null;
 	Vector3 direction;
 	Floor floorToDestroy = null;
@@ -49,11 +49,16 @@ public class Lizard : Actor {
 		if(floorToDestroy && actor.getFloor(transform.position) != floorToDestroy) {
 			ScaleAnimation anim = floorToDestroy.GetComponent<ScaleAnimation>();
 			if(anim.scale() > 0) {
-				anim.run();
-			} else {
-				Destroy(floorToDestroy.gameObject);
-				floorToDestroy = null;
+				anim.run(this);
 			}
 		}
+	}
+
+ 	// ------------------------------------------------------------------------
+
+	public void scaleAnimationFinished() {
+		if(floorToDestroy)
+			Destroy(floorToDestroy.gameObject);
+		floorToDestroy = null;
 	}
 }
