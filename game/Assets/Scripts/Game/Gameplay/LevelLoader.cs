@@ -114,7 +114,12 @@ public class LevelLoader : MonoBehaviour {
 
 	void activateCamera() {
 		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
-		camera.init();
+		foreach(GameObject g in objects) {
+			if(g.name == "GRB" || g.name == "PSH" || g.name == "ZAP") {
+				camera.activateSpiderCamera(g);
+				return;
+			}
+		}
 	}
 
 	// ------------------------------------------------------------------------

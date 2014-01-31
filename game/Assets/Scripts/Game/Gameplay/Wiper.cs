@@ -7,14 +7,12 @@ public class Wiper : Actor {
 	private Vector3 direction;
 
 	private ScaleAnimation anim;
-	private MoveActor move;
 	private Behaviour behaviour;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
 		behaviour = GameObject.Find("Level").GetComponent<Behaviour>();
-		move = GetComponent<MoveActor>();
 		anim = GetComponent<ScaleAnimation>();
 	}
 

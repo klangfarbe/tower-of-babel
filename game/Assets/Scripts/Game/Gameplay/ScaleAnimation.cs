@@ -9,7 +9,6 @@ public interface ScaleAnimationCallback {
 
 public class ScaleAnimation : MonoBehaviour {
 	private bool startAnim = false;
-	private float startTime;
 	private float speed;
 
 	private Vector3 originalScale;
@@ -65,7 +64,6 @@ public class ScaleAnimation : MonoBehaviour {
 	public void run() {
 		if(startAnim)
 			return;
-		startTime = Time.time;
 		startAnim = true;
 		targetScale = endScale;
 		speed = calculateSpeed();

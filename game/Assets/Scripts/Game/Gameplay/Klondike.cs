@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Klondike : Actor {
 	private bool isGrabbed = false;
-	private ScaleAnimation animation;
+	private ScaleAnimation anim;
 
 	// ------------------------------------------------------------------------
 
 	void Update() {
-		if(isGrabbed && animation.scale() == 0) {
+		if(isGrabbed && anim.scale() == 0) {
 			GameObject.Find("Level").GetComponent<Conditions>().pickupKlondike();
 			Destroy(gameObject);
 		}
@@ -18,7 +18,7 @@ public class Klondike : Actor {
 
 	public override void grabbed(GameObject by) {
 		isGrabbed = true;
-		animation = gameObject.GetComponent<ScaleAnimation>();
-		animation.run();
+		anim = gameObject.GetComponent<ScaleAnimation>();
+		anim.run();
 	}
 }

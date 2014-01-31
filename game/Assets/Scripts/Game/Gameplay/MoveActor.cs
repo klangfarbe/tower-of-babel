@@ -77,7 +77,6 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public bool assignNextField(Vector3 direction) {
-		RaycastHit hit;
 		if(!nextFloor && nextFieldAvailable(direction)) {
 			nextFloor = getFloor(endPosition + direction);
 			return nextFloor.assign(gameObject);
