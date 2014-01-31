@@ -2,12 +2,14 @@ using UnityEngine;
 using System.Collections;
 
 public class SpiderCamera : MonoBehaviour {
-	public GameObject target;
+	private GameObject target;
 	public float distance = 1;
-	public float rotationSpeed = 0.3f;
+	public float rotationSpeed = 0.8f;
+	public Vector3 endPosition;
 
 	private float startTime;
-	public Vector3 endPosition;
+	private Transform lookAt;
+	private bool forcedUpdate = false;
 
 	// ------------------------------------------------------------------------
 
@@ -22,12 +24,12 @@ public class SpiderCamera : MonoBehaviour {
 			actor.move(target.transform.forward);
 		} else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
 			actor.turnLeft();
-			startTime = Time.time;
+			startTime = 0;
 		} else if(Input.GetKeyDown(KeyCode.DownArrow)) {
 			actor.move(-target.transform.forward);
 		} else if(Input.GetKeyDown(KeyCode.RightArrow)) {
 			actor.turnRight();
-			startTime = Time.time;
+			startTime = 0;
 		} else if(Input.GetKeyDown(KeyCode.Space)) {
 			actor.fire();
 		} else if(Input.GetKeyDown(KeyCode.Return)) {
@@ -42,20 +44,36 @@ public class SpiderCamera : MonoBehaviour {
 			return;
 		}
 
-		Transform t = target.transform.Find("LookAt");
-		var currentRotation = Quaternion.Euler (0, t.eulerAngles.y, 0);
+		var currentRotation = Quaternion.Euler (0, lookAt.eulerAngles.y, 0);
+		endPosition = lookAt.position - currentRotation * Vector3.forward * distance;
 
-		Vector3 startPosition = transform.position;
-		endPosition = t.position - currentRotation * Vector3.forward * distance;
-
-		float journeyLength = Vector3.Distance(startPosition, endPosition);
-
-		if(journeyLength > 0) {
-			float distCovered = (Time.time - startTime) * rotationSpeed;
-			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector3.Slerp(startPosition - t.position, endPosition - t.position, fracJourney);
-			transform.position += t.position;
+		if(forcedUpdate) {
+			transform.position = endPosition;
+//			Debug.Log("Camera: " + transform.position + " Spider: " + target.transform.position);
+			forcedUpdate = false;
+		} else {
+			Vector3 startPosition = transform.position;
+			if(Vector3.Distance(startPosition, endPosition) > 0) {
+				startTime += Time.deltaTime * rotationSpeed;
+				transform.position = Vector3.Slerp(startPosition - lookAt.position, endPosition - lookAt.position, startTime);
+				transform.position += lookAt.position;
+			}
 		}
-		transform.LookAt(t);
+		transform.LookAt(lookAt);
+	}
+
+	// ------------------------------------------------------------------------
+
+	public GameObject Target {
+		set {
+			this.target = value;
+			if(value) {
+				forcedUpdate = true;
+				lookAt = value.transform.Find("LookAt");
+			}
+		}
+		get {
+			return target;
+		}
 	}
 }

@@ -22,16 +22,6 @@ public class SwitchCamera : MonoBehaviour {
 			spiderCamera.SetActive(false);
 		}
 
-		if(!spiderCamera.GetComponent<SpiderCamera>().target) {
-			if(GameObject.Find("GRB")) {
-				activateGrabber();
-			} else if(GameObject.Find("PSH")) {
-				activatePusher();
-			} else if(GameObject.Find("ZAP")) {
-				activateZapper();
-			}
-		}
-
 		if(Input.GetKeyDown(KeyCode.R)) {
 			StartCoroutine(GameObject.Find("Level").GetComponent<Conditions>().levelFailed());
 		}
@@ -39,9 +29,10 @@ public class SwitchCamera : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void activateSpiderCamera(GameObject spider) {
-		Debug.Log(spider);
-		spiderCamera.GetComponent<SpiderCamera>().target = spider;
+	public void activateSpiderCamera(GameObject spider) {
+		if(!spider)
+			return;
+		spiderCamera.GetComponent<SpiderCamera>().Target = spider;
 		mainCamera.SetActive(false);
 		spiderCamera.SetActive(true);
 	}

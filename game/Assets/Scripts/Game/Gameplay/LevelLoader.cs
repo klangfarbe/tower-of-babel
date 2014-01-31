@@ -114,7 +114,7 @@ public class LevelLoader : MonoBehaviour {
 
 	void activateCamera() {
 		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
-		camera.activateGrabber();
+		camera.init();
 	}
 
 	// ------------------------------------------------------------------------
