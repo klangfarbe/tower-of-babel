@@ -8,9 +8,9 @@ public class Freezer : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void grabbed(GameObject by) {
+	public override bool grabbed(GameObject by) {
 		if(blocked)
-			return;
+			return false;
 		blocked = true;
 
 		instantiateParticle("FRZ_activated", freezeTime);
@@ -22,6 +22,7 @@ public class Freezer : Actor {
 		}
 		Debug.Log(gameObject.name + ": Freeze start at " + Time.time);
 		StartCoroutine(unfreeze());
+		return true;
 	}
 
 	// ------------------------------------------------------------------------

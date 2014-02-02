@@ -38,8 +38,9 @@ public class Worm : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void zapped(GameObject by) {
+	public override bool zapped(GameObject by) {
 		direction = -direction;
 		actor.returnToOldPosition();
+		return true;
 	}
 }

@@ -117,19 +117,22 @@ public class MoveActor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void push(GameObject by) {
+	public bool push(GameObject by) {
 		// prevent from adding the same pusher multiple times per step
 		if(!Walking && !pushedBy.Contains(by) && nextFieldAvailable(by.transform.forward)) {
 			pushedBy.Add(by);
+			return true;
 		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
 
-	public void move(Vector3 t) {
+	public bool move(Vector3 t) {
 		if(Walking || pushedBy.Count > 0)
-			return;
+			return false;
 		moveQueue.Enqueue(t);
+		return true;
 	}
 
 	// ------------------------------------------------------------------------

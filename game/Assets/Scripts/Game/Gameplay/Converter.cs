@@ -6,20 +6,22 @@ public class Converter : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void pushed(GameObject by) {
+	public override bool pushed(GameObject by) {
 		Actor target = raycast(by.transform.forward);
 		if(target) {
-			target.zapped(by);
+			return target.zapped(by);
 		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
 
-	public override void zapped(GameObject by) {
+	public override bool zapped(GameObject by) {
 		Actor target = raycast(by.transform.forward);
 		if(target) {
-			target.pushed(by);
+			return target.pushed(by);
 		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------

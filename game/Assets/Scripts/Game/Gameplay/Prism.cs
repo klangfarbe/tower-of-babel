@@ -7,7 +7,7 @@ public class Prism : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void zapped(GameObject by) {
+	public override bool zapped(GameObject by) {
 		Actor target = null;
 
 		if(by.transform.forward == input) {
@@ -17,8 +17,9 @@ public class Prism : Actor {
 		}
 
 		if(target) {
-			target.zapped(by);
+			return target.zapped(by);
 		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------

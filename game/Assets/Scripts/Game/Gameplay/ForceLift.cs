@@ -27,9 +27,9 @@ public class ForceLift : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void grabbed(GameObject by) {
+	public override bool grabbed(GameObject by) {
 		if(ForceLift.liftsActive)
-			return;
+			return false;
 
 		ForceLift.liftsActive = true;
 
@@ -39,5 +39,6 @@ public class ForceLift : Actor {
 			else
 				lift.GetComponent<Lift>().down();
 		}
+		return true;
 	}
 }

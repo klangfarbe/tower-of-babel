@@ -75,6 +75,7 @@ public class ProximityMine : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void zapped(GameObject by) {
+	public override bool zapped(GameObject by) {
+		return false;
 	}
 }

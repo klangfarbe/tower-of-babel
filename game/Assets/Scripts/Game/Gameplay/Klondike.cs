@@ -16,9 +16,10 @@ public class Klondike : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void grabbed(GameObject by) {
+	public override bool grabbed(GameObject by) {
 		isGrabbed = true;
 		anim = gameObject.GetComponent<ScaleAnimation>();
 		anim.run();
+		return true;
 	}
 }

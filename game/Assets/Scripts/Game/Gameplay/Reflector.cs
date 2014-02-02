@@ -2,9 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class Reflector : Actor {
-	public override void zapped(GameObject by) {
+	public override bool zapped(GameObject by) {
 		if(by) {
-			by.GetComponent<Actor>().zapped(gameObject);
+			return by.GetComponent<Actor>().zapped(gameObject);
 		}
+		return false;
 	}
 }

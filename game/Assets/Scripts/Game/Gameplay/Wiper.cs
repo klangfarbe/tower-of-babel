@@ -74,12 +74,13 @@ public class Wiper : Actor {
 
 	// ------------------------------------------------------------------------
 
-	public override void grabbed(GameObject by) {
+	public override bool grabbed(GameObject by) {
 		if(activated)
-			return;
+			return false;
 		Debug.Log(gameObject.name + ": " + transform.position);
 		direction = Vector3.zero;
 		activated = true;
 		animPlayed = false;
+		return true;
 	}
 }

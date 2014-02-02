@@ -27,24 +27,31 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public virtual void grabbed(GameObject by) {}
-
-	// ------------------------------------------------------------------------
-
-	public virtual void zapped(GameObject by) {
-		DestroyActor m = GetComponent<DestroyActor>();
-		if(m)
-			m.destroy();
+	public virtual bool grabbed(GameObject by) {
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
 
-	public virtual void pushed(GameObject by) {
+	public virtual bool zapped(GameObject by) {
+		DestroyActor m = GetComponent<DestroyActor>();
+		if(m) {
+			m.destroy();
+			return true;
+		}
+		return false;
+	}
+
+	// ------------------------------------------------------------------------
+
+	public virtual bool pushed(GameObject by) {
 		if(!Enable)
 			Enable = true;
 		MoveActor m = GetComponent<MoveActor>();
-		if(m)
-			m.push(by);
+		if(m) {
+			return m.push(by);
+		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -92,5 +99,13 @@ public class Actor : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void playAudio() {
+		if(gameObject.audio) {
+			gameObject.audio.Play();
+		}
 	}
 }

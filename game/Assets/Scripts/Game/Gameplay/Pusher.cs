@@ -8,7 +8,8 @@ public class Pusher : Actor {
 		if(!base.raycast(out hit))
 			return;
 		Actor actor = hit.collider.gameObject.GetComponentInChildren<Actor>();
-		if(actor)
-			actor.pushed(gameObject);
+		if(!actor || !actor.pushed(gameObject)) {
+
+		}
 	}
 }

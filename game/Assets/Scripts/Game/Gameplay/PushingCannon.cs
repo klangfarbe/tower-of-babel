@@ -21,8 +21,10 @@ public class PushingCannon : Actor {
 		if(!Enable) {
 			spotlight.fadeOn = false;
 			return;
-		} else
+		} else {
 			spotlight.fadeOn = true;
+			playAudio();
+		}
 
 		if(lastTime == 0) {
 			lastTime = Time.time;

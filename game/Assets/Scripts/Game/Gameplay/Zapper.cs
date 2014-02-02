@@ -8,7 +8,8 @@ public class Zapper : Actor {
 		if(!base.raycast(out hit))
 			return;
 		Actor actor = hit.collider.gameObject.GetComponentInChildren<Actor>();
-		if(actor)
-			actor.zapped(gameObject);
+		if(!actor || !actor.zapped(gameObject)) {
+
+		}
 	}
 }
