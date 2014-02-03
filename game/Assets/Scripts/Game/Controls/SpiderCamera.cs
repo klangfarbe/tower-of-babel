@@ -7,7 +7,7 @@ public class SpiderCamera : MonoBehaviour {
 	public float rotationSpeed = 0.8f;
 	public Vector3 endPosition;
 
-	private float startTime;
+	public float startTime;
 	private Transform lookAt;
 	private bool forcedUpdate = false;
 
