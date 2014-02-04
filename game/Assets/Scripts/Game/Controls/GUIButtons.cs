@@ -12,7 +12,7 @@ public class GUIButtons : MonoBehaviour {
 	public Texture texRight;
 	public Texture texUpDown;
 	public Texture texFire;
-	public GUISkin skin;
+	public Texture texPause;
 
 	private SwitchCamera cameraSelector;
 	private SpiderCamera spider;
@@ -29,7 +29,16 @@ public class GUIButtons : MonoBehaviour {
 		float yFactor = Screen.height / sHeight;
 		GUIUtility.ScaleAroundPivot(new Vector2(xFactor, yFactor), Vector2.zero);
 
-		GUI.skin = skin;
+	#if UNITY_IPHONE || UNITY_ANDROID
+		mobileGUI();
+	#else
+		standaloneGUI();
+	#endif
+	}
+
+	// ------------------------------------------------------------------------
+
+	void standaloneGUI() {
 		GUILayout.BeginArea(new Rect(sWidth / 2 - 305, sHeight - 80, 610, 70));
 		GUILayout.BeginHorizontal();
         if(GUILayout.Button(texMap)) {
@@ -68,6 +77,72 @@ public class GUIButtons : MonoBehaviour {
         }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
+	}
+
+	// ------------------------------------------------------------------------
+
+	void mobileGUI() {
+		GUIStyle btnStyle = GUIStyle.none;
+		btnStyle.fixedHeight = 128;
+		btnStyle.fixedWidth = 128;
+		btnStyle.margin.bottom = 10;
+		btnStyle.margin.right = 10;
+
+		float btnFullWidth = btnStyle.fixedWidth + btnStyle.margin.right;
+		float btnFullHeight = btnStyle.fixedHeight + btnStyle.margin.bottom;
+
+		// Overview buttons on the left side of the screen
+		GUILayout.BeginArea(new Rect(10, sHeight - btnFullHeight * 4, btnFullWidth, btnFullHeight * 4));
+		GUILayout.BeginVertical();
+        if(GUILayout.Button(texMap, btnStyle)) {
+        	cameraSelector.activateOverview();
+        }
+        if(GUILayout.Button(texGrabber, btnStyle)) {
+        	cameraSelector.activateGrabber();
+        }
+        if(GUILayout.Button(texPusher, btnStyle)) {
+        	cameraSelector.activatePusher();
+        }
+        if(GUILayout.Button(texZapper, btnStyle)) {
+        	cameraSelector.activateZapper();
+        }
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+
+		// Overview buttons on the left side of the screen
+		GUILayout.BeginArea(new Rect(sWidth - btnFullWidth * 3, sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
+		GUILayout.BeginHorizontal();
+        if(GUILayout.Button(texFire, btnStyle) && spider.Target) {
+			Actor actor = spider.Target.GetComponent<Actor>();
+			actor.fire();
+        }
+        if(GUILayout.Button(texUpDown, btnStyle) && spider.Target) {
+			Actor actor = spider.Target.GetComponent<Actor>();
+			actor.lift();
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button(texLeft, btnStyle) && spider.Target) {
+			Actor actor = spider.Target.GetComponent<Actor>();
+			actor.turnLeft();
+			spider.startTime = 0;
+        }
+        if(GUILayout.Button(texForward, btnStyle) && spider.Target) {
+			Actor actor = spider.Target.GetComponent<Actor>();
+			actor.move(spider.Target.transform.forward);
+        }
+        if(GUILayout.Button(texRight, btnStyle) && spider.Target) {
+			Actor actor = spider.Target.GetComponent<Actor>();
+			actor.turnRight();
+			spider.startTime = 0;
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+
+        // Pause button
+        if(GUI.Button(new Rect(sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {
+			StartCoroutine(GameObject.Find("Level").GetComponent<Conditions>().levelFailed());
+        }
 	}
 
 	// ------------------------------------------------------------------------
