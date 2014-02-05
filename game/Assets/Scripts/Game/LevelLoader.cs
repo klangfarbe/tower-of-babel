@@ -22,9 +22,6 @@ public class LevelLoader : MonoBehaviour {
 	public GUIText levelName;
 	public GUIText levelNr;
 
-	public GameObject mainCamera;
-	public GameObject spiderCamera;
-
 	private JsonData levelData;
 	private int maxColumns = 0;
 	private int maxRows = 0;
@@ -113,10 +110,10 @@ public class LevelLoader : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void activateCamera() {
-		SwitchCamera camera = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
+		CameraController camera = GameObject.Find("Cameras").GetComponent<CameraController>();
 		foreach(GameObject g in objects) {
 			if(g.name == "GRB" || g.name == "PSH" || g.name == "ZAP") {
-				camera.activateSpiderCamera(g);
+				camera.init(g);
 				return;
 			}
 		}
@@ -128,8 +125,7 @@ public class LevelLoader : MonoBehaviour {
 		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
 		patterncolor2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
 		groundcolor.color = hexToColor(levelData["fx"]["groundcolor1"].ToString().Substring(2));
-		setSkycolor(mainCamera);
-		setSkycolor(spiderCamera);
+		setSkycolor(GameObject.Find("SpiderCamera"));
 	}
 
 	// ------------------------------------------------------------------------
@@ -198,7 +194,8 @@ public class LevelLoader : MonoBehaviour {
 		float z = maxRows / 2f;
 
 		// Transform the camera and lights and scale the level border bounding box
-		GameObject.Find("MainCameraParent").transform.position = new Vector3(x, y, z);
+		GameObject.Find("LevelCenter").transform.position = new Vector3(x, y, z);
+		GameObject.Find("LevelCenter").transform.rotation = Quaternion.identity;
 	}
 
 	// ------------------------------------------------------------------------

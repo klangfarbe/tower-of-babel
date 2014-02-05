@@ -14,11 +14,13 @@ public class GUIButtons : MonoBehaviour {
 	public Texture texFire;
 	public Texture texPause;
 
-	private SwitchCamera cameraSelector;
+	private CameraController cameraController;
 	private SpiderCamera spider;
 
 	private float sWidth = 1024f;
 	private float sHeight = 768f;
+
+	private GUIStyle btnStyle = new GUIStyle();
 
 	// ------------------------------------------------------------------------
 
@@ -29,10 +31,11 @@ public class GUIButtons : MonoBehaviour {
 		float yFactor = Screen.height / sHeight;
 		GUIUtility.ScaleAroundPivot(new Vector2(xFactor, yFactor), Vector2.zero);
 
-	#if UNITY_IPHONE || UNITY_ANDROID
+	#if UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE
 		mobileGUI();
 	#else
-		standaloneGUI();
+	//	mobileGUI();
+//		standaloneGUI();
 	#endif
 	}
 
@@ -41,40 +44,6 @@ public class GUIButtons : MonoBehaviour {
 	void standaloneGUI() {
 		GUILayout.BeginArea(new Rect(sWidth / 2 - 305, sHeight - 80, 610, 70));
 		GUILayout.BeginHorizontal();
-        if(GUILayout.Button(texMap)) {
-        	cameraSelector.activateOverview();
-        }
-        if(GUILayout.Button(texGrabber)) {
-        	cameraSelector.activateGrabber();
-        }
-        if(GUILayout.Button(texPusher)) {
-        	cameraSelector.activatePusher();
-        }
-        if(GUILayout.Button(texZapper)) {
-        	cameraSelector.activateZapper();
-        }
-        if(GUILayout.Button(texFire) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.fire();
-        }
-        if(GUILayout.Button(texLeft) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.turnLeft();
-			spider.startTime = 0;
-        }
-        if(GUILayout.Button(texForward) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.move(spider.Target.transform.forward);
-        }
-        if(GUILayout.Button(texRight) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.turnRight();
-			spider.startTime = 0;
-        }
-        if(GUILayout.Button(texUpDown) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.lift();
-        }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
 	}
@@ -82,9 +51,8 @@ public class GUIButtons : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void mobileGUI() {
-		GUIStyle btnStyle = GUIStyle.none;
-		btnStyle.fixedHeight = 128;
-		btnStyle.fixedWidth = 128;
+		btnStyle.fixedHeight = 96;
+		btnStyle.fixedWidth = 96;
 		btnStyle.margin.bottom = 10;
 		btnStyle.margin.right = 10;
 
@@ -95,16 +63,16 @@ public class GUIButtons : MonoBehaviour {
 		GUILayout.BeginArea(new Rect(10, sHeight - btnFullHeight * 4, btnFullWidth, btnFullHeight * 4));
 		GUILayout.BeginVertical();
         if(GUILayout.Button(texMap, btnStyle)) {
-        	cameraSelector.activateOverview();
+        	cameraController.activateOverview();
         }
         if(GUILayout.Button(texGrabber, btnStyle)) {
-        	cameraSelector.activateGrabber();
+        	cameraController.activateGrabber();
         }
         if(GUILayout.Button(texPusher, btnStyle)) {
-        	cameraSelector.activatePusher();
+        	cameraController.activatePusher();
         }
         if(GUILayout.Button(texZapper, btnStyle)) {
-        	cameraSelector.activateZapper();
+        	cameraController.activateZapper();
         }
         GUILayout.EndVertical();
         GUILayout.EndArea();
@@ -125,7 +93,6 @@ public class GUIButtons : MonoBehaviour {
         if(GUILayout.Button(texLeft, btnStyle) && spider.Target) {
 			Actor actor = spider.Target.GetComponent<Actor>();
 			actor.turnLeft();
-			spider.startTime = 0;
         }
         if(GUILayout.Button(texForward, btnStyle) && spider.Target) {
 			Actor actor = spider.Target.GetComponent<Actor>();
@@ -134,7 +101,6 @@ public class GUIButtons : MonoBehaviour {
         if(GUILayout.Button(texRight, btnStyle) && spider.Target) {
 			Actor actor = spider.Target.GetComponent<Actor>();
 			actor.turnRight();
-			spider.startTime = 0;
         }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -148,8 +114,7 @@ public class GUIButtons : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		cameraSelector = GameObject.Find("Cameras").GetComponent<SwitchCamera>();
-		spider = GameObject.Find("SpiderCamera").GetComponent<SpiderCamera>();
+		cameraController = GameObject.Find("Cameras").GetComponent<CameraController>();
 	}
 
 	// ------------------------------------------------------------------------
