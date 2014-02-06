@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SpiderCamera : MonoBehaviour {
+public class FollowingCamera : MonoBehaviour {
 	private GameObject target;
 	private float rotationSpeed = 0.8f;
 	private bool forcedUpdate = false;
@@ -14,25 +14,6 @@ public class SpiderCamera : MonoBehaviour {
 	private Quaternion lastRotation;
 
 	// ------------------------------------------------------------------------
-
-
-//		Actor actor = target.GetComponent<Actor>();
-//
-//		if(Input.GetKeyDown(KeyCode.UpArrow)) {
-//			actor.move(target.transform.forward);
-//		} else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-//			actor.turnLeft();
-//			startTime = 0;
-//		} else if(Input.GetKeyDown(KeyCode.DownArrow)) {
-//			actor.move(-target.transform.forward);
-//		} else if(Input.GetKeyDown(KeyCode.RightArrow)) {
-//			actor.turnRight();
-//			startTime = 0;
-//		} else if(Input.GetKeyDown(KeyCode.Space)) {
-//			actor.fire();
-//		} else if(Input.GetKeyDown(KeyCode.Return)) {
-//			actor.lift();
-//		}
 
 	public void set(GameObject target, float distance, float height, float angle) {
 		this.target = target;

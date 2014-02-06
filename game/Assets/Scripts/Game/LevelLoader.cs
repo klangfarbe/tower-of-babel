@@ -12,15 +12,11 @@ public class LevelLoader : MonoBehaviour {
 	// Attributes
 	// ------------------------------------------------------------------------
 
-	public int level = 0;
 	public float floorOffset = -0.03f;
 
 	public Material patterncolor1;
 	public Material patterncolor2;
 	public Material groundcolor;
-
-	public GUIText levelName;
-	public GUIText levelNr;
 
 	private JsonData levelData;
 	private int maxColumns = 0;
@@ -37,11 +33,14 @@ public class LevelLoader : MonoBehaviour {
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
 	// ------------------------------------------------------------------------
-	// Methods
+	// Move the following with in the scene controller. The LevelLoader
+	// should be generic and must not know anything about the number of
+	// levels available
 	// ------------------------------------------------------------------------
 
+	public int level = 0;
 	void Start() {
-		build();
+		build("Level/" + string.Format("{0:d3}", level));
 	}
 
 	// ------------------------------------------------------------------------
@@ -59,8 +58,7 @@ public class LevelLoader : MonoBehaviour {
 
 	public void next() {
 		if(level < 116) {
-			level++;
-			build();
+			build("Level/" + string.Format("{0:d3}", ++level));
 		}
 	}
 
@@ -68,17 +66,36 @@ public class LevelLoader : MonoBehaviour {
 
 	public void prev() {
 		if(level > 0) {
-			level--;
-			build();
+			build("Level/" + string.Format("{0:d3}", --level));
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	public void build() {
+	public void reload() {
+		build("Level/" + string.Format("{0:d3}", level));
+	}
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+
+	public string getLevelName() {
+		return levelData["title"].ToString();
+	}
+
+	// ------------------------------------------------------------------------
+
+	public string getAuthorName() {
+		return levelData["author"].ToString();
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void build(String resource) {
 		Debug.Log("Building level...");
 		clearScene();
-		loadResource();
+		loadResource(resource);
 		setColors();
 
 		// create Objects
@@ -90,10 +107,9 @@ public class LevelLoader : MonoBehaviour {
 			}
 		}
 		calculateLevelCenter();
-		setLevelName();
 		activateCamera();
 
-		Behaviour behaviour = GameObject.Find("Level").GetComponent<Behaviour>();
+		Behaviour behaviour = gameObject.GetComponent<Behaviour>();
 		behaviour.destroysfloor = (bool)levelData["behaviour"]["destroysfloor"];
 		behaviour.cameras = (bool)levelData["behaviour"]["cameras"];
 		behaviour.timebombspeed = (int)levelData["behaviour"]["timebombspeed"];
@@ -101,7 +117,7 @@ public class LevelLoader : MonoBehaviour {
 		behaviour.maxRows = maxRows;
 		behaviour.maxColumns = maxColumns;
 
-		Conditions conditions = GameObject.Find("Level").GetComponent<Conditions>();
+		Conditions conditions = gameObject.GetComponent<Conditions>();
 		conditions.init((int)levelData["conditions"]["klondikes"],
 						(int)levelData["conditions"]["robots"],
 						(int)levelData["conditions"]["timelimit"]);
@@ -110,7 +126,7 @@ public class LevelLoader : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void activateCamera() {
-		CameraController camera = GameObject.Find("Cameras").GetComponent<CameraController>();
+		CameraController camera = GameObject.Find("Controller").GetComponent<CameraController>();
 		foreach(GameObject g in objects) {
 			if(g.name == "GRB" || g.name == "PSH" || g.name == "ZAP") {
 				camera.init(g);
@@ -125,7 +141,7 @@ public class LevelLoader : MonoBehaviour {
 		patterncolor1.color = hexToColor(levelData["fx"]["patterncolor1"].ToString().Substring(2));
 		patterncolor2.color = hexToColor(levelData["fx"]["patterncolor2"].ToString().Substring(2));
 		groundcolor.color = hexToColor(levelData["fx"]["groundcolor1"].ToString().Substring(2));
-		setSkycolor(GameObject.Find("SpiderCamera"));
+		setSkycolor(GameObject.Find("GameCam"));
 	}
 
 	// ------------------------------------------------------------------------
@@ -136,13 +152,6 @@ public class LevelLoader : MonoBehaviour {
 			hexToColor(levelData["fx"]["skycolor1"].ToString().Substring(2)),
 			hexToColor(levelData["fx"]["skycolor2"].ToString().Substring(2))
 		);
-	}
-
-	// ------------------------------------------------------------------------
-
-	void setLevelName() {
-		levelName.text = levelData["title"].ToString();
-		levelNr.text = "Level: " + (level + 1).ToString();
 	}
 
 	// ------------------------------------------------------------------------
@@ -162,9 +171,9 @@ public class LevelLoader : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void loadResource() {
+	void loadResource(String resource) {
 		Debug.Log("Loading level data...");
-		TextAsset json = Resources.Load("Level/" + string.Format("{0:d3}", level)) as TextAsset;
+		TextAsset json = Resources.Load(resource) as TextAsset;
 		levelData = JsonMapper.ToObject(json.text);
 	}
 

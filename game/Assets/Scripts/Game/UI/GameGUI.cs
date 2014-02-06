@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class GUIButtons : MonoBehaviour {
+public class GameGUI : BaseUIController {
 	public Texture texMap;
 	public Texture texGrabber;
 	public Texture texPusher;
@@ -13,9 +13,6 @@ public class GUIButtons : MonoBehaviour {
 	public Texture texUpDown;
 	public Texture texFire;
 	public Texture texPause;
-
-	private CameraController cameraController;
-	private SpiderCamera spider;
 
 	private float sWidth = 1024f;
 	private float sHeight = 768f;
@@ -80,47 +77,35 @@ public class GUIButtons : MonoBehaviour {
 		// Overview buttons on the left side of the screen
 		GUILayout.BeginArea(new Rect(sWidth - btnFullWidth * 3, sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
 		GUILayout.BeginHorizontal();
-        if(GUILayout.Button(texFire, btnStyle) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.fire();
+        if(GUILayout.Button(texFire, btnStyle)) {
+        	gameController.actorFire();
         }
-        if(GUILayout.Button(texUpDown, btnStyle) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.lift();
+        if(GUILayout.Button(texUpDown, btnStyle)) {
+        	gameController.actorLift();
         }
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        if(GUILayout.Button(texLeft, btnStyle) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.turnLeft();
+        if(GUILayout.Button(texLeft, btnStyle)) {
+        	gameController.actorLeft();
         }
-        if(GUILayout.Button(texForward, btnStyle) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.move(spider.Target.transform.forward);
+        if(GUILayout.Button(texForward, btnStyle)) {
+        	gameController.actorForward();
         }
-        if(GUILayout.Button(texRight, btnStyle) && spider.Target) {
-			Actor actor = spider.Target.GetComponent<Actor>();
-			actor.turnRight();
+        if(GUILayout.Button(texRight, btnStyle)) {
+        	gameController.actorRight();
         }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
 
         // Pause button
         if(GUI.Button(new Rect(sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {
-			StartCoroutine(GameObject.Find("Level").GetComponent<Conditions>().levelFailed());
+			StartCoroutine(gameController.levelFailed());
         }
 	}
 
 	// ------------------------------------------------------------------------
 
-	void Start() {
-		cameraController = GameObject.Find("Cameras").GetComponent<CameraController>();
-	}
-
-	// ------------------------------------------------------------------------
-
 	void calculateAspectRatio () {
-		// calculate aspect ratio
 		var aspect = (float)Screen.width / (float)Screen.height;
 		if(aspect >= 1.7f && aspect < 1.78f) {
 			sWidth = 1280;
@@ -132,6 +117,5 @@ public class GUIButtons : MonoBehaviour {
 			sWidth = 1280;
 			sHeight = 800;
 		}
-		Debug.Log("Screen aspect ratio is " + aspect.ToString("F4") + " with size " + Screen.width + "x" + Screen.height);
 	}
 }

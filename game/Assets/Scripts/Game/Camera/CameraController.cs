@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
-	public GameObject camera;
+	private GameObject gameCamera;
 
 	private float distanceToSpider = 1.25f;
 	private float distanceToLevel = 10f;
@@ -15,22 +15,8 @@ public class CameraController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.Alpha1)) {
-			activateGrabber();
-		}
-		if(Input.GetKeyDown(KeyCode.Alpha2)) {
-			activatePusher();
-		}
-		if(Input.GetKeyDown(KeyCode.Alpha3)) {
-			activateZapper();
-		}
-		if(Input.GetKeyDown(KeyCode.M)) {
-			activateOverview();
-		}
-		if(Input.GetKeyDown(KeyCode.R)) {
-			StartCoroutine(GameObject.Find("Level").GetComponent<Conditions>().levelFailed());
-		}
+	void Awake() {
+		gameCamera = GameObject.Find("GameCam");
 	}
 
 	// ------------------------------------------------------------------------
@@ -44,7 +30,7 @@ public class CameraController : MonoBehaviour {
 	public void lookAt(GameObject obj, float distance, float height, float angle) {
 		if(!obj)
 			return;
-		camera.GetComponent<SpiderCamera>().set(obj, distance, height, angle);
+		gameCamera.GetComponent<FollowingCamera>().set(obj, distance, height, angle);
 	}
 
 	// ------------------------------------------------------------------------
@@ -81,6 +67,6 @@ public class CameraController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void setFieldOfView(int angle) {
-		camera.GetComponent<Camera>().fieldOfView = angle;
+		gameCamera.GetComponent<Camera>().fieldOfView = angle;
 	}
 }
