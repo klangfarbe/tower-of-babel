@@ -3,15 +3,14 @@ using System.Collections;
 
 public class FollowingCamera : MonoBehaviour {
 	private GameObject target;
-	private float rotationSpeed = 0.8f;
+	private float rotationSpeed = 0.1f;
 	private bool forcedUpdate = false;
 
 	private float distance = 1f;
 	private float height = 0.25f;
 	private float angle = 0.1f;
-	private float startTime;
+	public  float startTime;
 	private Vector3 endPosition;
-	private Quaternion lastRotation;
 
 	// ------------------------------------------------------------------------
 
@@ -31,24 +30,22 @@ public class FollowingCamera : MonoBehaviour {
 			return;
 		}
 
-		var currentRotation = Quaternion.Euler (0, target.transform.eulerAngles.y, 0);
-		endPosition = target.transform.position - currentRotation * Vector3.forward * distance + Vector3.up * height;
-
-		if(lastRotation != currentRotation) {
-			startTime = 0;
-			lastRotation = currentRotation;
-		}
+		// calculate the correct offset position where the camera should look at
+		var adjustedTargetPosition = target.transform.position + Vector3.up * height;
+		var targetRotation = Quaternion.Euler (0, target.transform.eulerAngles.y, 0);
+		endPosition = adjustedTargetPosition - targetRotation * Vector3.forward * distance;
 
 		if(forcedUpdate) {
 			transform.position = endPosition;
-//			Debug.Log("Camera: " + transform.position + " Spider: " + target.transform.position);
 			forcedUpdate = false;
 		} else {
-			Vector3 startPosition = transform.position;
-			if(Vector3.Distance(startPosition, endPosition) > 0) {
+			if(Vector3.Distance(transform.position, endPosition) > 0 && startTime <= 1.0f) {
 				startTime += Time.deltaTime * rotationSpeed;
-				transform.position = Vector3.Slerp(startPosition - target.transform.position, endPosition - target.transform.position, startTime);
-				transform.position += target.transform.position;
+				transform.position = Vector3.Slerp(transform.position - adjustedTargetPosition, endPosition - adjustedTargetPosition, startTime);
+				transform.position += adjustedTargetPosition;
+			}
+			if(startTime > 1f) {
+				startTime = 0;
 			}
 		}
 		transform.LookAt(target.transform.position + Vector3.up * height * angle);
@@ -61,7 +58,6 @@ public class FollowingCamera : MonoBehaviour {
 			this.target = value;
 			if(value) {
 				forcedUpdate = true;
-				lastRotation = Quaternion.Euler(0, target.transform.eulerAngles.y, 0);
 			}
 		}
 		get {

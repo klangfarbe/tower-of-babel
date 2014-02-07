@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
+	private GameController gameController;
 	private GameObject gameCamera;
 
 	private float distanceToSpider = 1.25f;
@@ -17,6 +18,7 @@ public class CameraController : MonoBehaviour {
 
 	void Awake() {
 		gameCamera = GameObject.Find("GameCam");
+		gameController = GameObject.Find("Controller").GetComponent<GameController>();
 	}
 
 	// ------------------------------------------------------------------------
@@ -28,6 +30,7 @@ public class CameraController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void lookAt(GameObject obj, float distance, float height, float angle) {
+		gameController.activeObject = obj;
 		if(!obj)
 			return;
 		gameCamera.GetComponent<FollowingCamera>().set(obj, distance, height, angle);
@@ -39,6 +42,7 @@ public class CameraController : MonoBehaviour {
 		Debug.Log("Activating Grabber");
 		GameObject obj = GameObject.Find("GRB");
 		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
+		gameCamera.GetComponent<Light>().intensity = 0.92f;
 	}
 
 	// ------------------------------------------------------------------------
@@ -47,6 +51,7 @@ public class CameraController : MonoBehaviour {
 		Debug.Log("Activating Pusher");
 		GameObject obj = GameObject.Find("PSH");
 		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
+		gameCamera.GetComponent<Light>().intensity = 0.92f;
 	}
 
 	// ------------------------------------------------------------------------
@@ -55,6 +60,7 @@ public class CameraController : MonoBehaviour {
 		Debug.Log("Activating Zapper");
 		GameObject obj = GameObject.Find("ZAP");
 		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
+		gameCamera.GetComponent<Light>().intensity = 0.92f;
 	}
 
 	// ------------------------------------------------------------------------
@@ -62,6 +68,7 @@ public class CameraController : MonoBehaviour {
 	public void activateOverview() {
 		if(GameObject.Find("Level").GetComponent<Behaviour>().cameras)
 			lookAt(GameObject.Find("Level/LevelCenter"), distanceToLevel, cameraHeightToLevel, cameraAngleToLevel);
+			gameCamera.GetComponent<Light>().intensity *= distanceToLevel;
 	}
 
 	// ------------------------------------------------------------------------
