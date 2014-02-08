@@ -203,8 +203,13 @@ public class LevelLoader : MonoBehaviour {
 		float z = maxRows / 2f;
 
 		// Transform the camera and lights and scale the level border bounding box
-		GameObject.Find("LevelCenter").transform.position = new Vector3(x, y, z);
+		GameObject.Find("LevelCenter").transform.position = new Vector3(x, 0.1f, z);
 		GameObject.Find("LevelCenter").transform.rotation = Quaternion.identity;
+
+		// Adapt Bounding Box for Level Borders
+		GameObject.Find("LevelBounds").transform.position = new Vector3(x, y, z);
+		GameObject.Find("LevelBounds").transform.localScale = new Vector3(maxColumns + 1f, maxFloors + 2f, maxRows + 1f);
+		GameObject.Find("LevelBounds").transform.rotation = Quaternion.identity;
 	}
 
 	// ------------------------------------------------------------------------

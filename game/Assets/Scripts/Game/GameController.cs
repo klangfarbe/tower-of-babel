@@ -2,7 +2,17 @@ using UnityEngine;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+	private GameObject gameCamera;
+	private CameraController cameraController;
+
 	public GameObject activeObject;
+
+	// ------------------------------------------------------------------------
+
+	void Awake() {
+		gameCamera = GameObject.Find("GameCam");
+		cameraController = GameObject.Find("Controller").GetComponent<CameraController>();
+	}
 
 	// ------------------------------------------------------------------------
 
@@ -24,21 +34,12 @@ public class GameController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void actorLeft() {
-		Actor actor = getActor();
-		if(actor) {
-			actor.turnLeft();
-			var gameCamera = GameObject.Find("GameCam");
-			gameCamera.GetComponent<FollowingCamera>().startTime = 0;
-		}
-	}
-
-	// ------------------------------------------------------------------------
-
 	public void actorForward() {
 		Actor actor = getActor();
 		if(actor) {
 			actor.move(actor.gameObject.transform.forward);
+		} else {
+			cameraController.translateOverview(Vector3.up * 0.1f);
 		}
 	}
 
@@ -48,6 +49,20 @@ public class GameController : MonoBehaviour {
 		Actor actor = getActor();
 		if(actor) {
 			actor.move(-actor.gameObject.transform.forward);
+		} else {
+			cameraController.translateOverview(-Vector3.up * 0.1f);
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void actorLeft() {
+		Actor actor = getActor();
+		if(actor) {
+			actor.turnLeft();
+			gameCamera.GetComponent<FollowingCamera>().startTime = 0;
+		} else { // overview is active
+			cameraController.rotateOverview(-90);
 		}
 	}
 
@@ -57,9 +72,9 @@ public class GameController : MonoBehaviour {
 		Actor actor = getActor();
 		if(actor) {
 			actor.turnRight();
-			var gameCamera = GameObject.Find("GameCam");
 			gameCamera.GetComponent<FollowingCamera>().startTime = 0;
-
+		} else { // overview is active
+			cameraController.rotateOverview(90);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class FollowingCamera : MonoBehaviour {
 			transform.position = endPosition;
 			forcedUpdate = false;
 		} else {
-			if(Vector3.Distance(transform.position, endPosition) > 0 && startTime <= 1.0f) {
+			if(Vector3.Distance(transform.position, endPosition) > 0) {
 				startTime += Time.deltaTime * rotationSpeed;
 				transform.position = Vector3.Slerp(transform.position - adjustedTargetPosition, endPosition - adjustedTargetPosition, startTime);
 				transform.position += adjustedTargetPosition;
@@ -70,7 +70,7 @@ public class FollowingCamera : MonoBehaviour {
 	public float Distance {
 		set {
 			this.distance = value;
-			startTime = 0;
+//			forcedUpdate = true;
 		}
 		get {
 			return distance;
@@ -82,7 +82,7 @@ public class FollowingCamera : MonoBehaviour {
 	public float Height {
 		set {
 			this.height = value;
-			startTime = 0;
+			forcedUpdate = true;
 		}
 		get {
 			return height;
