@@ -28,10 +28,18 @@ public class GameGUI : BaseUIController {
 		float yFactor = Screen.height / sHeight;
 		GUIUtility.ScaleAroundPivot(new Vector2(xFactor, yFactor), Vector2.zero);
 
-	#if UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE
+	#if UNITY_IPHONE || UNITY_ANDROID
+		btnStyle.fixedHeight = 96;
+		btnStyle.fixedWidth = 96;
+		btnStyle.margin.bottom = 10;
+		btnStyle.margin.right = 10;
 		mobileGUI();
 	#else
-	//	mobileGUI();
+		btnStyle.fixedHeight = 48;
+		btnStyle.fixedWidth = 48;
+		btnStyle.margin.bottom = 10;
+		btnStyle.margin.right = 10;
+		mobileGUI();
 //		standaloneGUI();
 	#endif
 	}
@@ -48,10 +56,6 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void mobileGUI() {
-		btnStyle.fixedHeight = 96;
-		btnStyle.fixedWidth = 96;
-		btnStyle.margin.bottom = 10;
-		btnStyle.margin.right = 10;
 
 		float btnFullWidth = btnStyle.fixedWidth + btnStyle.margin.right;
 		float btnFullHeight = btnStyle.fixedHeight + btnStyle.margin.bottom;
@@ -74,28 +78,30 @@ public class GameGUI : BaseUIController {
         GUILayout.EndVertical();
         GUILayout.EndArea();
 
-		// Overview buttons on the left side of the screen
-		GUILayout.BeginArea(new Rect(sWidth - btnFullWidth * 3, sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
-		GUILayout.BeginHorizontal();
-        if(GUILayout.Button(texFire, btnStyle)) {
-        	gameController.actorFire();
-        }
-        if(GUILayout.Button(texUpDown, btnStyle)) {
-        	gameController.actorLift();
-        }
-        GUILayout.EndHorizontal();
-        GUILayout.BeginHorizontal();
-        if(GUILayout.Button(texLeft, btnStyle)) {
-        	gameController.actorLeft();
-        }
-        if(GUILayout.Button(texForward, btnStyle)) {
-        	gameController.actorForward();
-        }
-        if(GUILayout.Button(texRight, btnStyle)) {
-        	gameController.actorRight();
-        }
-        GUILayout.EndHorizontal();
-        GUILayout.EndArea();
+		// Overview buttons on the right side of the screen
+		if(!cameraController.mapActive) {
+			GUILayout.BeginArea(new Rect(sWidth - btnFullWidth * 3, sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
+			GUILayout.BeginHorizontal();
+	        if(GUILayout.Button(texFire, btnStyle)) {
+	        	gameController.actorFire();
+	        }
+	        if(GUILayout.Button(texUpDown, btnStyle)) {
+	        	gameController.actorLift();
+	        }
+	        GUILayout.EndHorizontal();
+	        GUILayout.BeginHorizontal();
+	        if(GUILayout.Button(texLeft, btnStyle)) {
+	        	gameController.actorLeft();
+	        }
+	        if(GUILayout.Button(texForward, btnStyle)) {
+	        	gameController.actorForward();
+	        }
+	        if(GUILayout.Button(texRight, btnStyle)) {
+	        	gameController.actorRight();
+	        }
+	        GUILayout.EndHorizontal();
+	        GUILayout.EndArea();
+		}
 
         // Pause button
         if(GUI.Button(new Rect(sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {

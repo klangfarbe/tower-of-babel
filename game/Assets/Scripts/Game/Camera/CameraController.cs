@@ -113,7 +113,6 @@ public class CameraController : MonoBehaviour {
 
 		if(Physics.Raycast(levelCenter.transform.position -levelCenter.transform.forward * 20, levelCenter.transform.forward, out hit, 1 << 8)) {
 			levelBoundsDistanceToLevelCenter = Vector3.Distance(hit.point, levelCenter.transform.position);
-			Debug.Log(hit.collider.gameObject.name + " / " + levelBoundsDistanceToLevelCenter);
 		}
 
 		gameCamera.GetComponent<FollowingCamera>().Distance = distanceToLevel + levelBoundsDistanceToLevelCenter;
