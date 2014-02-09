@@ -8,7 +8,7 @@ public class FollowingCamera : MonoBehaviour {
 
 	private float distance = 1f;
 	private float height = 0.25f;
-	private float angle = 0.1f;
+	private float angle = 5f;
 	public  float startTime;
 	private Vector3 endPosition;
 
@@ -18,7 +18,7 @@ public class FollowingCamera : MonoBehaviour {
 		this.target = target;
 		this.distance = distance;
 		this.height = height;
-		this.angle = 1f - angle;
+		this.angle = angle;
 		startTime = 0;
 		forcedUpdate = true;
 	}
@@ -31,9 +31,10 @@ public class FollowingCamera : MonoBehaviour {
 		}
 
 		// calculate the correct offset position where the camera should look at
+		var gegenkathethe = Mathf.Tan(angle * Mathf.Deg2Rad) * distance;
 		var adjustedTargetPosition = target.transform.position + Vector3.up * height;
 		var targetRotation = Quaternion.Euler (0, target.transform.eulerAngles.y, 0);
-		endPosition = adjustedTargetPosition - targetRotation * Vector3.forward * distance;
+		endPosition = adjustedTargetPosition - targetRotation * Vector3.forward * distance + Vector3.up * gegenkathethe;
 
 		if(forcedUpdate) {
 			transform.position = endPosition;
@@ -48,7 +49,7 @@ public class FollowingCamera : MonoBehaviour {
 				startTime = 0;
 			}
 		}
-		transform.LookAt(target.transform.position + Vector3.up * height * angle);
+		transform.LookAt(target.transform.position + Vector3.up * height);
 	}
 
 	// ------------------------------------------------------------------------
@@ -70,8 +71,7 @@ public class FollowingCamera : MonoBehaviour {
 	public float Distance {
 		set {
 			this.distance = value;
-//			forcedUpdate = true;
-		}
+	}
 		get {
 			return distance;
 		}
@@ -86,6 +86,17 @@ public class FollowingCamera : MonoBehaviour {
 		}
 		get {
 			return height;
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	public float Angle {
+		set {
+			this.angle = value;
+		}
+		get {
+			return angle;
 		}
 	}
 }

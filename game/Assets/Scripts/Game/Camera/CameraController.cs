@@ -13,8 +13,11 @@ public class CameraController : MonoBehaviour {
 	private float cameraHeightToSpider = 0.3f;
 	private float cameraHeightToLevel = 0.3f;
 
-	private float cameraAngleToSpider = 0.1f;
-	private float cameraAngleToLevel = 0.1f;
+	private float cameraAngleToSpider = 1f;
+	private float cameraAngleToLevel = 3f;
+
+	private float minCameraAngle = 3f;
+	private float maxCameraAngle = 15f;
 
 	private float maxZoomIn = 1.5f;
 	private float maxZoomOut = 10f;
@@ -167,5 +170,16 @@ public class CameraController : MonoBehaviour {
 		levelCenter.transform.RotateAround(levelCenter.transform.position, Vector3.up, angle);
 		gameCamera.GetComponent<FollowingCamera>().startTime = 0;
 		zoom(0);
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void changeCameraAngle(float angle) {
+		if(!mapActive)
+			return;
+		cameraAngleToLevel += angle;
+		cameraAngleToLevel = Mathf.Clamp(cameraAngleToLevel, minCameraAngle, maxCameraAngle);
+		Debug.Log(angle + " / " + cameraAngleToLevel);
+		gameCamera.GetComponent<FollowingCamera>().Angle = cameraAngleToLevel;
 	}
 }
