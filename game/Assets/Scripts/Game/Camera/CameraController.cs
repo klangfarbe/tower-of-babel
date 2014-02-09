@@ -13,11 +13,11 @@ public class CameraController : MonoBehaviour {
 	private float cameraHeightToSpider = 0.3f;
 	private float cameraHeightToLevel = 0.3f;
 
-	private float cameraAngleToSpider = 1f;
+	private float cameraAngleToSpider = 0.5f;
 	private float cameraAngleToLevel = 3f;
 
 	private float minCameraAngle = 3f;
-	private float maxCameraAngle = 15f;
+	private float maxCameraAngle = 20f;
 
 	private float maxZoomIn = 1.5f;
 	private float maxZoomOut = 10f;
@@ -179,7 +179,6 @@ public class CameraController : MonoBehaviour {
 			return;
 		cameraAngleToLevel += angle;
 		cameraAngleToLevel = Mathf.Clamp(cameraAngleToLevel, minCameraAngle, maxCameraAngle);
-		Debug.Log(angle + " / " + cameraAngleToLevel);
 		gameCamera.GetComponent<FollowingCamera>().Angle = cameraAngleToLevel;
 	}
 }

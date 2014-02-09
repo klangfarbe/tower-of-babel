@@ -10,6 +10,7 @@ public class Conditions : MonoBehaviour {
 	public int timelimit = 0;
 	public float startTime;
 	public bool levelStarted = false;
+	private bool timeout = false;
 
 	private GameController gameController;
 
@@ -30,8 +31,9 @@ public class Conditions : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	private void checkWinningConditions() {
-		if(timelimit > 0 && Time.time - startTime > timelimit) {
+		if(timelimit > 0 && Time.time - startTime >= timelimit) {
 			levelStarted = false;
+			timeout = true;
 			StartCoroutine(gameController.levelFailed());
 		}
 
@@ -82,6 +84,7 @@ public class Conditions : MonoBehaviour {
 
 	public void init(int klondikes, int robots, int timelimit) {
 		levelStarted = false;
+		timeout = false;
 		klondikesGathered = 0;
 		klondikesToGather = klondikes;
 		robotsDestroyed = 0;
@@ -92,11 +95,20 @@ public class Conditions : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public string getRemainingTime() {
-		float delta = Time.time - startTime;
-		if(!(timelimit > 0) || timelimit - delta < 0) {
+		if(!(timelimit > 0)) {
 			return "";
 		}
-		TimeSpan timeSpan = TimeSpan.FromSeconds(timelimit - delta);
+		if(timeout) {
+			return "0:00";
+		}
+
+		TimeSpan timeSpan;
+		if(!levelStarted) {
+			timeSpan = TimeSpan.FromSeconds(timelimit);
+		} else {
+			float delta = Time.time - startTime;
+			timeSpan = TimeSpan.FromSeconds(timelimit - delta);
+		}
 		return string.Format("{0:D}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
 	}
 
@@ -112,6 +124,7 @@ public class Conditions : MonoBehaviour {
 	public void pickupKlondike() {
 		if(klondikesToGather == 0 || klondikesToGather == klondikesGathered)
 			return;
+		klondikesGathered++;
 		Debug.Log("Conditions: " + klondikesGathered + "/" + klondikesToGather + " Klondikes collected");
 	}
 	// ------------------------------------------------------------------------
@@ -119,6 +132,7 @@ public class Conditions : MonoBehaviour {
 	public void destroyRobot() {
 		if(robotsToDestroy == 0 || robotsToDestroy == robotsDestroyed)
 			return;
+		robotsToDestroy++;
 		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed");
 	}
 }

@@ -14,10 +14,27 @@ public class GameGUI : BaseUIController {
 	public Texture texFire;
 	public Texture texPause;
 
+	public Font font;
+
+	public Texture2D textWndBackground;
+
 	private float sWidth = 1024f;
 	private float sHeight = 768f;
 
+	private bool drawPauseMenu = false;
+
 	private GUIStyle btnStyle = new GUIStyle();
+	private GUIStyle wndStyle = new GUIStyle();
+	private GUIStyle wndBtnStyle = new GUIStyle();
+	private GUIStyle cndTextStyle = new GUIStyle();
+
+	private string notification = "";
+
+	// ------------------------------------------------------------------------
+
+	void Awake() {
+		setupGUIStyles();
+	}
 
 	// ------------------------------------------------------------------------
 
@@ -29,19 +46,35 @@ public class GameGUI : BaseUIController {
 		GUIUtility.ScaleAroundPivot(new Vector2(xFactor, yFactor), Vector2.zero);
 
 	#if UNITY_IPHONE || UNITY_ANDROID
+		mobileGUI();
+	#else
+		mobileGUI();
+//		standaloneGUI();
+	#endif
+	}
+
+	// ------------------------------------------------------------------------
+
+	private void setupGUIStyles() {
+		wndStyle.normal.background = textWndBackground;
+		wndStyle.border = new RectOffset(2,2,2,2);
+		wndStyle.padding = new RectOffset(25,25,25,25);
+
 		btnStyle.fixedHeight = 96;
 		btnStyle.fixedWidth = 96;
 		btnStyle.margin.bottom = 10;
 		btnStyle.margin.right = 10;
-		mobileGUI();
-	#else
-		btnStyle.fixedHeight = 48;
-		btnStyle.fixedWidth = 48;
-		btnStyle.margin.bottom = 10;
-		btnStyle.margin.right = 10;
-		mobileGUI();
-//		standaloneGUI();
-	#endif
+
+		wndBtnStyle.fontSize = 64;
+		wndBtnStyle.font = font;
+		wndBtnStyle.normal.textColor = Color.white;
+		wndBtnStyle.alignment = TextAnchor.UpperCenter;
+		wndBtnStyle.margin = new RectOffset(25,25,25,25);
+
+		cndTextStyle.fontSize = 24;
+		cndTextStyle.font = font;
+		cndTextStyle.normal.textColor = Color.white;
+		cndTextStyle.alignment = TextAnchor.UpperLeft;
 	}
 
 	// ------------------------------------------------------------------------
@@ -85,16 +118,16 @@ public class GameGUI : BaseUIController {
 	        if(GUILayout.Button(texFire, btnStyle)) {
 	        	gameController.actorFire();
 	        }
-	        if(GUILayout.Button(texUpDown, btnStyle)) {
-	        	gameController.actorLift();
+	        if(GUILayout.Button(texForward, btnStyle)) {
+	        	gameController.actorForward();
 	        }
 	        GUILayout.EndHorizontal();
 	        GUILayout.BeginHorizontal();
 	        if(GUILayout.Button(texLeft, btnStyle)) {
 	        	gameController.actorLeft();
 	        }
-	        if(GUILayout.Button(texForward, btnStyle)) {
-	        	gameController.actorForward();
+	        if(GUILayout.Button(texUpDown, btnStyle)) {
+	        	gameController.actorLift();
 	        }
 	        if(GUILayout.Button(texRight, btnStyle)) {
 	        	gameController.actorRight();
@@ -105,8 +138,57 @@ public class GameGUI : BaseUIController {
 
         // Pause button
         if(GUI.Button(new Rect(sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {
-			StartCoroutine(gameController.levelFailed());
+        	drawPauseMenu = true;
         }
+
+        if(notification.Length > 0) {
+        	GUI.Label(new Rect(sWidth / 2 - 300, sHeight / 2 - 200, 600, 400), notification, wndBtnStyle);
+        }
+
+        // conditions
+        GUI.Label(new Rect(10, 10, 100, 50), conditions.getConditionsText(), cndTextStyle);
+
+        // remaining Time
+        GUI.Label(new Rect(sWidth / 2 - 100, 10, 200, 150), conditions.getRemainingTime(), wndBtnStyle);
+
+        if(drawPauseMenu) {
+			GUI.ModalWindow(0, new Rect(sWidth / 2 - 480, sHeight / 2 - 210, 960, 420), pauseMenu, "", wndStyle);
+        }
+	}
+
+	// ------------------------------------------------------------------------
+
+	void pauseMenu(int windowId) {
+		gameController.levelPause();
+
+		GUILayout.BeginVertical(new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true) });
+        if(GUILayout.Button("Restart Level", wndBtnStyle, GUILayout.ExpandWidth(true))) {
+        	GameObject.Find("Level").GetComponent<LevelLoader>().reload();
+        	drawPauseMenu = false;
+			gameController.levelUnpause();
+        }
+        if(GUILayout.Button("Previous Level", wndBtnStyle, GUILayout.ExpandWidth(true))) {
+        	GameObject.Find("Level").GetComponent<LevelLoader>().prev();
+        }
+        if(GUILayout.Button("Next Level", wndBtnStyle, GUILayout.ExpandWidth(true))) {
+        	GameObject.Find("Level").GetComponent<LevelLoader>().next();
+        }
+		if(GUILayout.Button("Resume Game", wndBtnStyle, GUILayout.ExpandWidth(true))) {
+			drawPauseMenu = false;
+			gameController.levelUnpause();
+		}
+        GUILayout.EndVertical();
+//
+//        if(GUILayout.Button("Check for update", cndTextStyle, GUILayout.ExpandWidth(true))) {
+//			drawPauseMenu = false;
+//  			gameController.checkUpdate();
+//        }
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void notify(string message) {
+		notification = message;
 	}
 
 	// ------------------------------------------------------------------------
