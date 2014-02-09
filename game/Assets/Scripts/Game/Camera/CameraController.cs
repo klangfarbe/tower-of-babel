@@ -132,7 +132,7 @@ public class CameraController : MonoBehaviour {
 		// depending on the rotation we must create a translation vector
 		// which will move the levelcenter around only inside the bounding
 		// box of the level
-		v2.y = calculateMaxTranslation(behaviour.maxFloors, l.y, v.y);
+		v2.y = calculateMaxTranslation(behaviour.maxFloors + 0.5f, l.y, v.y);
 
 		int angle = (int)levelCenter.transform.localEulerAngles.y;
 		if(angle == 0) {
