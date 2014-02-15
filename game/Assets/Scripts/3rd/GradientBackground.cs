@@ -38,8 +38,8 @@ public class GradientBackground : MonoBehaviour {
 		mesh.vertices = new Vector3[4] {
 							new Vector3(-100f, .577f, 1f),
 							new Vector3(100f, .577f, 1f),
-							new Vector3(-100f, -0.05f, 1f),
-							new Vector3(100f, -0.05f, 1f)
+							new Vector3(-100f, -0.25f, 1f),
+							new Vector3(100f, -0.25f, 1f)
 						};
 
 		mesh.colors = new Color[4] {topColor,topColor,bottomColor,bottomColor};

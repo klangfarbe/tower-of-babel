@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject activeObject;
 
-	private string version = "0.2b31";
+	private string version = "0.2b32";
 
 	// ------------------------------------------------------------------------
 
