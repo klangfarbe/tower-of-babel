@@ -10,6 +10,8 @@ public class MoveActor : MonoBehaviour {
 
 	private float speed = 0.7f;
 	private float startTime;
+	private bool smooth = false;
+
 
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
@@ -66,6 +68,7 @@ public class MoveActor : MonoBehaviour {
 			nextFloor = null;
 			if(v != Vector3.zero && assignNextField(v)) {
 				endPosition += v;
+				smooth = true;
 			}
 		}
 	}
@@ -107,7 +110,9 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void set(Vector3 position) {
+		smooth = false;
 		endPosition = position;
+		startPosition = position;
 		transform.position = position;
 	}
 
@@ -222,9 +227,11 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	private Vector3 smoothVector(Vector3 v) {
-		v.x = Mathf.RoundToInt(v.x);
-		v.y = Mathf.RoundToInt(v.y);
-		v.z = Mathf.RoundToInt(v.z);
+		if(smooth) {
+			v.x = Mathf.RoundToInt(v.x);
+			v.y = Mathf.RoundToInt(v.y);
+			v.z = Mathf.RoundToInt(v.z);
+		}
 		return v;
 	}
 }
