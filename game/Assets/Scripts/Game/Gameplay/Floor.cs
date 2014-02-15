@@ -9,7 +9,10 @@ public class Floor : MonoBehaviour, ScaleAnimationCallback {
 	public void release(GameObject g) {
 		if(!objectOnFloor || objectOnFloor != g)
 			return;
-		//Debug.Log(gameObject.name + ": released by " + g.name);
+		#if UNITY_DEBUG
+			gameObject.GetComponentInChildren<MeshRenderer>().material = GameObject.Find("Level").GetComponent<LevelLoader>().patterncolor1;
+			Debug.Log(gameObject.name + ": release by " + g.name);
+		#endif
 		objectOnFloor = null;
 	}
 
@@ -19,7 +22,10 @@ public class Floor : MonoBehaviour, ScaleAnimationCallback {
 		if(objectOnFloor == g)
 			return true;
 		if(objectOnFloor == null) {
-		//	Debug.Log(gameObject.name + ": assigned by " + g.name);
+		#if UNITY_DEBUG
+			gameObject.GetComponentInChildren<MeshRenderer>().material = GameObject.Find("Level").GetComponent<LevelLoader>().patterncolor2;
+			Debug.Log(gameObject.name + ": assigned by " + g.name);
+		#endif
 			objectOnFloor = g;
 			return true;
 		}

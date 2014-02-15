@@ -16,7 +16,7 @@ public class MovingBehaviour : Actor {
 		if(!Enable)
 			return;
 
-		if(actor.Walking || actor.nextFloor) {
+		if(actor.Walking || actor.nextFloor || Random.value % 0.25f == 0) {
 			return;
 		}
 

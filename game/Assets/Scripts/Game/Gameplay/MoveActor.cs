@@ -6,6 +6,8 @@ public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
 	public Vector3 startPosition;
 
+	private float deadZone = 0.005f;
+
 	private float speed = 0.7f;
 	private float startTime;
 
@@ -23,13 +25,7 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Update() {
-		Vector3 currentPosition = transform.position;
-		float journeyLength = Vector3.Distance(currentPosition, endPosition);
-
-		if(journeyLength <= 0) {
-			startTime = 0.0f;
-			startPosition = transform.position;
-		} else if(journeyLength > 0) {
+		if(Walking) {
 			startTime += Time.deltaTime * speed;
 			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		}
@@ -176,7 +172,6 @@ public class MoveActor : MonoBehaviour {
 	Lift getLift() {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
-//			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);
 			if(hit.collider.tag == "Lift") {
 				return hit.collider.gameObject.GetComponent<Lift>();
 			}
@@ -189,7 +184,6 @@ public class MoveActor : MonoBehaviour {
 	public Floor getFloor(Vector3 position) {
 		RaycastHit hit;
 		if(Physics.Raycast(position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f)) {
-//			Debug.Log(hit.collider.tag + " / " + hit.collider.gameObject.name);
 			if(hit.collider.tag == "Floor" || hit.collider.tag == "Lift") {
 				return hit.collider.gameObject.GetComponent<Floor>();
 			}
@@ -201,7 +195,36 @@ public class MoveActor : MonoBehaviour {
 
 	public bool Walking {
 		get {
-			return Vector3.Distance(transform.position, endPosition) > 0;
+			var distance = Vector3.Distance(transform.position, endPosition);
+
+			#if UNITY_DEBUG
+			var distanceTotal = Vector3.Distance(startPosition, endPosition);
+			if(distanceTotal > (1 + deadZone)) {
+				Debug.LogError("Distance > 1: " + gameObject.name + " / " + distanceTotal);
+				Debug.Break();
+			}
+			Debug.Log("Object is walking " + gameObject.name + " " + (distance > deadZone) + " (" + distance + " / " + distanceTotal + ")");
+			#endif
+
+			if(distance > deadZone) {
+				return true;
+			} else {
+				startPosition = smoothVector(startPosition);
+				endPosition = smoothVector(endPosition);
+				transform.position = smoothVector(transform.position);
+				startPosition = endPosition;
+				startTime = 0f;
+			}
+			return false;
 		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	private Vector3 smoothVector(Vector3 v) {
+		v.x = Mathf.RoundToInt(v.x);
+		v.y = Mathf.RoundToInt(v.y);
+		v.z = Mathf.RoundToInt(v.z);
+		return v;
 	}
 }

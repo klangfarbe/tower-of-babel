@@ -267,6 +267,10 @@ public class LevelLoader : MonoBehaviour {
 			instance.transform.localScale += new Vector3(0, -floorOffset, 0);
 		}
 
+		#if UNITY_DEBUG
+			instance.GetComponentInChildren<MeshRenderer>().material = patterncolor1;
+		#endif
+
 		instance.transform.parent = GameObject.Find("World").transform;
 	}
 

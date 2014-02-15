@@ -31,6 +31,10 @@ public class Conditions : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	private void checkWinningConditions() {
+		if(klondikesToGather == 0 && robotsToDestroy == 0) {
+			return;
+		}
+
 		if(timelimit > 0 && Time.time - startTime >= timelimit) {
 			levelStarted = false;
 			timeout = true;
