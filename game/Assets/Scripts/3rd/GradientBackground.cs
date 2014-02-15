@@ -2,55 +2,71 @@ using UnityEngine;
 
 public class GradientBackground : MonoBehaviour {
 	public int gradientLayer = 7;
+	public GameObject parent;
 
-	private GameObject gradientPlane;
-	private GameObject gradientCam;
+	private GameObject plane;
+	private GameObject cam;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
 	private void clear() {
-		if(gradientPlane) {
-			Destroy(gradientPlane);
+		if(plane) {
+			Destroy(plane);
 		}
-		if(gradientCam) {
-			Destroy(gradientCam);
+		if(cam) {
+			Destroy(cam);
 		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-	public void CreateBackground (Color topColor, Color bottomColor) {
+
+	public void CreateBackground(Color32 topColor, Color32 bottomColor) {
 		clear();
 
 		gradientLayer = Mathf.Clamp(gradientLayer, 0, 31);
    		if (!camera) {
-        	Debug.LogError ("Must attach GradientBackground script to the camera");
-        	return;
-    	}
+			return;
+		}
 
-    	camera.clearFlags = CameraClearFlags.Depth;
-    	camera.cullingMask = camera.cullingMask & ~(1 << gradientLayer);
-    	gradientCam = new GameObject("Gradient Cam", typeof(Camera));
-    	Camera cam = gradientCam.camera;
-    	cam.depth = camera.depth-1;
-    	cam.cullingMask = 1 << gradientLayer;
+		camera.clearFlags = CameraClearFlags.Depth;
+		camera.cullingMask = camera.cullingMask & ~(1 << gradientLayer);
+
+		cam = new GameObject("Cam", typeof(Camera));
+		cam.transform.parent = parent.transform;
+		cam.camera.cullingMask = 1 << gradientLayer;
+		cam.camera.depth = camera.depth - 1;
 
 		Mesh mesh = new Mesh();
-		mesh.vertices = new Vector3[4] {
-							new Vector3(-100f, .577f, 1f),
-							new Vector3(100f, .577f, 1f),
-							new Vector3(-100f, -0.25f, 1f),
-							new Vector3(100f, -0.25f, 1f)
+		mesh.vertices = new Vector3[6] {
+							new Vector3(-10f, .577f, 1f), // 0
+							new Vector3(10f, .577f, 1f),  // 1
+							new Vector3(-10f, 0f, 1f),    // 2
+							new Vector3(10f, 0f, 1f),	  // 3
+							new Vector3(-10f, -1f, 1f),   // 4
+							new Vector3(10f, -1f, 1f)     // 5
 						};
 
-		mesh.colors = new Color[4] {topColor,topColor,bottomColor,bottomColor};
+		mesh.colors32 = new Color32[6] {
+			topColor, topColor, bottomColor, bottomColor, bottomColor, bottomColor
+		};
 
-		mesh.triangles = new int[6] {0, 1, 2, 1, 3, 2};
 
-		Material mat = new Material("Shader \"Vertex Color Only\"{Subshader{BindChannels{Bind \"vertex\", vertex Bind \"color\", color}Pass{}}}");
-    	gradientPlane = new GameObject("Gradient Plane", typeof(MeshFilter), typeof(MeshRenderer));
+		// --------------------
+		// 0        1
+		// 2        3
+		// 4        5
+		mesh.triangles = new int[12] {
+			0, 1, 2,
+			1, 3, 2,
+			2, 3, 4,
+			3, 5, 4
+		};
 
-		((MeshFilter)gradientPlane.GetComponent(typeof(MeshFilter))).mesh = mesh;
-    	gradientPlane.renderer.material = mat;
-    	gradientPlane.layer = gradientLayer;
+
+		plane = new GameObject("Plane", typeof(MeshFilter), typeof(MeshRenderer));
+		plane.layer = gradientLayer;
+		plane.transform.parent = parent.transform;
+		plane.GetComponent<MeshFilter>().mesh = mesh;
+		plane.renderer.material = new Material("Shader \"Vertex Color Only\"{Subshader{BindChannels{Bind \"vertex\", vertex Bind \"color\", color}Pass{}}}");;
 	}
 }
