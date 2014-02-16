@@ -25,7 +25,7 @@ public class Lift : MonoBehaviour {
 		if(isPlaying()) {
 			startTime += Time.deltaTime * speed;
 			transform.localScale = Vector3.Lerp(startScale, endScale, startTime);
-			getCarriedElement();
+//			getCarriedElement();
 			updateElementPosition();
 		}
 	}
@@ -49,6 +49,7 @@ public class Lift : MonoBehaviour {
 	public void up() {
 		if(isUp || isPlaying())
 			return;
+		getCarriedElement();
 		endScale = new Vector3(1, 34.33f, 1);
 		isUp = !isUp;
 		startTime = 0;
@@ -61,6 +62,7 @@ public class Lift : MonoBehaviour {
 	public void down() {
 		if(!isUp || isPlaying())
 			return;
+		getCarriedElement();
 		endScale = new Vector3(1, 1, 1);
 		isUp = !isUp;
 		startTime = 0;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameController : MonoBehaviour {
 	private GameObject gameCamera;
@@ -8,7 +9,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject activeObject;
 
-	private string version = "0.2b32";
+	private string version = "0.2b34";
 
 	// ------------------------------------------------------------------------
 
@@ -23,7 +24,9 @@ public class GameController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Start() {
+#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_MOBILE
 		checkUpdate();
+#endif
 	}
 
 	// ------------------------------------------------------------------------
@@ -131,6 +134,7 @@ public class GameController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
+#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_MOBILE
 	public void checkUpdate() {
 		gui.notify("Checking for update");
 		StartCoroutine(wwwcall());
@@ -146,8 +150,7 @@ public class GameController : MonoBehaviour {
 			gui.notify("No new version available");
 		}
 		yield return new WaitForSeconds(3);
-		Debug.Log("Clear text");
 		gui.notify("");
 	}
-
+#endif
 }

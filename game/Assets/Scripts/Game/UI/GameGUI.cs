@@ -18,9 +18,6 @@ public class GameGUI : BaseUIController {
 
 	public Texture2D textWndBackground;
 
-	private float sWidth = 1024f;
-	private float sHeight = 768f;
-
 	private bool drawPauseMenu = false;
 
 	private GUIStyle btnStyle = new GUIStyle();
@@ -39,12 +36,7 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void OnGUI() {
-		calculateAspectRatio();
-
-		float xFactor = Screen.width / sWidth;
-		float yFactor = Screen.height / sHeight;
-		GUIUtility.ScaleAroundPivot(new Vector2(xFactor, yFactor), Vector2.zero);
-
+		initGuiScale();
 	#if UNITY_IPHONE || UNITY_ANDROID
 		mobileGUI();
 	#else
@@ -151,7 +143,7 @@ public class GameGUI : BaseUIController {
         // remaining Time
         GUI.Label(new Rect(sWidth / 2 - 100, 10, 200, 150), conditions.getRemainingTime(), wndBtnStyle);
 
-        if(drawPauseMenu) {
+		if(drawPauseMenu) {
 			GUI.ModalWindow(0, new Rect(sWidth / 2 - 480, sHeight / 2 - 210, 960, 420), pauseMenu, "", wndStyle);
         }
 	}
@@ -191,19 +183,4 @@ public class GameGUI : BaseUIController {
 		notification = message;
 	}
 
-	// ------------------------------------------------------------------------
-
-	void calculateAspectRatio () {
-		var aspect = (float)Screen.width / (float)Screen.height;
-		if(aspect >= 1.7f && aspect < 1.78f) {
-			sWidth = 1280;
-			sHeight = 720;
-		} else if(aspect >= 1.3f && aspect < 1.34f) {
-			sWidth = 1024;
-			sHeight = 768;
-		} else if(aspect >= 1.6f && aspect < 1.65f) {
-			sWidth = 1280;
-			sHeight = 800;
-		}
-	}
 }

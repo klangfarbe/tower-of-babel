@@ -1,25 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class TouchInputController : BaseUIController {
-#if UNITY_IPHONE || UNITY_ANDROID
-	private float sensitivityPanning = 0.01f;
-	private float sensitivityAngle = 0.2f;
-	private bool panningMode = false;
-	private bool angleChangeMode = false;
-
-	private float scLeft;
-	private float scMiddle;
-	private float scRight;
-	private float scHorizontal;
-
-	void Awake() {
-		scLeft = 0;
-		scMiddle = Screen.width / 3;
-		scRight = (Screen.width / 3) * 2;
-		scHorizontal = Screen.height / 2;
+public class TouchInputController : MouseInputController {
+	new void Awake() {
+		base.Awake();
+		sensitivityAngle = 0.3f;
+		sensitivityPanning = 0.025f;
 	}
 
+#if UNITY_IPHONE || UNITY_ANDROID
 	void Update () {
 		// Zoom in/out
 //		if(Input.GetAxis("Mouse ScrollWheel") < 0) {
@@ -34,19 +23,7 @@ public class TouchInputController : BaseUIController {
 		if(Input.touchCount == 1) {
 			Touch t = Input.touches[0];
 			if(t.phase == TouchPhase.Began) {
-				panningMode = false;
-				angleChangeMode = false;
-				if(Input.mousePosition.x > scRight) {
-					cameraController.rotateOverview(90);
-				} else if(Input.mousePosition.x < scMiddle) {
-					cameraController.rotateOverview(-90);
-				} else {
-					if(Input.mousePosition.y > scHorizontal) {
-						panningMode = true;
-					} else {
-						angleChangeMode = true;
-					}
-				}
+				interpretPosition(Input.mousePosition);
 			} else if(t.phase == TouchPhase.Moved && panningMode) {
 				float x = -t.deltaPosition.x * sensitivityPanning;
 				float y = -t.deltaPosition.y * sensitivityPanning;
