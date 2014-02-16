@@ -45,7 +45,6 @@ public class MouseInputController : BaseUIController {
 		angleChangeMode = false;
 
 		if(p.x > vLines[0] && p.x < vLines[1]) {
-			Debug.Log("Rotating");
 			cameraController.rotateOverview(-90);
 			return Quadrant.rotateLeft;
 		}
@@ -66,8 +65,8 @@ public class MouseInputController : BaseUIController {
 
 	// ------------------------------------------------------------------------
 
-#if UNITY_STANDALONE || UNITY_WEBPLAYER
 	void Update () {
+#if UNITY_STANDALONE || UNITY_WEBPLAYER
 		// Zoom in/out
 		if(Input.GetAxis("Mouse ScrollWheel") < 0) {
 			cameraController.zoom(-0.5f);
@@ -85,6 +84,6 @@ public class MouseInputController : BaseUIController {
 		} else if(Input.GetMouseButton(0) && angleChangeMode) {
 			cameraController.changeCameraAngle(-Input.GetAxis("Mouse Y") * sensitivityAngle);
 		}
-	}
 #endif
+	}
 }
