@@ -136,19 +136,26 @@ public class GameController : MonoBehaviour {
 
 #if UNITY_STANDALONE || UNITY_ANDROID || UNITY_MOBILE
 	public void checkUpdate() {
-		gui.notify("Checking for update");
-		StartCoroutine(wwwcall());
+//		gui.notify("Checking for update");
+		WWW www = null;
+		try {
+			www = new WWW("http://tob.guzumi.de/version.txt");
+			while(!www.isDone)
+				new WaitForSeconds(0.1f);
+		} catch(System.Exception e) {
+			Debug.LogException(e);
+		}
+		Debug.Log(www.text + " / " + www.error);
+		if(www.error == "" && www.text != version) {
+			gui.notify("New version " + www.text);
+			StartCoroutine(wwwcall());
+		} else {
+			gui.notify("");
+
+		}
 	}
 
 	private IEnumerator wwwcall() {
-		yield return new WaitForSeconds(1);
-		WWW www = new WWW("http://tob.guzumi.de/version.txt");
-		yield return www;
-		if(www.text != version) {
-			gui.notify("New version " + www.text);
-		} else {
-			gui.notify("No new version available");
-		}
 		yield return new WaitForSeconds(3);
 		gui.notify("");
 	}
