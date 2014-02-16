@@ -136,7 +136,7 @@ public class Conditions : MonoBehaviour {
 	public void destroyRobot() {
 		if(robotsToDestroy == 0 || robotsToDestroy == robotsDestroyed)
 			return;
-		robotsToDestroy++;
+		robotsDestroyed++;
 		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed");
 	}
 }
