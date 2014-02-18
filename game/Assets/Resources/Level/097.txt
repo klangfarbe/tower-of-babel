@@ -2,7 +2,7 @@
   "author": "Pete Cooke",
   "behaviour": {
     "cameras": false,
-    "destroysfloor": true,
+    "destroysfloor": false,
     "timebombspeed": 0
   },
   "conditions": {

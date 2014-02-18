@@ -2,7 +2,7 @@
   "author": "Axeman Towers Ltd.", 
   "behaviour": {
     "cameras": true, 
-    "destroysfloor": true, 
+    "destroysfloor": false, 
     "timebombspeed": 1
   }, 
   "conditions": {

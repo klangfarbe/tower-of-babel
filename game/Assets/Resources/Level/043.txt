@@ -2,7 +2,7 @@
   "author": "Legin Drawnek", 
   "behaviour": {
     "cameras": true, 
-    "destroysfloor": true, 
+    "destroysfloor": false, 
     "timebombspeed": 0
   }, 
   "conditions": {

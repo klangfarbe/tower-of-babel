@@ -2,7 +2,7 @@
   "author": "Chris Newcombe.", 
   "behaviour": {
     "cameras": true, 
-    "destroysfloor": true, 
+    "destroysfloor": false, 
     "timebombspeed": 2
   }, 
   "conditions": {
