@@ -55,10 +55,14 @@ def process_meta(tower, match):
 	if not match:
 		return
 	val = match.group('val')
-	if val.startswith('true') or val.startswith('false'):
-		val = bool(val)
+	if val.startswith('true'):
+		val = True
+	elif val.startswith('false'):
+		val = False
 	elif not val.startswith('0x'):
 		val = int(val)
+	elif val.startswith('0xFF'):
+		val = "0x" + val[4:]
 	tower[match.group('meta')][match.group('key')] = val
 
 # ------------------------------------------------------------------------------
@@ -110,7 +114,7 @@ def process_levels(filename):
 
 		# create new tower if needed
 		if match.group('id') != tower['id']:
-			save_json_file(tower['id'] + '.json', tower)
+			save_json_file(tower['id'] + '.txt', tower)
 			tower = new_tower(match.group('id'))
 
 		match = regex_header.search(data)
