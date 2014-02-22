@@ -2,12 +2,18 @@
 	"folders":
 	[
 		{
-			"path": "game/Assets/Scripts",
-			"file_exclude_patterns": [ "*.meta" ]
+			"file_exclude_patterns":
+			[
+				"*.meta"
+			],
+			"path": "game/Assets/Scripts"
 		},
 		{
-			"path": "game/Assets/Resources/Level",
-			"file_exclude_patterns": [ "*.meta" ]
+			"file_exclude_patterns":
+			[
+				"*.meta"
+			],
+			"path": "game/Assets/Resources"
 		}
 	]
 }

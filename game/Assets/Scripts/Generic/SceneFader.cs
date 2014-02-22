@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SceneFader : MonoBehaviour {
 	public Texture fadeTexture;
-	private float fadeSpeed = 0.2f;
+	private float fadeSpeed = 0.25f;
 	private float fadeDir = -1;
 	private bool fadeIn = true;
 	private bool fadeOut = false;

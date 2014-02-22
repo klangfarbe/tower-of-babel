@@ -8,7 +8,7 @@ public class Timebomb : Actor {
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		timebombspeed = (float)GameObject.Find("Level").GetComponent<Behaviour>().timebombspeed;
+		timebombspeed = (float)GameObject.Find("Level").GetComponent<LevelInfo>().timebombspeed;
 		GetComponent<ScaleAnimation>().duration = timebombspeed;
 	}
 

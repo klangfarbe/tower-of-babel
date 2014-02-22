@@ -109,13 +109,15 @@ public class LevelLoader : MonoBehaviour {
 		calculateLevelCenter();
 		activateCamera();
 
-		Behaviour behaviour = gameObject.GetComponent<Behaviour>();
-		behaviour.destroysfloor = (bool)levelData["behaviour"]["destroysfloor"];
-		behaviour.cameras = (bool)levelData["behaviour"]["cameras"];
-		behaviour.timebombspeed = (int)levelData["behaviour"]["timebombspeed"];
-		behaviour.maxFloors = maxFloors;
-		behaviour.maxRows = maxRows;
-		behaviour.maxColumns = maxColumns;
+		LevelInfo levelInfo = gameObject.GetComponent<LevelInfo>();
+		levelInfo.destroysfloor = (bool)levelData["behaviour"]["destroysfloor"];
+		levelInfo.cameras = (bool)levelData["behaviour"]["cameras"];
+		levelInfo.timebombspeed = (int)levelData["behaviour"]["timebombspeed"];
+		levelInfo.title = (string)levelData["title"];
+		levelInfo.author = (string)levelData["author"];
+		levelInfo.maxFloors = maxFloors;
+		levelInfo.maxRows = maxRows;
+		levelInfo.maxColumns = maxColumns;
 
 		Conditions conditions = gameObject.GetComponent<Conditions>();
 		conditions.init((int)levelData["conditions"]["klondikes"],

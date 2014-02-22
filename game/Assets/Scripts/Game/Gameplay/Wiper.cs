@@ -7,12 +7,12 @@ public class Wiper : Actor {
 	private Vector3 direction;
 
 	private ScaleAnimation anim;
-	private Behaviour behaviour;
+	private LevelInfo levelInfo;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		behaviour = GameObject.Find("Level").GetComponent<Behaviour>();
+		levelInfo = GameObject.Find("Level").GetComponent<LevelInfo>();
 		anim = GetComponent<ScaleAnimation>();
 	}
 
@@ -48,7 +48,7 @@ public class Wiper : Actor {
 
 		// calculate maximum length of the game field
 		float max = direction == Vector3.left || direction == Vector3.right
-			? behaviour.maxColumns : behaviour.maxRows;
+			? levelInfo.maxColumns : levelInfo.maxRows;
 
 		// check if a box of lift is in the way, if so adjust the maximum distance
 		RaycastHit hit;
