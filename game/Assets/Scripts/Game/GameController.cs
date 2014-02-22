@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class GameController : MonoBehaviour {
 	private GameObject gameCamera;
@@ -8,25 +7,22 @@ public class GameController : MonoBehaviour {
 	private GameGUI gui;
 
 	public GameObject activeObject;
-
-	private string version = "0.2b34";
+	public SceneFader sceneFader;
 
 	// ------------------------------------------------------------------------
 
 	void Awake() {
-		GameObject.Find("Version").GetComponent<GUIText>().text = version;
-
 		gameCamera = GameObject.Find("GameCam");
 		cameraController = GameObject.Find("Controller").GetComponent<CameraController>();
 		gui = GameObject.Find("Controller").GetComponent<GameGUI>();
+		sceneFader = SceneFader.create();
+		sceneFader.startScene();
 	}
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
-#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_MOBILE
-		checkUpdate();
-#endif
+		GameObject.Find("Version").GetComponent<GUIText>().text = GameSettings.instance.version;
 	}
 
 	// ------------------------------------------------------------------------
@@ -109,6 +105,7 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds(3);
 		gui.notify("");
 		GameObject.Find("Level").GetComponent<LevelLoader>().next();
+//		Application.LoadLevel("game");
 	}
 
 	// ------------------------------------------------------------------------
@@ -116,8 +113,19 @@ public class GameController : MonoBehaviour {
 	public IEnumerator levelFailed() {
 		gui.notify("Level failed!");
 		yield return new WaitForSeconds(3);
-		gui.notify("");
 		GameObject.Find("Level").GetComponent<LevelLoader>().reload();
+		gui.notify("");
+//		Application.LoadLevel("game");
+	}
+
+	// ------------------------------------------------------------------------
+
+	public IEnumerator levelRestart() {
+		sceneFader.endScene();
+		while(sceneFader.Blending)
+			yield return null;
+		GameObject.Find("Level").GetComponent<LevelLoader>().reload();
+		sceneFader.startScene();
 	}
 
 	// ------------------------------------------------------------------------
@@ -131,33 +139,4 @@ public class GameController : MonoBehaviour {
 	public void levelUnpause() {
 		Time.timeScale = 1f;
 	}
-
-	// ------------------------------------------------------------------------
-
-#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_MOBILE
-	public void checkUpdate() {
-//		gui.notify("Checking for update");
-		WWW www = null;
-		try {
-			www = new WWW("http://tob.guzumi.de/version.txt");
-			while(!www.isDone)
-				new WaitForSeconds(0.1f);
-		} catch(System.Exception e) {
-			Debug.LogException(e);
-		}
-		Debug.Log(www.text + " / " + www.error);
-		if(www.error == "" && www.text != version) {
-			gui.notify("New version " + www.text);
-			StartCoroutine(wwwcall());
-		} else {
-			gui.notify("");
-
-		}
-	}
-
-	private IEnumerator wwwcall() {
-		yield return new WaitForSeconds(3);
-		gui.notify("");
-	}
-#endif
 }

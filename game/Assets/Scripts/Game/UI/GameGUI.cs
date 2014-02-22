@@ -36,7 +36,12 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void OnGUI() {
-		initGuiScale();
+		ar.initGuiScale();
+
+        if(notification.Length > 0) {
+        	GUI.Label(new Rect(ar.sWidth / 2 - 300, ar.sHeight / 2 - 200, 600, 400), notification, wndBtnStyle);
+        }
+
 	#if UNITY_IPHONE || UNITY_ANDROID
 		mobileGUI();
 	#else
@@ -52,8 +57,8 @@ public class GameGUI : BaseUIController {
 		wndStyle.border = new RectOffset(2,2,2,2);
 		wndStyle.padding = new RectOffset(25,25,25,25);
 
-		btnStyle.fixedHeight = 96;
-		btnStyle.fixedWidth = 96;
+		btnStyle.fixedHeight = 128;
+		btnStyle.fixedWidth = 128;
 		btnStyle.margin.bottom = 10;
 		btnStyle.margin.right = 10;
 
@@ -63,7 +68,7 @@ public class GameGUI : BaseUIController {
 		wndBtnStyle.alignment = TextAnchor.UpperCenter;
 		wndBtnStyle.margin = new RectOffset(25,25,25,25);
 
-		cndTextStyle.fontSize = 24;
+		cndTextStyle.fontSize = 36;
 		cndTextStyle.font = font;
 		cndTextStyle.normal.textColor = Color.white;
 		cndTextStyle.alignment = TextAnchor.UpperLeft;
@@ -72,7 +77,7 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void standaloneGUI() {
-		GUILayout.BeginArea(new Rect(sWidth / 2 - 305, sHeight - 80, 610, 70));
+		GUILayout.BeginArea(new Rect(ar.sWidth / 2 - 305, ar.sHeight - 80, 610, 70));
 		GUILayout.BeginHorizontal();
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -81,12 +86,11 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void mobileGUI() {
-
 		float btnFullWidth = btnStyle.fixedWidth + btnStyle.margin.right;
 		float btnFullHeight = btnStyle.fixedHeight + btnStyle.margin.bottom;
 
 		// Overview buttons on the left side of the screen
-		GUILayout.BeginArea(new Rect(10, sHeight - btnFullHeight * 4, btnFullWidth, btnFullHeight * 4));
+		GUILayout.BeginArea(new Rect(10, ar.sHeight - btnFullHeight * 4, btnFullWidth, btnFullHeight * 4));
 		GUILayout.BeginVertical();
         if(GUILayout.Button(texMap, btnStyle)) {
         	cameraController.activateOverview();
@@ -105,7 +109,7 @@ public class GameGUI : BaseUIController {
 
 		// Overview buttons on the right side of the screen
 		if(!cameraController.mapActive) {
-			GUILayout.BeginArea(new Rect(sWidth - btnFullWidth * 3, sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
+			GUILayout.BeginArea(new Rect(ar.sWidth - btnFullWidth * 3, ar.sHeight - btnFullHeight * 2, btnFullWidth * 3, btnFullHeight * 2));
 			GUILayout.BeginHorizontal();
 	        if(GUILayout.Button(texFire, btnStyle)) {
 	        	gameController.actorFire();
@@ -129,22 +133,18 @@ public class GameGUI : BaseUIController {
 		}
 
         // Pause button
-        if(GUI.Button(new Rect(sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {
+        if(GUI.Button(new Rect(ar.sWidth - btnFullWidth, 10, btnFullWidth, btnFullHeight), texPause, btnStyle)) {
         	drawPauseMenu = true;
-        }
-
-        if(notification.Length > 0) {
-        	GUI.Label(new Rect(sWidth / 2 - 300, sHeight / 2 - 200, 600, 400), notification, wndBtnStyle);
         }
 
         // conditions
         GUI.Label(new Rect(10, 10, 100, 50), conditions.getConditionsText(), cndTextStyle);
 
         // remaining Time
-        GUI.Label(new Rect(sWidth / 2 - 100, 10, 200, 150), conditions.getRemainingTime(), wndBtnStyle);
+        GUI.Label(new Rect(ar.sWidth / 2 - 100, 10, 200, 150), conditions.getRemainingTime(), wndBtnStyle);
 
 		if(drawPauseMenu) {
-			GUI.ModalWindow(0, new Rect(sWidth / 2 - 480, sHeight / 2 - 210, 960, 420), pauseMenu, "", wndStyle);
+			GUI.ModalWindow(0, new Rect(ar.sWidth / 2 - 480, ar.sHeight / 2 - 210, 960, 420), pauseMenu, "", wndStyle);
         }
 	}
 
@@ -155,9 +155,9 @@ public class GameGUI : BaseUIController {
 
 		GUILayout.BeginVertical(new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true) });
         if(GUILayout.Button("Restart Level", wndBtnStyle, GUILayout.ExpandWidth(true))) {
-        	GameObject.Find("Level").GetComponent<LevelLoader>().reload();
         	drawPauseMenu = false;
 			gameController.levelUnpause();
+			StartCoroutine(gameController.levelRestart());
         }
         if(GUILayout.Button("Previous Level", wndBtnStyle, GUILayout.ExpandWidth(true))) {
         	GameObject.Find("Level").GetComponent<LevelLoader>().prev();

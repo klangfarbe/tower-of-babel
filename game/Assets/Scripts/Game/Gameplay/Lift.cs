@@ -72,7 +72,7 @@ public class Lift : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	private void getCarriedElement() {
+	public bool getCarriedElement() {
 		element = null;
 		RaycastHit hit;
 		Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
@@ -80,7 +80,9 @@ public class Lift : MonoBehaviour {
 //			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
 			if(hit.collider.tag == "Actor" || hit.collider.tag == "Player")
 				element = hit.collider.gameObject;
+			return true;
 		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------

@@ -33,11 +33,14 @@ public class ForceLift : Actor {
 
 		ForceLift.liftsActive = true;
 
-		foreach(GameObject lift in GameObject.FindGameObjectsWithTag("Lift")) {
+		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Lift")) {
+			Lift lift = g.GetComponent<Lift>();
+			if(lift.getCarriedElement()) // skip if something stands on the lift
+				continue;
 			if(triggerUp)
-				lift.GetComponent<Lift>().up();
+				lift.up();
 			else
-				lift.GetComponent<Lift>().down();
+				lift.down();
 		}
 		return true;
 	}

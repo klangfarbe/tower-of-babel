@@ -1,3 +1,4 @@
+#if UNITY_IPHONE || UNITY_ANDROID
 using UnityEngine;
 using System.Collections;
 
@@ -11,15 +12,12 @@ public class TouchInputController : MouseInputController {
 	private Vector2 curDist = new Vector2(0,0);
 
 	new void Awake() {
-#if UNITY_IPHONE || UNITY_ANDROID
 		base.Awake();
 		sensitivityAngle = 0.3f;
 		sensitivityPanning = 0.025f;
-#endif
 	}
 
 	void Update () {
-#if UNITY_IPHONE || UNITY_ANDROID
 		if(Input.touchCount == 1) {
 			Touch t = Input.touches[0];
 			if(t.phase == TouchPhase.Began) {
@@ -51,9 +49,9 @@ public class TouchInputController : MouseInputController {
 				cameraController.zoom(0.2f);
 			}
 			if((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed)) {
-					cameraController.0(-zoom.2f);
+				cameraController.zoom(-0.2f);
 			}
 		}
-#endif
 	}
 }
+#endif

@@ -217,7 +217,9 @@ public class LevelLoader : MonoBehaviour {
 	void buildPosition () {
 		try {
 			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
+#if UNITY_DEBUG
 			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
+#endif
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PushingCannon : Actor {
 	public bool rotating = false;
-	public int timeBeforeRotation = 2;
+	private float timeBeforeRotation = 1.2f;
 
 	private float lastTime = 0;
 	private bool hasPushedInThisFrame = false;

@@ -3,8 +3,7 @@ using System.Collections;
 
 public class ZappingCannon : Actor {
 	public bool rotating = false;
-	public int timeBeforeRotation = 2;
-
+	private float timeBeforeRotation = 1.2f;
 	private float lastTime = 0;
 	private bool hasZappedInThisFrame = false;
 	private FadingLight spotlight;
