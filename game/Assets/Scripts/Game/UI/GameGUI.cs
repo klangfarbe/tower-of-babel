@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameGUI : BaseUIController {
 	public Texture texMap;
@@ -24,8 +25,19 @@ public class GameGUI : BaseUIController {
 	private GUIStyle wndStyle = new GUIStyle();
 	private GUIStyle wndBtnStyle = new GUIStyle();
 	private GUIStyle cndTextStyle = new GUIStyle();
+	private GUIStyle ntyTextStyle = new GUIStyle();
 
-	private string notification = "";
+	public class Notification {
+		public string msg;
+		public float duration;
+
+		public Notification(string msg, float duration) {
+			this.msg = msg;
+			this.duration = duration;
+		}
+	}
+	private Queue<Notification> notifications = new Queue<Notification>();
+	private Notification currentNotification = null;
 
 	// ------------------------------------------------------------------------
 
@@ -36,25 +48,19 @@ public class GameGUI : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void OnGUI() {
-		ar.initGuiScale();
-
-		if(notification.Length > 0) {
-			GUI.Label(new Rect(ar.sWidth / 2 - 300, ar.sHeight / 2 - 200, 600, 400), notification, wndBtnStyle);
+		if(ar == null) {
+			ar = new AspectRatio();
 		}
-
-	#if UNITY_IPHONE || UNITY_ANDROID
+		ar.initGuiScale();
+		drawNotification();
 		mobileGUI();
-	#else
-		mobileGUI();
-//		standaloneGUI();
-	#endif
 	}
 
 	// ------------------------------------------------------------------------
 
 	private void setupGUIStyles() {
 		wndStyle.normal.background = textWndBackground;
-		wndStyle.border = new RectOffset(2,2,2,2);
+		wndStyle.border = new RectOffset(25,25,25,25);
 		wndStyle.padding = new RectOffset(25,25,25,25);
 
 		btnStyle.fixedHeight = 128;
@@ -72,15 +78,12 @@ public class GameGUI : BaseUIController {
 		cndTextStyle.font = font;
 		cndTextStyle.normal.textColor = Color.white;
 		cndTextStyle.alignment = TextAnchor.UpperLeft;
-	}
 
-	// ------------------------------------------------------------------------
+		ntyTextStyle.fontSize = 64;
+		ntyTextStyle.font = font;
+		ntyTextStyle.normal.textColor = Color.white;
+		ntyTextStyle.alignment = TextAnchor.UpperCenter;
 
-	void standaloneGUI() {
-		GUILayout.BeginArea(new Rect(ar.sWidth / 2 - 305, ar.sHeight - 80, 610, 70));
-		GUILayout.BeginHorizontal();
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
 	}
 
 	// ------------------------------------------------------------------------
@@ -179,8 +182,55 @@ public class GameGUI : BaseUIController {
 
 	// ------------------------------------------------------------------------
 
-	public void notify(string message) {
-		notification = message;
+	public void notify(string message, float duration) {
+		notifications.Enqueue(new Notification(message, duration));
+		StartCoroutine(fadeNotificationText());
 	}
 
+	// ------------------------------------------------------------------------
+
+	public void drawNotification() {
+		if(currentNotification != null) {
+			GUI.Label(new Rect(ar.sWidth / 2 - 300, ar.sHeight / 2 - 200, 600, 400), currentNotification.msg, ntyTextStyle);
+		} else if (notifications.Count > 0) {
+			currentNotification = notifications.Dequeue();
+			Color c = ntyTextStyle.normal.textColor;
+			c.a = 0;
+			ntyTextStyle.normal.textColor = c;
+			Debug.Log("New notification " + currentNotification.msg + " / " + c + " / " + notifications.Count);
+			StartCoroutine(fadeNotificationText());
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	public IEnumerator fadeNotificationText() {
+		if(currentNotification != null) {
+			Color c = ntyTextStyle.normal.textColor;
+			Debug.Log("Fade in text");
+			yield return null;
+			while(ntyTextStyle.normal.textColor.a < 1) {
+				c.a += 1.5f * Time.deltaTime;
+				c.a = Mathf.Clamp01(c.a);
+				ntyTextStyle.normal.textColor = c;
+				yield return null;
+			}
+
+			yield return new WaitForSeconds(currentNotification.duration);
+
+			Debug.Log("fade out text");
+			yield return null;
+			while(ntyTextStyle.normal.textColor.a > 0) {
+				c.a -= 1.5f * Time.deltaTime;
+				c.a = Mathf.Clamp01(c.a);
+				ntyTextStyle.normal.textColor = c;
+				yield return null;
+			}
+			currentNotification = null;
+		}
+	}
+
+	public void clearNotifications() {
+		notifications.Clear();
+	}
 }

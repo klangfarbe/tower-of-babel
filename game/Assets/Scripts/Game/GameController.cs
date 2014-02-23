@@ -101,21 +101,22 @@ public class GameController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public IEnumerator levelCompleted() {
-		gui.notify("Level completed!");
+		gui.notify("Level completed!", 3);
 		yield return new WaitForSeconds(3);
-		gui.notify("");
+		sceneFader.endScene();
+		while(sceneFader.Blending)
+			yield return null;
 		GameObject.Find("Level").GetComponent<LevelLoader>().next();
+		sceneFader.startScene();
 //		Application.LoadLevel("game");
 	}
 
 	// ------------------------------------------------------------------------
 
 	public IEnumerator levelFailed() {
-		gui.notify("Level failed!");
+		gui.notify("Level failed!", 3);
 		yield return new WaitForSeconds(3);
-		GameObject.Find("Level").GetComponent<LevelLoader>().reload();
-		gui.notify("");
-//		Application.LoadLevel("game");
+		StartCoroutine(levelRestart());
 	}
 
 	// ------------------------------------------------------------------------

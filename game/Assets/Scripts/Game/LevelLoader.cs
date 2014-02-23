@@ -30,6 +30,10 @@ public class LevelLoader : MonoBehaviour {
 
 	private int instanceCounter = 0;
 
+	private bool hasGrabber;
+	private bool hasPusher;
+	private bool hasZapper;
+
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
 	// ------------------------------------------------------------------------
@@ -40,6 +44,9 @@ public class LevelLoader : MonoBehaviour {
 
 	public int level = 0;
 	void Start() {
+		if(PlayerPrefs.HasKey("lastLevel")) {
+			level = PlayerPrefs.GetInt("lastLevel");
+		}
 		build("Level/" + string.Format("{0:d3}", level));
 	}
 
@@ -60,6 +67,7 @@ public class LevelLoader : MonoBehaviour {
 		if(level < 116) {
 			build("Level/" + string.Format("{0:d3}", ++level));
 		}
+		PlayerPrefs.SetInt("lastLevel", level);
 	}
 
 	// ------------------------------------------------------------------------
@@ -68,6 +76,7 @@ public class LevelLoader : MonoBehaviour {
 		if(level > 0) {
 			build("Level/" + string.Format("{0:d3}", --level));
 		}
+		PlayerPrefs.SetInt("lastLevel", level);
 	}
 
 	// ------------------------------------------------------------------------
@@ -124,7 +133,46 @@ public class LevelLoader : MonoBehaviour {
 						(int)levelData["conditions"]["robots"],
 						(int)levelData["conditions"]["timelimit"]);
 
-}
+		GameGUI gui = GameObject.Find("Controller").GetComponent<GameGUI>();
+		gui.clearNotifications();
+		gui.notify(levelInfo.title, 1.5f);// + "\ndesigned by " + levelInfo.author, 1.5f);
+
+		string spiders = "";
+		if(hasGrabber) {
+			spiders = "Grabber";
+			if(hasZapper && hasPusher) {
+				spiders += ", ";
+			} else if(hasZapper || hasPusher) {
+				spiders += " and ";
+			}
+		}
+		if(hasPusher) {
+			spiders += "Pusher";
+			if(hasZapper) {
+				spiders += " and ";
+			}
+		}
+		if(hasZapper) {
+			spiders += "Zapper";
+		}
+
+		gui.notify("Available spiders:\n" + spiders, 1f);
+
+		string goal = "";
+		if(conditions.klondikesToGather > 0) {
+			goal = "Collect " + conditions.klondikesToGather + " Klondikes";
+			if(conditions.robotsToDestroy > 0) {
+				goal += " and destroy " + conditions.robotsToDestroy + " robots";
+			}
+		} else if(conditions.robotsToDestroy > 0) {
+			goal += "Destroy " + conditions.robotsToDestroy + " robots";
+		}
+		if(conditions.timelimit > 0) {
+			goal += " within " + conditions.getRemainingTime() + " minutes";
+		}
+		gui.notify(goal, 1f);
+	}
+
 	// ------------------------------------------------------------------------
 
 	void activateCamera() {
@@ -169,6 +217,9 @@ public class LevelLoader : MonoBehaviour {
 		maxRows = 0;
 		levelData = null;
 		instanceCounter = 0;
+		hasZapper = false;
+		hasPusher = false;
+		hasGrabber = false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -287,6 +338,15 @@ public class LevelLoader : MonoBehaviour {
 		instance.name = type;
 		if(instance.tag == "Actor") {
 			instance.name = type + ++instanceCounter;
+		}
+		if(type == "GRB") {
+			hasGrabber = true;
+		}
+		if(type == "PSH") {
+			hasPusher = true;
+		}
+		if(type == "ZAP") {
+			hasZapper = true;
 		}
 		objects.Add(instance);
 		return instance;
