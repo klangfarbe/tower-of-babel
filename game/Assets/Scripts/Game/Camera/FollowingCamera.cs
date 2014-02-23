@@ -99,4 +99,8 @@ public class FollowingCamera : MonoBehaviour {
 			return angle;
 		}
 	}
+
+	public void force() {
+		forcedUpdate = true;
+	}
 }
