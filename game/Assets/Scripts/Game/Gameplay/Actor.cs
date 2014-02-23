@@ -35,7 +35,7 @@ public class Actor : MonoBehaviour {
 
 	public virtual bool zapped(GameObject by) {
 		DestroyActor m = GetComponent<DestroyActor>();
-		if(m) {
+		if(m && !isOnMovingLift()) {
 			m.destroy();
 			return true;
 		}
@@ -107,5 +107,16 @@ public class Actor : MonoBehaviour {
 		if(gameObject.audio) {
 			gameObject.audio.Play();
 		}
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected bool isOnMovingLift() {
+		RaycastHit hit;
+		Debug.DrawRay(transform.position +  Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
+		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f))
+			if(hit.collider.tag == "Lift")
+				return hit.collider.gameObject.GetComponent<Lift>().isPlaying();
+		return false;
 	}
 }

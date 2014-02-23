@@ -32,8 +32,7 @@ public class ZappingCannon : Actor {
 		// push one time per turn if rotating
 		if(base.raycast(out hit)) {
 			Actor actor = hit.collider.gameObject.GetComponentInChildren<Actor>();
-			if(actor && !hasZappedInThisFrame) {
-				actor.zapped(gameObject);
+			if(!hasZappedInThisFrame && actor && actor.zapped(gameObject)) {
 				hasZappedInThisFrame = true;
 			}
 			if(!rotating) {

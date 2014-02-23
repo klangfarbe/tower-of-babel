@@ -4,6 +4,11 @@ using System.Collections;
 public class Grabber : Actor {
 	public override void fire() {
 		base.fire();
+
+		if(isOnMovingLift()) {
+			return;
+		}
+
 		RaycastHit hit;
 		if(!base.raycast(out hit))
 			return;
