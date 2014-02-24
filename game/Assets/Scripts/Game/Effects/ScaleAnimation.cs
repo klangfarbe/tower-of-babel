@@ -24,6 +24,8 @@ public class ScaleAnimation : MonoBehaviour {
 
 	void Start() {
 		originalScale = transform.localScale;
+		targetScale = endScale;
+		speed = calculateSpeed();
 	}
 
 	// ------------------------------------------------------------------------
@@ -65,8 +67,6 @@ public class ScaleAnimation : MonoBehaviour {
 		if(startAnim)
 			return;
 		startAnim = true;
-		targetScale = endScale;
-		speed = calculateSpeed();
 	//	Debug.Log(gameObject.name + ": Scale animation start at " + Time.time + " with speed " + speed);
 	}
 
@@ -80,5 +80,11 @@ public class ScaleAnimation : MonoBehaviour {
 
 	public bool isPlaying() {
 		return startAnim;
+	}
+
+	// ------------------------------------------------------------------------
+
+	public void pause() {
+		startAnim = false;
 	}
 }

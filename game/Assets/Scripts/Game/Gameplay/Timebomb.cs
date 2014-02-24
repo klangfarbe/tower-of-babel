@@ -4,19 +4,34 @@ using System.Collections;
 public class Timebomb : Actor {
 	private GameObject[] hits = new GameObject[4];
 	private float timebombspeed;
+	private float actorSpeed = 1.6f;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
+		// fast = 8 fields
+		// med = 12 fields
+		// slow =24 fields
 		timebombspeed = (float)GameObject.Find("Level").GetComponent<LevelInfo>().timebombspeed;
+		if(timebombspeed == 0) {
+			timebombspeed = actorSpeed * 24;
+		}
+		else if(timebombspeed == 1) {
+			timebombspeed = actorSpeed * 12;
+		}
+		else if(timebombspeed == 2) {
+			timebombspeed = actorSpeed * 8;
+		}
 		GetComponent<ScaleAnimation>().duration = timebombspeed;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void FixedUpdate() {
-		if(!Enable)
+		if(!Enable) {
+			GetComponent<ScaleAnimation>().pause();
 			return;
+		}
 
 		GetComponent<ScaleAnimation>().run();
 
