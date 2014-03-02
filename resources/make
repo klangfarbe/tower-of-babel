@@ -1,0 +1,25 @@
+#!/bin/bash
+
+ASSETS="../game/Assets"
+GAME_GUI_ICONS="${ASSETS}/Graphics/Game/GUI"
+RESOURCES="graphic"
+
+icons=(
+	forward
+	back
+	left
+	right
+	lift
+	grabber
+	pusher
+	zapper
+	play
+	pause
+	delete
+	map
+)
+
+for id in ${icons[@]}
+do
+	inkscape -e $GAME_GUI_ICONS/ingame-icons-${id}.png -w 512 -h 512 -y 0 -j -i $id $RESOURCES/ingame-icons.svg
+done
