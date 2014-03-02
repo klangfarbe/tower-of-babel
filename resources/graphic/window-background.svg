@@ -2,6 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -16,21 +17,33 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    inkscape:export-filename="C:\Users\Chris\Desktop\babel\game\Assets\Graphics\Game\GUI\window-bg.png"
-   inkscape:export-xdpi="230.39999"
-   inkscape:export-ydpi="230.39999"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
    sodipodi:docname="window-background.svg">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient5234"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5236" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3952">
       <stop
          id="stop3954"
          offset="0"
-         style="stop-color:#19192a;stop-opacity:1;" />
+         style="stop-color:#0b0b11;stop-opacity:1;" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0.32214764"
+         id="stop5250" />
       <stop
          id="stop3956"
          offset="1"
-         style="stop-color:#000000;stop-opacity:1;" />
+         style="stop-color:#131313;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
        id="linearGradient3831">
@@ -204,13 +217,23 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3952"
-       id="linearGradient3950"
-       x1="0"
-       y1="1002.3622"
-       x2="100"
-       y2="1002.3622"
+       id="linearGradient5248"
+       x1="-1052.3622"
+       y1="256"
+       x2="-540.36218"
+       y2="256"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-1052.3622,-952.36218)" />
+       gradientTransform="matrix(0.06066536,0,0,0.06066536,-988.05058,0.46966732)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3952"
+       id="linearGradient5254"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.06066536,0,0,0.06066537,-988.05052,35.469668)"
+       x1="-1052.3622"
+       y1="256"
+       x2="-540.36218"
+       y2="256" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -219,16 +242,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.63"
-     inkscape:cx="50"
-     inkscape:cy="50"
+     inkscape:zoom="25.562502"
+     inkscape:cx="44.033034"
+     inkscape:cy="15.999996"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1912"
-     inkscape:window-height="1050"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1013"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      showborder="false"
      inkscape:showpageshadow="false"
@@ -249,7 +272,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -259,16 +282,27 @@
      id="layer1"
      transform="translate(0,-952.36218)">
     <rect
-       style="fill:url(#linearGradient3950);fill-opacity:1;stroke:#737381;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;opacity:0.9"
+       style="opacity:0.90372666999999995;fill:url(#linearGradient5248);fill-opacity:1;fill-rule:nonzero;stroke:#646464;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2985"
-       width="99"
-       height="99"
+       width="30.999998"
+       height="30.999998"
        x="-1051.8622"
        y="0.5"
-       inkscape:export-xdpi="43"
-       inkscape:export-ydpi="43"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
        transform="matrix(0,-1,1,0,0,0)"
-       inkscape:export-filename="C:\Users\Chris\Desktop\babel\game\Assets\Graphics\Game\GUI\rect2985.png" />
+       inkscape:export-filename="C:\Users\Chris\Desktop\babel\game\Assets\Graphics\Game\GUI\window-bg.png" />
+    <rect
+       inkscape:export-filename="C:\Users\Chris\Desktop\babel\game\Assets\Graphics\Game\GUI\window-bg-hover.png"
+       transform="matrix(0,-1,1,0,0,0)"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       y="35.5"
+       x="-1051.8622"
+       height="31.000002"
+       width="30.999998"
+       id="rect5252"
+       style="opacity:0.76708074999999998;fill:url(#linearGradient5254);fill-opacity:1;fill-rule:nonzero;stroke:#646464;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
   <g
      inkscape:groupmode="layer"
