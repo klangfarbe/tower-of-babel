@@ -6,6 +6,7 @@ public class GUINotification : BaseUIController {
 	public Font font;
 	public Texture2D txtBackground;
 
+	private Color color;
 	private GUIStyle ntyTextStyle = new GUIStyle();
 
 	public class Notification {
@@ -25,11 +26,13 @@ public class GUINotification : BaseUIController {
 	void Awake() {
 		ntyTextStyle.fontSize = 64;
 		ntyTextStyle.font = font;
+		ntyTextStyle.wordWrap = true;
 		ntyTextStyle.normal.textColor = Color.white;
 		ntyTextStyle.alignment = TextAnchor.MiddleCenter;
-//		ntyTextStyle.normal.background = txtBackground;
-//		ntyTextStyle.border = new RectOffset(3,3,3,3);
+		ntyTextStyle.normal.background = txtBackground;
+		ntyTextStyle.border = new RectOffset(3,3,3,3);
 		ntyTextStyle.padding = new RectOffset(25,25,25,25);
+		color = GUI.color;
 	}
 
 	// ------------------------------------------------------------------------
@@ -54,18 +57,13 @@ public class GUINotification : BaseUIController {
 	public void drawNotification() {
 		if(currentNotification != null) {
 			GUI.depth = 1000;
-			GUI.DrawTexture(new Rect(-10, ar.sHeight / 2 - 100, ar.sWidth + 20, 200), txtBackground, ScaleMode.ScaleToFit);
+			GUI.color = color;
 			GUI.Label(new Rect(-10, ar.sHeight / 2 - 100, ar.sWidth + 20, 200), currentNotification.msg, ntyTextStyle);
 		} else if (notifications.Count > 0) {
-//			if()
 			currentNotification = notifications.Dequeue();
-			Color c = ntyTextStyle.normal.textColor;
-			c.a = 0;
-			ntyTextStyle.normal.textColor = c;
-			Debug.Log("New notification " + currentNotification.msg + " / " + c + " / " + notifications.Count);
+			color.a = 0;
+			GUI.color = color;
 			StartCoroutine(fadeNotificationText());
-		} else {
-//			StartCoroutine(fadeOutNotificationBox());
 		}
 	}
 
@@ -73,24 +71,19 @@ public class GUINotification : BaseUIController {
 
 	public IEnumerator fadeNotificationText() {
 		if(currentNotification != null) {
-			Color c = ntyTextStyle.normal.textColor;
-			Debug.Log("Fade in text");
+			color = GUI.color;
 			yield return null;
-			while(ntyTextStyle.normal.textColor.a < 1) {
-				c.a += 1.2f * Time.deltaTime;
-				c.a = Mathf.Clamp01(c.a);
-				ntyTextStyle.normal.textColor = c;
+			while(color.a < 1) {
+				color.a += 1.2f * Time.deltaTime;
+				color.a = Mathf.Clamp01(color.a);
 				yield return null;
 			}
 
 			yield return new WaitForSeconds(currentNotification.duration);
 
-			Debug.Log("fade out text");
-			yield return null;
-			while(ntyTextStyle.normal.textColor.a > 0) {
-				c.a -= 1.2f * Time.deltaTime;
-				c.a = Mathf.Clamp01(c.a);
-				ntyTextStyle.normal.textColor = c;
+			while(color.a > 0) {
+				color.a -= 1.2f * Time.deltaTime;
+				color.a = Mathf.Clamp01(color.a);
 				yield return null;
 			}
 			currentNotification = null;
