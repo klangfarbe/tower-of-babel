@@ -4,7 +4,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 	private GameObject gameCamera;
 	private CameraController cameraController;
-	private GameGUI gui;
+	private GUINotification gui;
 
 	public GameObject activeObject;
 	public SceneFader sceneFader;
@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		gameCamera = GameObject.Find("GameCam");
 		cameraController = GameObject.Find("Controller").GetComponent<CameraController>();
-		gui = GameObject.Find("Controller").GetComponent<GameGUI>();
+		gui = GameObject.Find("Controller").GetComponent<GUINotification>();
 		sceneFader = SceneFader.create();
 		sceneFader.startScene();
 	}
@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Start() {
-		GameObject.Find("Version").GetComponent<GUIText>().text = GameSettings.instance.version;
 	}
 
 	// ------------------------------------------------------------------------
@@ -108,7 +107,6 @@ public class GameController : MonoBehaviour {
 			yield return null;
 		GameObject.Find("Level").GetComponent<LevelLoader>().next();
 		sceneFader.startScene();
-//		Application.LoadLevel("game");
 	}
 
 	// ------------------------------------------------------------------------
@@ -117,6 +115,15 @@ public class GameController : MonoBehaviour {
 		gui.notify("Level failed!", 3);
 		yield return new WaitForSeconds(3);
 		StartCoroutine(levelRestart());
+	}
+
+	// ------------------------------------------------------------------------
+
+	public IEnumerator levelAbort() {
+		sceneFader.endScene();
+		while(sceneFader.Blending)
+			yield return null;
+		Application.LoadLevel("mainmenu");
 	}
 
 	// ------------------------------------------------------------------------

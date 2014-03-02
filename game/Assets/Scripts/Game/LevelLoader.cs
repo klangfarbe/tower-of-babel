@@ -133,9 +133,9 @@ public class LevelLoader : MonoBehaviour {
 						(int)levelData["conditions"]["robots"],
 						(int)levelData["conditions"]["timelimit"]);
 
-		GameGUI gui = GameObject.Find("Controller").GetComponent<GameGUI>();
+		GUINotification gui = GameObject.Find("Controller").GetComponent<GUINotification>();
 		gui.clearNotifications();
-		gui.notify(levelInfo.title, 1.5f);// + "\ndesigned by " + levelInfo.author, 1.5f);
+		gui.notify(levelInfo.title, 2f);// + "\ndesigned by " + levelInfo.author, 1.5f);
 
 		string spiders = "";
 		if(hasGrabber) {
@@ -156,7 +156,7 @@ public class LevelLoader : MonoBehaviour {
 			spiders += "Zapper";
 		}
 
-		gui.notify("Available spiders:\n" + spiders, 1f);
+		gui.notify("Available spiders:\n" + spiders, 2f);
 
 		string goal = "";
 		if(conditions.klondikesToGather > 0) {
@@ -170,7 +170,7 @@ public class LevelLoader : MonoBehaviour {
 		if(conditions.timelimit > 0) {
 			goal += " within " + conditions.getRemainingTime() + " minutes";
 		}
-		gui.notify(goal, 1f);
+		gui.notify(goal, 2f);
 	}
 
 	// ------------------------------------------------------------------------
