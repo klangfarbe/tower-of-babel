@@ -12,7 +12,7 @@ public class Timebomb : Actor {
 		// fast = 8 fields
 		// med = 12 fields
 		// slow =24 fields
-		timebombspeed = (float)GameObject.Find("Level").GetComponent<LevelInfo>().timebombspeed;
+		timebombspeed = (float)GameObject.Find("Level").GetComponent<LevelLoader>().Timebombspeed;
 		if(timebombspeed == 0) {
 			timebombspeed = actorSpeed * 24;
 		}

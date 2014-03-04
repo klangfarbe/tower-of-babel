@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour {
 	private GameController gameController;
 	private GameObject gameCamera;
 	private GameObject levelCenter;
-	private LevelInfo levelInfo;
+	private LevelLoader level;
 
 	private float distanceToSpider = 1.25f;
 	private float distanceToLevel = 10f;
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour {
 		gameCamera = GameObject.Find("GameCam");
 		levelCenter = GameObject.Find("Level/LevelCenter");
 		gameController = GameObject.Find("Controller").GetComponent<GameController>();
-		levelInfo = GameObject.Find("Level").GetComponent<LevelInfo>();
+		level = GameObject.Find("Level").GetComponent<LevelLoader>();
 		cameraLightIntensity = gameCamera.camera.GetComponent<Light>().intensity;
 	}
 
@@ -90,7 +90,7 @@ public class CameraController : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void activateOverview() {
-		if(levelInfo.cameras) {
+		if(level.Cameras) {
 			if(lookAt(levelCenter, distanceToLevel, cameraHeightToLevel, cameraAngleToLevel)) {
 				gameCamera.GetComponent<Light>().intensity = cameraLightIntensity * 0.5f * distanceToLevel;
 				mapActive = true;
@@ -140,17 +140,17 @@ public class CameraController : MonoBehaviour {
 		// depending on the rotation we must create a translation vector
 		// which will move the levelcenter around only inside the bounding
 		// box of the level
-		v2.y = calculateMaxTranslation(levelInfo.maxFloors + 0.5f, l.y, v.y);
+		v2.y = calculateMaxTranslation(level.MaxFloors + 0.5f, l.y, v.y);
 
 		int angle = (int)levelCenter.transform.localEulerAngles.y;
 		if(angle == 0) {
-			v2.x = calculateMaxTranslation(levelInfo.maxColumns, l.x, v.x);
+			v2.x = calculateMaxTranslation(level.MaxColumns, l.x, v.x);
 		} else if(angle == 90) {
-			v2.z = calculateMaxTranslation(levelInfo.maxRows, l.z, -v.x);
+			v2.z = calculateMaxTranslation(level.MaxRows, l.z, -v.x);
 		} else if(angle == 180) {
-			v2.x = calculateMaxTranslation(levelInfo.maxColumns, l.x, -v.x);
+			v2.x = calculateMaxTranslation(level.MaxColumns, l.x, -v.x);
 		} else if(angle == 270) {
-			v2.z = calculateMaxTranslation(levelInfo.maxRows, l.z, v.x);
+			v2.z = calculateMaxTranslation(level.MaxRows, l.z, v.x);
 		}
 		levelCenter.transform.Translate(v2, Space.World);
 	}

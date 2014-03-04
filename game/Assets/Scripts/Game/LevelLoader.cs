@@ -86,19 +86,43 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 	// ------------------------------------------------------------------------
+	// Level information
+	// ------------------------------------------------------------------------
+
+	public string Title() {
+		get { return levelData["title"].ToString(); }
+	}
+
+	public string Author {
+		get { return levelData["author"].ToString(); }
+	}
+
+	public bool Destroysfloor {
+		get { return (bool)levelData["behaviour"]["destroysfloor"]; }
+	}
+
+	public bool Cameras {
+		get { return (bool)levelData["behaviour"]["cameras"]; }
+	}
+
+	public int Timebombspeed {
+		get { return (int)levelData["behaviour"]["timebombspeed"]; }
+	}
+
+	public int MaxFloors {
+		get { return maxFloors; }
+	}
+
+	public int MaxRows {
+		get { return maxRows; }
+	}
+
+	public int MaxColumns {
+		get { return maxColumns; }
+	}
+
+	// ------------------------------------------------------------------------
 	// Methods
-	// ------------------------------------------------------------------------
-
-	public string getLevelName() {
-		return levelData["title"].ToString();
-	}
-
-	// ------------------------------------------------------------------------
-
-	public string getAuthorName() {
-		return levelData["author"].ToString();
-	}
-
 	// ------------------------------------------------------------------------
 
 	public void build(String resource) {
@@ -118,24 +142,22 @@ public class LevelLoader : MonoBehaviour {
 		calculateLevelCenter();
 		activateCamera();
 
-		LevelInfo levelInfo = gameObject.GetComponent<LevelInfo>();
-		levelInfo.destroysfloor = (bool)levelData["behaviour"]["destroysfloor"];
-		levelInfo.cameras = (bool)levelData["behaviour"]["cameras"];
-		levelInfo.timebombspeed = (int)levelData["behaviour"]["timebombspeed"];
-		levelInfo.title = (string)levelData["title"];
-		levelInfo.author = (string)levelData["author"];
-		levelInfo.maxFloors = maxFloors;
-		levelInfo.maxRows = maxRows;
-		levelInfo.maxColumns = maxColumns;
-
 		Conditions conditions = gameObject.GetComponent<Conditions>();
 		conditions.init((int)levelData["conditions"]["klondikes"],
 						(int)levelData["conditions"]["robots"],
 						(int)levelData["conditions"]["timelimit"]);
 
+		showLevelInformation();
+	}
+
+	// ------------------------------------------------------------------------
+	// Private methods for building the level
+	// ------------------------------------------------------------------------
+
+	private void showLevelInformation() {
 		GUINotification gui = GameObject.Find("Controller").GetComponent<GUINotification>();
 		gui.clearNotifications();
-		gui.notify(levelInfo.title, 2f);// + "\ndesigned by " + levelInfo.author, 1.5f);
+		gui.notify(Title, 2f);
 
 		string spiders = "";
 		if(hasGrabber) {

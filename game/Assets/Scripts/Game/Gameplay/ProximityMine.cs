@@ -58,7 +58,7 @@ public class ProximityMine : Actor {
 		}
 
 		GetComponent<DestroyActor>().destroy();
-		if(GameObject.Find("Level").GetComponent<LevelInfo>().destroysfloor) {
+		if(GameObject.Find("Level").GetComponent<LevelLoader>().Destroysfloor) {
 			Physics.Raycast(pos, -transform.up, out hit, 0.3f);
 			Destroy(hit.collider.gameObject);
 		}
