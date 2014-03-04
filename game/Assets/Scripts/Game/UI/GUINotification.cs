@@ -2,10 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GUINotification : BaseUIController {
+public class GUINotification : MonoBehaviour {
 	public Font font;
 	public Texture2D txtBackground;
 
+	private AspectRatio ar;
 	private Color color;
 	private GUIStyle ntyTextStyle = new GUIStyle();
 
@@ -56,7 +57,7 @@ public class GUINotification : BaseUIController {
 
 	public void drawNotification() {
 		if(currentNotification != null) {
-			GUI.depth = 1000;
+			GUI.depth = -1000;
 			GUI.color = color;
 			GUI.Label(new Rect(-10, ar.sHeight / 2 - 100, ar.sWidth + 20, 200), currentNotification.msg, ntyTextStyle);
 		} else if (notifications.Count > 0) {

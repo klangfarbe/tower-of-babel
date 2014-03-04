@@ -46,7 +46,7 @@ public class MainMenuGUI : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void drawMainMenu() {
-		GUILayout.BeginArea(new Rect(ar.sWidth / 2 - 400, ar.sHeight / 2 - 400, 800, 800));
+		GUILayout.BeginArea(new Rect(ar.sWidth / 2 - 300, ar.sHeight / 2 - 400, 600, 800));
 		GUILayout.BeginVertical();
 		if(GUILayout.Button("Play")) {
 			sceneFader.loadScene("game");
@@ -54,17 +54,11 @@ public class MainMenuGUI : MonoBehaviour {
 		if(GUILayout.Button("Tutorial")) {
 			Debug.Log("Tutorial");
 		}
-		if(GUILayout.Button("Game elements")) {
-
-		}
-		if(GUILayout.Button("Tower Designer")) {
-
-		}
-		if(GUILayout.Button("Download new level")) {
-
+		if(GUILayout.Button("Check for updates")) {
+			StartCoroutine(gameObject.GetComponent<UpdateCheck>().checkForUpdate());
 		}
 		if(GUILayout.Button("Exit")) {
-
+			Application.Quit();
 		}
 		GUILayout.EndVertical();
 		GUILayout.EndArea();

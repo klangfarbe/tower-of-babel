@@ -62,6 +62,6 @@ public class SpiderProgram : MonoBehaviour {
 		//	if(!actor.)
 			yield return new WaitForSeconds(0.05f);
 		}
-		return null;
+		yield return null;
 	}
 }

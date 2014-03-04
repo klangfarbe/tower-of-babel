@@ -89,7 +89,7 @@ public class LevelLoader : MonoBehaviour {
 	// Level information
 	// ------------------------------------------------------------------------
 
-	public string Title() {
+	public string Title {
 		get { return levelData["title"].ToString(); }
 	}
 
@@ -119,6 +119,18 @@ public class LevelLoader : MonoBehaviour {
 
 	public int MaxColumns {
 		get { return maxColumns; }
+	}
+
+	public int Klondikes {
+		get { return (int)levelData["conditions"]["klondikes"]; }
+	}
+
+	public int Robots {
+		get { return (int)levelData["conditions"]["robots"]; }
+	}
+
+	public int Timelimit {
+		get { return (int)levelData["conditions"]["timelimit"]; }
 	}
 
 	// ------------------------------------------------------------------------
@@ -181,16 +193,16 @@ public class LevelLoader : MonoBehaviour {
 		gui.notify("Available spiders:\n" + spiders, 2f);
 
 		string goal = "";
-		if(conditions.klondikesToGather > 0) {
-			goal = "Collect " + conditions.klondikesToGather + " Klondikes";
-			if(conditions.robotsToDestroy > 0) {
-				goal += " and destroy " + conditions.robotsToDestroy + " robots";
+		if(Klondikes > 0) {
+			goal = "Collect " + Klondikes + " Klondikes";
+			if(Robots > 0) {
+				goal += " and destroy " + Robots + " robots";
 			}
-		} else if(conditions.robotsToDestroy > 0) {
-			goal += "Destroy " + conditions.robotsToDestroy + " robots";
+		} else if(Robots > 0) {
+			goal += "Destroy " + Robots + " robots";
 		}
-		if(conditions.timelimit > 0) {
-			goal += " within " + conditions.getRemainingTime() + " minutes";
+		if(Timelimit > 0) {
+			goal += " within " + gameObject.GetComponent<Conditions>().getRemainingTime() + " minutes";
 		}
 		gui.notify(goal, 2f);
 	}
