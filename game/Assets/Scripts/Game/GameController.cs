@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour {
 
 	public IEnumerator levelCompleted() {
 		gui.notify("Level completed!", 3);
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(4);
 		sceneFader.endScene();
 		while(sceneFader.Blending)
 			yield return null;
@@ -113,7 +113,7 @@ public class GameController : MonoBehaviour {
 
 	public IEnumerator levelFailed() {
 		gui.notify("Level failed!", 3);
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(4);
 		StartCoroutine(levelRestart());
 	}
 
