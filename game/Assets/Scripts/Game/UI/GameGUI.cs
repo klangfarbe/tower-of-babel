@@ -159,6 +159,6 @@ public class GameGUI : BaseUIController {
 			Application.Quit();
 		}
 		GUILayout.EndVertical();
-		GUILayout.Label("Version "+ GameSettings.instance.version, cndTextStyle);
+		GUILayout.Label("Version " + (((TextAsset)Resources.Load("version")).text), cndTextStyle);
 	}
 }
