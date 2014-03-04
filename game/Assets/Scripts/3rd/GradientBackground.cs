@@ -7,7 +7,7 @@ public class GradientBackground : MonoBehaviour {
 	private GameObject plane;
 	private GameObject cam;
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	private void clear() {
 		if(plane) {
@@ -18,7 +18,7 @@ public class GradientBackground : MonoBehaviour {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
 	public void CreateBackground(Color32 topColor, Color32 bottomColor) {
 		clear();
@@ -50,7 +50,6 @@ public class GradientBackground : MonoBehaviour {
 			topColor, topColor, bottomColor, bottomColor, bottomColor, bottomColor
 		};
 
-
 		// --------------------
 		// 0        1
 		// 2        3
@@ -61,7 +60,6 @@ public class GradientBackground : MonoBehaviour {
 			2, 3, 4,
 			3, 5, 4
 		};
-
 
 		plane = new GameObject("Plane", typeof(MeshFilter), typeof(MeshRenderer));
 		plane.layer = gradientLayer;

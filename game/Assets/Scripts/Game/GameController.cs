@@ -21,11 +21,6 @@ public class GameController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void Start() {
-	}
-
-	// ------------------------------------------------------------------------
-
 	public void actorFire() {
 		Actor actor = getActor();
 		if(actor) {
