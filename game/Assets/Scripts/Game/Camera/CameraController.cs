@@ -46,11 +46,12 @@ public class CameraController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void lookAt(GameObject obj, float distance, float height, float angle) {
+	public bool lookAt(GameObject obj, float distance, float height, float angle) {
 		if(!obj)
-			return;
+			return false;
 		gameController.activeObject = obj;
 		gameCamera.GetComponent<FollowingCamera>().set(obj, distance, height, angle);
+		return true;
 	}
 
 	// ------------------------------------------------------------------------
@@ -58,9 +59,10 @@ public class CameraController : MonoBehaviour {
 	public void activateGrabber() {
 		Debug.Log("Activating Grabber");
 		GameObject obj = GameObject.Find("GRB");
-		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
-		gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
-		mapActive = false;
+		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
+			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			mapActive = false;
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -68,9 +70,10 @@ public class CameraController : MonoBehaviour {
 	public void activatePusher() {
 		Debug.Log("Activating Pusher");
 		GameObject obj = GameObject.Find("PSH");
-		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
-		gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
-		mapActive = false;
+		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
+			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			mapActive = false;
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -78,19 +81,21 @@ public class CameraController : MonoBehaviour {
 	public void activateZapper() {
 		Debug.Log("Activating Zapper");
 		GameObject obj = GameObject.Find("ZAP");
-		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
-		gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
-		mapActive = false;
+		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
+			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			mapActive = false;
+		}
 	}
 
 	// ------------------------------------------------------------------------
 
 	public void activateOverview() {
 		if(levelInfo.cameras) {
-			lookAt(levelCenter, distanceToLevel, cameraHeightToLevel, cameraAngleToLevel);
-			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity * 0.5f * distanceToLevel;
-			mapActive = true;
-			zoom(0);
+			if(lookAt(levelCenter, distanceToLevel, cameraHeightToLevel, cameraAngleToLevel)) {
+				gameCamera.GetComponent<Light>().intensity = cameraLightIntensity * 0.5f * distanceToLevel;
+				mapActive = true;
+				zoom(0);
+			}
 		}
 	}
 
