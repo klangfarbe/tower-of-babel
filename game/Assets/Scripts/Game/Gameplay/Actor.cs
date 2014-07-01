@@ -56,12 +56,13 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public virtual void move(Vector3 direction) {
+	public virtual bool move(Vector3 direction) {
 		if(!Enable)
 			Enable = true;
 		MoveActor m = GetComponent<MoveActor>();
 		if(m)
-			m.move(direction);
+			return m.move(direction);
+		return false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -111,9 +112,18 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
+	public bool isOnLift() {
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f))
+			if(hit.collider.tag == "Lift")
+				return true;
+		return false;
+	}
+
+	// ------------------------------------------------------------------------
+
 	protected bool isOnMovingLift() {
 		RaycastHit hit;
-		Debug.DrawRay(transform.position +  Vector3.up * 0.25f, Vector3.down * 0.3f, Color.green, 0.5f);
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, Vector3.down, out hit, 0.3f))
 			if(hit.collider.tag == "Lift")
 				return hit.collider.gameObject.GetComponent<Lift>().isPlaying();
