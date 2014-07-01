@@ -9,7 +9,7 @@ public class MainMenuGUI : MonoBehaviour {
 	private Menu currentMenu = Menu.main;
 	private SceneFader sceneFader;
 
-	enum Menu { main, preferences, levelselect }
+	enum Menu { hide, main, preferences, levelselect }
 
 	// ------------------------------------------------------------------------
 
@@ -38,8 +38,9 @@ public class MainMenuGUI : MonoBehaviour {
 		ar.initGuiScale();
 		centerBackground();
 
-		if(currentMenu == Menu.main) {
-			drawMainMenu();
+		switch(currentMenu) {
+			case Menu.main:	drawMainMenu(); break;
+			case Menu.levelselect:	drawLevelSelect(); break;
 		}
 	}
 
@@ -49,7 +50,8 @@ public class MainMenuGUI : MonoBehaviour {
 		GUILayout.BeginArea(new Rect(ar.sWidth / 2 - 300, ar.sHeight / 2 - 400, 600, 800));
 		GUILayout.BeginVertical();
 		if(GUILayout.Button("Play")) {
-			sceneFader.loadScene("game");
+			currentMenu = Menu.levelselect;
+			//sceneFader.loadScene("game");
 		}
 		if(GUILayout.Button("Tutorial")) {
 			Debug.Log("Tutorial");
@@ -64,23 +66,29 @@ public class MainMenuGUI : MonoBehaviour {
 		GUILayout.EndArea();
 	}
 
+	// ------------------------------------------------------------------------
 
-//	bool toggleTxt;
-//	int toolbarInt = 0;
-//	string[] toolbarStrings = {
-//		"Toolbar1", "Toolbar2", "Toolbar3"
-//	};
-//	int selGridInt = 0;
-//	string[] selStrings = {
-//		"Grid 1", "Grid 2", "Grid 3", "Grid 4"
-//	};
-//	float hSliderValue = 0.0f;
-//	float hSbarValue;
-//		GUILayout.Box("This is the title of a box");
-//		GUILayout.Label("I'm a Label!");
-//		toggleTxt = GUILayout.Toggle(toggleTxt, "I am a Toggle button");
-//		toolbarInt = GUILayout.Toolbar (toolbarInt, toolbarStrings);
-//		selGridInt = GUILayout.SelectionGrid (selGridInt, selStrings, 2);
-//		hSliderValue = GUILayout.HorizontalSlider (hSliderValue, 0.0f, 1.0f);
-//		hSbarValue = GUILayout.HorizontalScrollbar (hSbarValue, 1.0f, 0.0f, 10.0f);
+	void drawLevelSelect() {
+
+
+	bool toggleTxt;
+	int toolbarInt = 0;
+	string[] toolbarStrings = {
+		"Toolbar1", "Toolbar2", "Toolbar3"
+	};
+	int selGridInt = 0;
+	string[] selStrings = {
+		"Grid 1", "Grid 2", "Grid 3", "Grid 4",
+		"Grid 5", "Grid 6", "Grid 7", "Grid 8", "Grid 9"
+	};
+	float hSliderValue = 0.0f;
+	float hSbarValue;
+	//	GUILayout.Box("This is the title of a box");
+	//	GUILayout.Label("I'm a Label!");
+	//	toggleTxt = GUILayout.Toggle(toggleTxt, "I am a Toggle button");
+	//	toolbarInt = GUILayout.Toolbar (toolbarInt, toolbarStrings);
+		selGridInt = GUILayout.SelectionGrid (selGridInt, selStrings, 3);
+	//	hSliderValue = GUILayout.HorizontalSlider (hSliderValue, 0.0f, 1.0f);
+	//	hSbarValue = GUILayout.HorizontalScrollbar (hSbarValue, 1.0f, 0.0f, 10.0f);
+	}
 }
