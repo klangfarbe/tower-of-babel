@@ -24,17 +24,17 @@ public class GradientBackground : MonoBehaviour {
 		clear();
 
 		gradientLayer = Mathf.Clamp(gradientLayer, 0, 31);
-   		if (!camera) {
+   		if (!GetComponent<Camera>()) {
 			return;
 		}
 
-		camera.clearFlags = CameraClearFlags.Depth;
-		camera.cullingMask = camera.cullingMask & ~(1 << gradientLayer);
+		GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
+		GetComponent<Camera>().cullingMask = GetComponent<Camera>().cullingMask & ~(1 << gradientLayer);
 
 		cam = new GameObject("Cam", typeof(Camera));
 		cam.transform.parent = parent.transform;
-		cam.camera.cullingMask = 1 << gradientLayer;
-		cam.camera.depth = camera.depth - 1;
+		cam.GetComponent<Camera>().cullingMask = 1 << gradientLayer;
+		cam.GetComponent<Camera>().depth = GetComponent<Camera>().depth - 1;
 
 		Mesh mesh = new Mesh();
 		mesh.vertices = new Vector3[6] {
@@ -65,6 +65,6 @@ public class GradientBackground : MonoBehaviour {
 		plane.layer = gradientLayer;
 		plane.transform.parent = parent.transform;
 		plane.GetComponent<MeshFilter>().mesh = mesh;
-		plane.renderer.material = new Material("Shader \"Vertex Color Only\"{Subshader{BindChannels{Bind \"vertex\", vertex Bind \"color\", color}Pass{}}}");;
+		plane.GetComponent<Renderer>().material = new Material("Shader \"Vertex Color Only\"{Subshader{BindChannels{Bind \"vertex\", vertex Bind \"color\", color}Pass{}}}");;
 	}
 }

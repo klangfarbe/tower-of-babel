@@ -13,7 +13,7 @@ public class FadingLight : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	void Awake () {
-		light.intensity = 0f;
+		GetComponent<Light>().intensity = 0f;
 		targetIntensity = highIntensity;
 	}
 
@@ -21,11 +21,11 @@ public class FadingLight : MonoBehaviour {
 
     void Update () {
         if(fadeOn) {
-            light.intensity = Mathf.Lerp(light.intensity, targetIntensity, fadeSpeed * Time.deltaTime);
-    		if(Mathf.Abs(targetIntensity - light.intensity) < changeMargin) {
+            GetComponent<Light>().intensity = Mathf.Lerp(GetComponent<Light>().intensity, targetIntensity, fadeSpeed * Time.deltaTime);
+    		if(Mathf.Abs(targetIntensity - GetComponent<Light>().intensity) < changeMargin) {
                 targetIntensity = targetIntensity == highIntensity ? lowIntensity : highIntensity;
     		}
         } else
-            light.intensity = Mathf.Lerp(light.intensity, 0f, fadeSpeed * Time.deltaTime);
+            GetComponent<Light>().intensity = Mathf.Lerp(GetComponent<Light>().intensity, 0f, fadeSpeed * Time.deltaTime);
     }
 }

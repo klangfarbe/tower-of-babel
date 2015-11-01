@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour {
 		levelCenter = GameObject.Find("Level/LevelCenter");
 		gameController = GameObject.Find("Controller").GetComponent<GameController>();
 		level = GameObject.Find("Level").GetComponent<LevelLoader>();
-		cameraLightIntensity = gameCamera.camera.GetComponent<Light>().intensity;
+		cameraLightIntensity = gameCamera.GetComponent<Camera>().GetComponent<Light>().intensity;
 	}
 
 	// ------------------------------------------------------------------------

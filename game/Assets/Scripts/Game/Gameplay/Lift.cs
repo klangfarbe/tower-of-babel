@@ -54,7 +54,7 @@ public class Lift : MonoBehaviour {
 		isUp = !isUp;
 		startTime = 0;
 		startScale = transform.localScale;
-		gameObject.audio.Play();
+		gameObject.GetComponent<AudioSource>().Play();
 	}
 
 	// ------------------------------------------------------------------------
@@ -67,7 +67,7 @@ public class Lift : MonoBehaviour {
 		isUp = !isUp;
 		startTime = 0;
 		startScale = transform.localScale;
-		gameObject.audio.Play();
+		gameObject.GetComponent<AudioSource>().Play();
 	}
 
 	// ------------------------------------------------------------------------

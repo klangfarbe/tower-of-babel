@@ -51,7 +51,7 @@ public class ProximityMine : Actor {
 			if(g) {
 				DestroyActor destroy = g.GetComponent<DestroyActor>();
 				if(!destroy) {
-					destroy = g.AddComponent("DestroyActor") as DestroyActor;
+					destroy = g.AddComponent<DestroyActor>() as DestroyActor;
 				}
 				destroy.destroy();
 			}

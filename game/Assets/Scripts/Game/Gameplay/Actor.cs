@@ -105,8 +105,8 @@ public class Actor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void playAudio() {
-		if(gameObject.audio) {
-			gameObject.audio.Play();
+		if(gameObject.GetComponent<AudioSource>()) {
+			gameObject.GetComponent<AudioSource>().Play();
 		}
 	}
 
