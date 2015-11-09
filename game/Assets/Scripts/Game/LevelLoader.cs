@@ -194,12 +194,12 @@ public class LevelLoader : MonoBehaviour {
 
 		string goal = "";
 		if(Klondikes > 0) {
-			goal = "Collect " + Klondikes + " Klondikes";
+			goal = "Collect " + Klondikes + " Klondike" + (Klondikes > 1 ? "s" : "");
 			if(Robots > 0) {
-				goal += " and destroy " + Robots + " robots";
+				goal += " and destroy " + Robots + " robot" + (Robots > 1 ? "s" : "");
 			}
 		} else if(Robots > 0) {
-			goal += "Destroy " + Robots + " robots";
+			goal += "Destroy " + Robots + " robot" + (Robots > 1 ? "s" : "");
 		}
 		if(Timelimit > 0) {
 			goal += " within " + gameObject.GetComponent<Conditions>().getRemainingTime() + " minutes";

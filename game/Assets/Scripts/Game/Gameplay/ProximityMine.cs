@@ -19,25 +19,25 @@ public class ProximityMine : Actor {
 		Debug.DrawRay(pos, -transform.right * 1.5f, Color.blue, 0.1f);
 
 		RaycastHit hit;
-		if(Physics.Raycast(pos, transform.forward, out hit, 1.5f)) {
+		if(Physics.Raycast(pos, transform.forward, out hit, 1.49f)) {
 			hits[0] = hit.collider.gameObject;
 			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[0] = null;
 		}
-		if(Physics.Raycast(pos, -transform.forward, out hit, 1.5f)) {
+		if(Physics.Raycast(pos, -transform.forward, out hit, 1.49f)) {
 			hits[1] = hit.collider.gameObject;
 			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[1] = null;
 		}
-		if(Physics.Raycast(pos, transform.right, out hit, 1.5f)) {
+		if(Physics.Raycast(pos, transform.right, out hit, 1.49f)) {
 			hits[2] = hit.collider.gameObject;
 			checkToTriggerMine(hit.collider.gameObject);
 		} else {
 			hits[2] = null;
 		}
-		if(Physics.Raycast(pos, -transform.right, out hit, 1.5f)) {
+		if(Physics.Raycast(pos, -transform.right, out hit, 1.49f)) {
 			hits[3] = hit.collider.gameObject;
 			checkToTriggerMine(hit.collider.gameObject);
 		} else {

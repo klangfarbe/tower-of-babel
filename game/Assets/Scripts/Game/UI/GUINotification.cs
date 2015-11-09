@@ -95,5 +95,8 @@ public class GUINotification : MonoBehaviour {
 
 	public void clearNotifications() {
 		notifications.Clear();
+		if(currentNotification != null) {
+			currentNotification = null;
+		}
 	}
 }
