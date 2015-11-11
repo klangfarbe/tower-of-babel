@@ -23,11 +23,13 @@ public class GameGUI : BaseUIController {
 	private GUIStyle wndStyle = new GUIStyle();
 	private GUIStyle wndBtnStyle = new GUIStyle();
 	private GUIStyle cndTextStyle = new GUIStyle();
+	private LevelLoader level;
 
 	// ------------------------------------------------------------------------
 
 	void Awake() {
 		setupGUIStyles();
+		level = GameObject.Find("Level").GetComponent<LevelLoader>();
 	}
 
 	// ------------------------------------------------------------------------
@@ -47,8 +49,8 @@ public class GameGUI : BaseUIController {
 		wndStyle.border = new RectOffset(3,3,3,3);
 		wndStyle.padding = new RectOffset(25,25,25,25);
 
-		btnStyle.fixedHeight = 132;
-		btnStyle.fixedWidth = 132;
+		btnStyle.fixedHeight = 96;
+		btnStyle.fixedWidth = 96;
 		btnStyle.margin.bottom = 10;
 		btnStyle.margin.right = 10;
 		btnStyle.alignment = TextAnchor.MiddleRight;
@@ -71,27 +73,27 @@ public class GameGUI : BaseUIController {
 		float btnFullWidth = btnStyle.fixedWidth + btnStyle.margin.right;
 		float btnFullHeight = btnStyle.fixedHeight + btnStyle.margin.bottom;
 
-		// Overview buttons on the left side of the screen
+		// Overview buttons
 		GUILayout.BeginArea(new Rect(10, ar.sHeight - btnFullHeight, btnFullWidth * 4, btnFullHeight));
 		GUILayout.BeginHorizontal();
-		if(GUILayout.Button(texGrabber, btnStyle)) {
+		if(level.Cameras && GUILayout.Button(texMap, btnStyle)) {
+			cameraController.activateOverview();
+		}
+		if(GameObject.Find("GRB") && GUILayout.Button(texGrabber, btnStyle)) {
 			cameraController.activateGrabber();
 		}
-		if(GUILayout.Button(texPusher, btnStyle)) {
+		if(GameObject.Find("PSH") && GUILayout.Button(texPusher, btnStyle)) {
 			cameraController.activatePusher();
 		}
-		if(GUILayout.Button(texZapper, btnStyle)) {
+		if(GameObject.Find("ZAP") && GUILayout.Button(texZapper, btnStyle)) {
 			cameraController.activateZapper();
-		}
-		if(GUILayout.Button(texMap, btnStyle)) {
-			cameraController.activateOverview();
 		}
 		GUILayout.EndHorizontal();
 		GUILayout.EndArea();
 
 		// Overview buttons on the right side of the screen
 		if(!cameraController.mapActive) {
-			GUILayout.BeginArea(new Rect(ar.sWidth - btnFullWidth * 4, ar.sHeight - btnFullHeight, btnFullWidth * 4, btnFullHeight));
+			GUILayout.BeginArea(new Rect(10, ar.sHeight - btnFullHeight * 2, btnFullWidth * 4, btnFullHeight));
 			GUILayout.BeginHorizontal();
 			if(GUILayout.Button(texFire, btnStyle)) {
 				gameController.actorFire();
@@ -110,7 +112,7 @@ public class GameGUI : BaseUIController {
 
 			// second line
 			if(gameController.activeObject != null && gameController.activeObject.GetComponent<Actor>().isOnLift()) {
-				GUILayout.BeginArea(new Rect(ar.sWidth - btnFullWidth, ar.sHeight - btnFullHeight * 2, btnFullWidth, btnFullHeight));
+				GUILayout.BeginArea(new Rect(10 + btnFullWidth * 2, ar.sHeight - btnFullHeight * 3, btnFullWidth, btnFullHeight));
 				if(GUILayout.Button(texUpDown, btnStyle)) {
 					gameController.actorLift();
 				}
