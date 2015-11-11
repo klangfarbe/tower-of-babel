@@ -23,13 +23,11 @@ public class GameGUI : BaseUIController {
 	private GUIStyle wndStyle = new GUIStyle();
 	private GUIStyle wndBtnStyle = new GUIStyle();
 	private GUIStyle cndTextStyle = new GUIStyle();
-	private LevelLoader level;
 
 	// ------------------------------------------------------------------------
 
 	void Awake() {
 		setupGUIStyles();
-		level = GameObject.Find("Level").GetComponent<LevelLoader>();
 	}
 
 	// ------------------------------------------------------------------------
