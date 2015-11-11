@@ -13,7 +13,6 @@ public class Exchanger : Reflector {
 		Vector3 tmp = actor.transform.position;
 		actor.set(transform.position);
 		by.transform.RotateAround(by.transform.position, Vector3.up, 180);
-		cam.force();
 		transform.position = tmp;
 		GetComponent<DestroyActor>().destroy();
 		return true;

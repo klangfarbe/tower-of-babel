@@ -19,8 +19,8 @@ public class FollowingCamera : MonoBehaviour {
 		this.distance = distance;
 		this.height = height;
 		this.angle = angle;
-		startTime = 0;
-		forcedUpdate = true;
+		startTime = 1; // make sure the camera is moved directly to the endpoint
+		forcedUpdate = false;
 	}
 
 	// ------------------------------------------------------------------------
@@ -38,7 +38,6 @@ public class FollowingCamera : MonoBehaviour {
 
 		if(forcedUpdate) {
 			transform.position = endPosition;
-			forcedUpdate = false;
 		} else {
 			if(Vector3.Distance(transform.position, endPosition) > 0) {
 				startTime += Time.deltaTime * rotationSpeed;
@@ -100,7 +99,14 @@ public class FollowingCamera : MonoBehaviour {
 		}
 	}
 
-	public void force() {
-		forcedUpdate = true;
+	// ------------------------------------------------------------------------
+
+	public bool Force {
+		set {
+			this.forcedUpdate = value;
+		}
+		get {
+			return forcedUpdate;
+		}
 	}
 }

@@ -30,9 +30,9 @@ public class LevelLoader : MonoBehaviour {
 
 	private int instanceCounter = 0;
 
-	private bool hasGrabber;
-	private bool hasPusher;
-	private bool hasZapper;
+	private GameObject objGrabber;
+	private GameObject objPusher;
+	private GameObject objZapper;
 
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
@@ -172,21 +172,21 @@ public class LevelLoader : MonoBehaviour {
 		gui.notify(Title, 2f);
 
 		string spiders = "";
-		if(hasGrabber) {
+		if(objGrabber) {
 			spiders = "Grabber";
-			if(hasZapper && hasPusher) {
+			if(objZapper && objPusher) {
 				spiders += ", ";
-			} else if(hasZapper || hasPusher) {
+			} else if(objZapper || objPusher) {
 				spiders += " and ";
 			}
 		}
-		if(hasPusher) {
+		if(objPusher) {
 			spiders += "Pusher";
-			if(hasZapper) {
+			if(objZapper) {
 				spiders += " and ";
 			}
 		}
-		if(hasZapper) {
+		if(objZapper) {
 			spiders += "Zapper";
 		}
 
@@ -211,11 +211,13 @@ public class LevelLoader : MonoBehaviour {
 
 	void activateCamera() {
 		CameraController camera = GameObject.Find("Controller").GetComponent<CameraController>();
-		foreach(GameObject g in objects) {
-			if(g.name == "GRB" || g.name == "PSH" || g.name == "ZAP") {
-				camera.init(g);
-				return;
-			}
+		camera.init();
+		if(Cameras) {
+			camera.activateOverview();
+		} else {
+			if(objGrabber) camera.activateGrabber(objGrabber);
+			else if(objPusher) camera.activatePusher(objPusher);
+			else if(objZapper) camera.activateZapper(objZapper);
 		}
 	}
 
@@ -251,9 +253,9 @@ public class LevelLoader : MonoBehaviour {
 		maxRows = 0;
 		levelData = null;
 		instanceCounter = 0;
-		hasZapper = false;
-		hasPusher = false;
-		hasGrabber = false;
+		objZapper = null;
+		objPusher = null;
+		objGrabber = null;
 	}
 
 	// ------------------------------------------------------------------------
@@ -297,6 +299,12 @@ public class LevelLoader : MonoBehaviour {
 		GameObject.Find("LevelBounds").transform.position = new Vector3(x, y, z);
 		GameObject.Find("LevelBounds").transform.localScale = new Vector3(maxColumns + 1f, maxFloors + 2f, maxRows + 1f);
 		GameObject.Find("LevelBounds").transform.rotation = Quaternion.identity;
+
+		// Adapt lights to point to level center
+		GameObject.Find("tr").transform.LookAt(GameObject.Find("LevelCenter").transform);
+		GameObject.Find("tl").transform.LookAt(GameObject.Find("LevelCenter").transform);
+		GameObject.Find("br").transform.LookAt(GameObject.Find("LevelCenter").transform);
+		GameObject.Find("bl").transform.LookAt(GameObject.Find("LevelCenter").transform);
 	}
 
 	// ------------------------------------------------------------------------
@@ -374,13 +382,13 @@ public class LevelLoader : MonoBehaviour {
 			instance.name = type + ++instanceCounter;
 		}
 		if(type == "GRB") {
-			hasGrabber = true;
+			objGrabber = instance;
 		}
 		if(type == "PSH") {
-			hasPusher = true;
+			objPusher = instance;
 		}
 		if(type == "ZAP") {
-			hasZapper = true;
+			objZapper = instance;
 		}
 		objects.Add(instance);
 		return instance;

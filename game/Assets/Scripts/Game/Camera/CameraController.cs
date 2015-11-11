@@ -16,8 +16,8 @@ public class CameraController : MonoBehaviour {
 	private float cameraAngleToSpider = 0.5f;
 	private float cameraAngleToLevel = 3f;
 
-	private float minCameraAngle = 3f;
-	private float maxCameraAngle = 20f;
+	private float minCameraAngle = 2f;
+	private float maxCameraAngle = 40f;
 
 	private float maxZoomIn = 1.5f;
 	private float maxZoomOut = 10f;
@@ -38,10 +38,11 @@ public class CameraController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void init(GameObject obj) {
+	public void init() {
 		gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
-		lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider);
-		distanceToLevel = maxZoomIn * 2.5f;
+		distanceToLevel = 8f;
+		cameraHeightToLevel = 0.8f;
+		cameraAngleToLevel = 10f;
 	}
 
 	// ------------------------------------------------------------------------
@@ -56,34 +57,37 @@ public class CameraController : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void activateGrabber() {
-		Debug.Log("Activating Grabber");
-		GameObject obj = GameObject.Find("GRB");
+	public void activateGrabber(GameObject obj = null) {
+		if(!obj) obj = GameObject.Find("GRB");
 		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
+			Debug.Log("Activating Grabber");
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	public void activatePusher() {
-		Debug.Log("Activating Pusher");
-		GameObject obj = GameObject.Find("PSH");
+	public void activatePusher(GameObject obj = null) {
+		if(!obj) obj = GameObject.Find("PSH");
 		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
+			Debug.Log("Activating Pusher");
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	public void activateZapper() {
-		Debug.Log("Activating Zapper");
-		GameObject obj = GameObject.Find("ZAP");
+	public void activateZapper(GameObject obj = null) {
+		if(!obj) obj = GameObject.Find("ZAP");
 		if(lookAt(obj, distanceToSpider, cameraHeightToSpider, cameraAngleToSpider)) {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
+			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
+			Debug.Log("Activating Zapper");
 		}
 	}
 
@@ -93,6 +97,7 @@ public class CameraController : MonoBehaviour {
 		if(level.Cameras) {
 			if(lookAt(levelCenter, distanceToLevel, cameraHeightToLevel, cameraAngleToLevel)) {
 				gameCamera.GetComponent<Light>().intensity = cameraLightIntensity * 0.5f * distanceToLevel;
+				gameCamera.GetComponent<FollowingCamera>().Force = false;
 				mapActive = true;
 				zoom(0);
 			}
