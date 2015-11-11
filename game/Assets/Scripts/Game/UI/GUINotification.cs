@@ -13,10 +13,12 @@ public class GUINotification : MonoBehaviour {
 	public class Notification {
 		public string msg;
 		public float duration;
+		public System.Guid id;
 
-		public Notification(string msg, float duration) {
+		public Notification(string msg, float duration, System.Guid id) {
 			this.msg = msg;
 			this.duration = duration;
+			this.id = id;
 		}
 	}
 	private Queue<Notification> notifications = new Queue<Notification>();
@@ -49,8 +51,9 @@ public class GUINotification : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void notify(string message, float duration) {
-		notifications.Enqueue(new Notification(message, duration));
-		StartCoroutine(fadeNotificationText());
+		System.Guid id = System.Guid.NewGuid();
+		notifications.Enqueue(new Notification(message, duration, id));
+		StartCoroutine(fadeNotificationText(id));
 	}
 
 	// ------------------------------------------------------------------------
@@ -64,39 +67,40 @@ public class GUINotification : MonoBehaviour {
 			currentNotification = notifications.Dequeue();
 			color.a = 0;
 			GUI.color = color;
-			StartCoroutine(fadeNotificationText());
+			StartCoroutine(fadeNotificationText(currentNotification.id));
 		}
 	}
 
 	// ------------------------------------------------------------------------
 
-	public IEnumerator fadeNotificationText() {
-		if(currentNotification != null) {
+	public IEnumerator fadeNotificationText(System.Guid id) {
 			color = GUI.color;
 			yield return null;
-			while(color.a < 1) {
+
+			while(currentNotification != null && currentNotification.id == id && color.a < 1) {
 				color.a += 1.2f * Time.deltaTime;
 				color.a = Mathf.Clamp01(color.a);
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(currentNotification.duration);
+			yield return new WaitForSeconds(currentNotification != null ? currentNotification.duration : 0);
 
-			while(color.a > 0) {
+			while(currentNotification != null && currentNotification.id == id && color.a > 0) {
 				color.a -= 1.2f * Time.deltaTime;
 				color.a = Mathf.Clamp01(color.a);
 				yield return null;
 			}
-			currentNotification = null;
-		}
+
+			if(currentNotification != null && currentNotification.id == id)
+				currentNotification = null;
 	}
 
 	// ------------------------------------------------------------------------
 
 	public void clearNotifications() {
 		notifications.Clear();
-		if(currentNotification != null) {
-			currentNotification = null;
-		}
+		currentNotification = null;
+		color.a = 0;
+		GUI.color = color;
 	}
 }
