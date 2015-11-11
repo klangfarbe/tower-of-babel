@@ -24,7 +24,7 @@ public class MouseInputController : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	protected void Awake() {
-		float deadzone = 96;
+		float deadzone = 10;
 		vLines = new float[] {
 			deadzone,
 			Screen.width / 4,

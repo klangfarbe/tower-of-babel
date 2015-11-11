@@ -21,10 +21,10 @@ public class KeyboardInputController : BaseUIController {
 
 		if(cameraController.mapActive) {
 			// Overview
-			if(!Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.UpArrow)) {
+			if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.UpArrow)) {
 				cameraController.translateOverview(Vector3.up * 0.1f);
 			}
-			if(!Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow)) {
+			if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow)) {
 				cameraController.translateOverview(-Vector3.up * 0.1f);
 			}
 			if(!Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftArrow)) {
@@ -40,10 +40,16 @@ public class KeyboardInputController : BaseUIController {
 				cameraController.rotateOverview(90);
 			}
 			if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.UpArrow)) {
-				cameraController.zoom(-0.1f);
+				cameraController.zoom(-0.25f);
 			}
 			if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow)) {
-				cameraController.zoom(0.1f);
+				cameraController.zoom(0.25f);
+			}
+			if(Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.UpArrow)) {
+				cameraController.changeCameraAngle(1f);
+			}
+			if(Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.DownArrow)) {
+				cameraController.changeCameraAngle(-1f);
 			}
 		} else {
 			// Moving around
