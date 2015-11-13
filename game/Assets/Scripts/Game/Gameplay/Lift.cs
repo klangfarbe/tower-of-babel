@@ -75,8 +75,18 @@ public class Lift : MonoBehaviour {
 	public bool getCarriedElement() {
 		element = null;
 		RaycastHit hit;
-		Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
-		if(Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)) {
+		// Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
+		Debug.DrawRay(transform.position + new Vector3(-0.49f, 0, 0), Vector3.up, Color.red, 1f);
+		Debug.DrawRay(transform.position + new Vector3(0.49f, 0, 0), Vector3.up, Color.yellow, 1f);
+		Debug.DrawRay(transform.position + new Vector3(0, 0, -0.49f), Vector3.up, Color.blue, 1f);
+		Debug.DrawRay(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, Color.green, 1f);
+		if(
+			Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)
+			|| Physics.Raycast(transform.position + new Vector3(-0.49f, 0, 0), Vector3.up, out hit, 1.5f)
+			|| Physics.Raycast(transform.position + new Vector3(0.49f, 0, 0), Vector3.up, out hit, 1.5f)
+			|| Physics.Raycast(transform.position + new Vector3(0, 0, -0.49f), Vector3.up, out hit, 1.5f)
+			|| Physics.Raycast(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, out hit, 1.5f)
+			) {
 //			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
 			if(hit.collider.tag == "Actor" || hit.collider.tag == "Player")
 				element = hit.collider.gameObject;
