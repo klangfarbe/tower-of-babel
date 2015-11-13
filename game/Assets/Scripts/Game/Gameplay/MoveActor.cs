@@ -5,18 +5,15 @@ using System.Collections.Generic;
 public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
 	public Vector3 startPosition;
+	public Floor nextFloor;
+	public float speed = 0.7f;
 
 	private float deadZone = 0.005f;
-
-	private float speed = 0.7f;
 	private float startTime;
 	private bool smooth = false;
 
-
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
-
-	public Floor nextFloor;
 
 	// ------------------------------------------------------------------------
 
