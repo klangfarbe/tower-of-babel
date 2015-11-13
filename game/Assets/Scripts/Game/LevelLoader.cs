@@ -311,15 +311,15 @@ public class LevelLoader : MonoBehaviour {
 
 	void buildPosition () {
 		try {
-			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
 #if UNITY_DEBUG
+			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
 			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
 #endif
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();
 		} catch (Exception e) {
-//			Debug.LogException(e);
+			// Debug.LogException(e);
 		}
 	}
 
@@ -337,6 +337,10 @@ public class LevelLoader : MonoBehaviour {
 
 	void buildFloor() {
 		var type = getFloorTypeAt(floor, row, column);
+
+		if(type == "---")
+			return;
+
 		string pattern = "";
 
 		// select correct pattern
@@ -347,6 +351,7 @@ public class LevelLoader : MonoBehaviour {
 				pattern = (column % 2 != 0) ? "1" : "2";
 			}
 		}
+
 		GameObject instance = createInstance(type + pattern, floorOffset);
 		instance.name = type + "_" + floor + "_" + row + "_" + column;
 
@@ -400,7 +405,7 @@ public class LevelLoader : MonoBehaviour {
 		try {
 			return levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["f"].ToString();
 		} catch(Exception e) {
-			Debug.LogException(e);
+			// Debug.LogException(e);
 		}
 		return null;
 	}
