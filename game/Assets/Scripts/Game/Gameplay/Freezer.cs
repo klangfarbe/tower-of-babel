@@ -20,7 +20,11 @@ public class Freezer : Actor {
 			if(a)
 				a.Enable = false;
 		}
-		Debug.Log(gameObject.name + ": Freeze start at " + Time.time);
+
+		if(Debug.isDebugBuild) {
+			Debug.Log(gameObject.name + ": Freeze start at " + Time.time);
+		}
+
 		StartCoroutine(unfreeze());
 		return true;
 	}
@@ -29,7 +33,11 @@ public class Freezer : Actor {
 
 	IEnumerator unfreeze() {
 		yield return new WaitForSeconds(freezeTime);
-		Debug.Log(gameObject.name + ": Unfreeze at " + Time.time);
+
+		if(Debug.isDebugBuild) {
+			Debug.Log(gameObject.name + ": Unfreeze at " + Time.time);
+		}
+
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Actor")) {
 			Actor a = g.GetComponent<Actor>();
 			if(a)
@@ -45,7 +53,11 @@ public class Freezer : Actor {
 
 	IEnumerator cooldown() {
 		yield return new WaitForSeconds(cooldownTime);
-		Debug.Log(gameObject.name + ": Cooldown ended at " + Time.time);
+
+		if(Debug.isDebugBuild) {
+			Debug.Log(gameObject.name + ": Cooldown ended at " + Time.time);
+		}
+
 		blocked = false;
 	}
 

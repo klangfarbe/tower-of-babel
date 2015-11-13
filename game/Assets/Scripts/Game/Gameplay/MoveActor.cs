@@ -89,7 +89,10 @@ public class MoveActor : MonoBehaviour {
 		RaycastHit hit;
 
 		// check if something is standing on the field
-		Debug.DrawRay (endPosition + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay (endPosition + Vector3.up * 0.25f, direction, Color.blue, 0.5f);
+		}
+
 		if(Physics.Raycast(endPosition + Vector3.up * 0.25f, direction, out hit, 1f)) {
 			return false;
 		}
@@ -139,7 +142,10 @@ public class MoveActor : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	public void returnToOldPosition() {
-		Debug.Log("name: " + gameObject.name + " / " + startPosition + " / " + endPosition + " / " + transform.position);
+		if(Debug.isDebugBuild) {
+			Debug.Log("Returning to old position: " + gameObject.name + " / start: " + startPosition + " / end: " + endPosition + " / current: " + transform.position);
+		}
+
 		endPosition = startPosition;
 		startPosition = transform.position;
 		startTime = 0;
@@ -202,14 +208,14 @@ public class MoveActor : MonoBehaviour {
 		get {
 			var distance = Vector3.Distance(transform.position, endPosition);
 
-			#if UNITY_DEBUG
+#if UNITY_DEBUG
 			var distanceTotal = Vector3.Distance(startPosition, endPosition);
 			if(distanceTotal > (1 + deadZone)) {
 				Debug.LogError("Distance > 1: " + gameObject.name + " / " + distanceTotal);
 				Debug.Break();
 			}
 			Debug.Log("Object is walking " + gameObject.name + " " + (distance > deadZone) + " (" + distance + " / " + distanceTotal + ")");
-			#endif
+#endif
 
 			if(distance > deadZone) {
 				return true;

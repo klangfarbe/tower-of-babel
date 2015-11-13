@@ -14,7 +14,7 @@ public class Prism : Actor {
 		var direction = heading / heading.magnitude;
 
 		if(Debug.isDebugBuild) {
-			Debug.Log("prism zapped by " + by.name + " from " + by.transform.position
+			Debug.Log("Prism zapped by " + by.name + " from " + by.transform.position
 				+ " with direction " + direction + " (in " + input + " / out " + output + ")");
 		}
 
@@ -34,7 +34,10 @@ public class Prism : Actor {
 
 	public Actor raycast(Vector3 direction) {
 		RaycastHit hit;
-		Debug.DrawRay(transform.position + Vector3.up * 0.25f, direction * 10, Color.red, 0.2f);
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay(transform.position + Vector3.up * 0.25f, direction * 10, Color.red, 0.2f);
+		}
+
 		if(Physics.Raycast(transform.position + Vector3.up * 0.25f, direction, out hit)) {
 			if(hit.collider.tag == "Actor" || hit.collider.tag == "Player") {
 				return hit.collider.gameObject.GetComponent<Actor>();

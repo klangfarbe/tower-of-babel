@@ -63,7 +63,9 @@ public class CameraController : MonoBehaviour {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
 			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
-			Debug.Log("Activating Grabber");
+			if(Debug.isDebugBuild) {
+				Debug.Log("Activating Grabber");
+			}
 		}
 	}
 
@@ -75,7 +77,9 @@ public class CameraController : MonoBehaviour {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
 			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
-			Debug.Log("Activating Pusher");
+			if(Debug.isDebugBuild) {
+				Debug.Log("Activating Pusher");
+			}
 		}
 	}
 
@@ -87,7 +91,9 @@ public class CameraController : MonoBehaviour {
 			gameCamera.GetComponent<Light>().intensity = cameraLightIntensity;
 			gameCamera.GetComponent<FollowingCamera>().Force = true;
 			mapActive = false;
-			Debug.Log("Activating Zapper");
+			if(Debug.isDebugBuild) {
+				Debug.Log("Activating Zapper");
+			}
 		}
 	}
 
@@ -122,7 +128,10 @@ public class CameraController : MonoBehaviour {
 		float levelBoundsDistanceToLevelCenter = 0f;
 
 		RaycastHit hit;
-		Debug.DrawRay (levelCenter.transform.position -levelCenter.transform.forward * 5, levelCenter.transform.forward * 5, Color.blue, 5f);
+
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay (levelCenter.transform.position -levelCenter.transform.forward * 5, levelCenter.transform.forward * 5, Color.blue, 5f);
+		}
 
 		if(Physics.Raycast(levelCenter.transform.position -levelCenter.transform.forward * 20, levelCenter.transform.forward, out hit, 1 << 8)) {
 			levelBoundsDistanceToLevelCenter = Vector3.Distance(hit.point, levelCenter.transform.position);

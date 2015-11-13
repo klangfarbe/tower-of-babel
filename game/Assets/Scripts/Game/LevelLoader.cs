@@ -133,12 +133,18 @@ public class LevelLoader : MonoBehaviour {
 		get { return (int)levelData["conditions"]["timelimit"]; }
 	}
 
+	public bool HasConverter {
+		get { return hasConverter; }
+	}
+
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
 
 	public void build(String resource) {
-		Debug.Log("Building level...");
+		if(Debug.isDebugBuild) {
+			Debug.Log("Building level...");
+		}
 		clearScene();
 		loadResource(resource);
 		setColors();
@@ -244,7 +250,8 @@ public class LevelLoader : MonoBehaviour {
 
 	void clearScene() {
 		foreach(UnityEngine.Object o in objects) {
-			Debug.Log("Destroyed " + o);
+			if(Debug.isDebugBuild)
+				Debug.Log("Destroyed " + o);
 			Destroy(o);
 		}
 		objects.Clear();
@@ -256,12 +263,14 @@ public class LevelLoader : MonoBehaviour {
 		objZapper = null;
 		objPusher = null;
 		objGrabber = null;
+		hasConverter = false;
 	}
 
 	// ------------------------------------------------------------------------
 
 	void loadResource(String resource) {
-		Debug.Log("Loading level data...");
+		if(Debug.isDebugBuild)
+			Debug.Log("Loading level data...");
 		TextAsset json = Resources.Load(resource) as TextAsset;
 		levelData = JsonMapper.ToObject(json.text);
 	}
@@ -269,10 +278,11 @@ public class LevelLoader : MonoBehaviour {
 	// ------------------------------------------------------------------------
 
 	Color hexToColor(string hex) {
-		//Debug.Log(hex);
 		byte r = byte.Parse(hex.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
 		byte g = byte.Parse(hex.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
 		byte b = byte.Parse(hex.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
+		if(Debug.isDebugBuild)
+			Debug.Log("Converting #" + hex + " to RGB(" + r + "," + g + "," + b + ")");
 		return new Color32(r,g,b, 255);
 	}
 
@@ -311,15 +321,20 @@ public class LevelLoader : MonoBehaviour {
 
 	void buildPosition () {
 		try {
-#if UNITY_DEBUG
-			JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
-			Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
-#endif
+			if(Debug.isDebugBuild) {
+				JsonData field = levelData ["elements"] [floor.ToString()] [row.ToString()] [column];
+				Debug.Log("Building " + floor + "/" + row + "/" + column + ": " + field["f"].ToString() + ", " + field["o"].ToString());
+			}
 			updateMaximumLevelDimensions();
 			buildFloor();
 			buildObject();
+		} catch(ArgumentOutOfRangeException e) {
+			// ignore
+		} catch(KeyNotFoundException e) {
+			// ignore
 		} catch (Exception e) {
-			// Debug.LogException(e);
+			if(Debug.isDebugBuild)
+				Debug.LogException(e);
 		}
 	}
 
@@ -404,8 +419,12 @@ public class LevelLoader : MonoBehaviour {
 	string getFloorTypeAt(int floor, int row, int column) {
 		try {
 			return levelData ["elements"] [floor.ToString()] [row.ToString()] [column] ["f"].ToString();
+		} catch(KeyNotFoundException e) {
+			// ignore
 		} catch(Exception e) {
-			// Debug.LogException(e);
+			if(Debug.isDebugBuild) {
+				Debug.LogException(e);
+			}
 		}
 		return null;
 	}

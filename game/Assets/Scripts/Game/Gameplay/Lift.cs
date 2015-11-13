@@ -34,9 +34,13 @@ public class Lift : MonoBehaviour {
 
 	private void updateElementPosition() {
 		RaycastHit hit;
-		//Debug.DrawRay (transform.position + offsetVector, Vector3.down * 1.5f, Color.red);
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay (transform.position + offsetVector, Vector3.down * 1.5f, Color.red);
+		}
 		if(element && Physics.Raycast(transform.position + offsetVector, Vector3.down, out hit, 1.5f, 1 << 8)) {
-			//Debug.Log("Element: " + element.name + " / " + hit.collider.gameObject.name);
+			if(Debug.isDebugBuild) {
+				Debug.Log("Lift update element position for " + element.name + " / " + hit.collider.gameObject.name);
+			}
 			MoveActor actor = element.GetComponentInChildren<MoveActor>();
 			if(actor) {
 				actor.set(hit.point);
@@ -75,19 +79,24 @@ public class Lift : MonoBehaviour {
 	public bool getCarriedElement() {
 		element = null;
 		RaycastHit hit;
-		// Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
-		Debug.DrawRay(transform.position + new Vector3(-0.49f, 0, 0), Vector3.up, Color.red, 1f);
-		Debug.DrawRay(transform.position + new Vector3(0.49f, 0, 0), Vector3.up, Color.yellow, 1f);
-		Debug.DrawRay(transform.position + new Vector3(0, 0, -0.49f), Vector3.up, Color.blue, 1f);
-		Debug.DrawRay(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, Color.green, 1f);
-		if(
-			Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)
+
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay(transform.position, Vector3.up, Color.green, 1f);
+			Debug.DrawRay(transform.position + new Vector3(-0.49f, 0, 0), Vector3.up, Color.red, 1f);
+			Debug.DrawRay(transform.position + new Vector3(0.49f, 0, 0), Vector3.up, Color.yellow, 1f);
+			Debug.DrawRay(transform.position + new Vector3(0, 0, -0.49f), Vector3.up, Color.blue, 1f);
+			Debug.DrawRay(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, Color.green, 1f);
+		}
+
+		if(Physics.Raycast(transform.position, Vector3.up, out hit, 1.5f)
 			|| Physics.Raycast(transform.position + new Vector3(-0.49f, 0, 0), Vector3.up, out hit, 1.5f)
 			|| Physics.Raycast(transform.position + new Vector3(0.49f, 0, 0), Vector3.up, out hit, 1.5f)
 			|| Physics.Raycast(transform.position + new Vector3(0, 0, -0.49f), Vector3.up, out hit, 1.5f)
-			|| Physics.Raycast(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, out hit, 1.5f)
-			) {
-//			Debug.Log("Lift element: " + hit.collider.gameObject.name + " " + hit.collider.tag);
+			|| Physics.Raycast(transform.position + new Vector3(0, 0, 0.49f), Vector3.up, out hit, 1.5f)) {
+			if(Debug.isDebugBuild) {
+				Debug.Log("Lift carries element " + hit.collider.gameObject.name + " (" + hit.collider.tag + ")");
+			}
+
 			if(hit.collider.tag == "Actor" || hit.collider.tag == "Player")
 				element = hit.collider.gameObject;
 			return true;

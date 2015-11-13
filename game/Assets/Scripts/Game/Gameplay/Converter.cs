@@ -29,7 +29,10 @@ public class Converter : Actor {
 	public Actor raycast(Vector3 direction) {
 		if(direction == this.direction || direction == -this.direction) {
 			RaycastHit hit;
-			Debug.DrawRay(transform.position + Vector3.up * 0.25f, direction * 10, Color.red, 0.2f);
+
+			if(Debug.isDebugBuild)
+				Debug.DrawRay(transform.position + Vector3.up * 0.25f, direction * 10, Color.red, 0.2f);
+
 			if(Physics.Raycast(transform.position + Vector3.up * 0.25f, direction, out hit)) {
 				if(hit.collider.tag == "Actor" || hit.collider.tag == "Player") {
 					return hit.collider.gameObject.GetComponent<Actor>();

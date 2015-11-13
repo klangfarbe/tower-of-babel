@@ -72,10 +72,15 @@ public class Conditions : MonoBehaviour {
 	public void startLevel() {
 		if(levelStarted)
 			return;
-		Debug.Log("Level started");
+
+		if(Debug.isDebugBuild)
+			Debug.Log("Level started");
+
 		levelStarted = true;
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Actor")) {
-			Debug.Log("Enabling gameobject " + g.name);
+			if(Debug.isDebugBuild)
+				Debug.Log("Enabling gameobject " + g.name);
+
 			Actor actor = g.GetComponent<Actor>();
 			if(actor) {
 				actor.Enable = true;
@@ -129,7 +134,9 @@ public class Conditions : MonoBehaviour {
 		if(klondikesToGather == 0 || klondikesToGather == klondikesGathered)
 			return;
 		klondikesGathered++;
-		Debug.Log("Conditions: " + klondikesGathered + "/" + klondikesToGather + " Klondikes collected");
+
+		if(Debug.isDebugBuild)
+			Debug.Log("Conditions: " + klondikesGathered + "/" + klondikesToGather + " Klondikes collected");
 	}
 	// ------------------------------------------------------------------------
 
@@ -137,6 +144,8 @@ public class Conditions : MonoBehaviour {
 		if(robotsToDestroy == 0 || robotsToDestroy == robotsDestroyed)
 			return;
 		robotsDestroyed++;
-		Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed");
+
+		if(Debug.isDebugBuild)
+			Debug.Log("Conditions: " + robotsDestroyed + "/" + robotsToDestroy + " Robots destroyed");
 	}
 }

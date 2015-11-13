@@ -44,7 +44,9 @@ public class Wiper : Actor {
 	private void deleteFloors() {
 		Vector3 offset = Vector3.up * 0.25f;
 
-		Debug.DrawRay(transform.position + offset, direction, Color.green, 0.5f);
+		if(Debug.isDebugBuild) {
+			Debug.DrawRay(transform.position + offset, direction, Color.green, 0.5f);
+		}
 
 		// calculate maximum length of the game field
 		float max = direction == Vector3.left || direction == Vector3.right
@@ -54,13 +56,18 @@ public class Wiper : Actor {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position + offset, direction, out hit, max, 1 << 8)) {
 			max = Vector3.Distance(transform.position, hit.point);
-			Debug.Log("Wiper maximum distance: " + hit.collider.gameObject.name + " / " + hit.collider.tag + " / " +  hit.point + " / " + max);
+			if(Debug.isDebugBuild) {
+				Debug.Log("Wiper maximum distance: " + hit.collider.gameObject.name + " / " + hit.collider.tag + " / " +  hit.point + " / " + max);
+			}
 		}
 
 		// check every field now
 		for(float i = 1; i <= max; i++) {
 			Vector3 v = transform.position + i * direction + offset;
-			Debug.DrawRay(v, Vector3.down, Color.green, 0.5f);
+
+			if(Debug.isDebugBuild) {
+				Debug.DrawRay(v, Vector3.down, Color.green, 0.5f);
+			}
 
 			if(Physics.Raycast(v, Vector3.down, out hit, 0.5f, 1 << 8)) {
 				if(hit.collider.gameObject.name.StartsWith("FLR")) {
@@ -77,7 +84,11 @@ public class Wiper : Actor {
 	public override bool grabbed(GameObject by) {
 		if(activated)
 			return false;
-		Debug.Log(gameObject.name + ": " + transform.position);
+
+		if(Debug.isDebugBuild) {
+			Debug.Log(gameObject.name + " grabbed at position " + transform.position);
+		}
+
 		direction = Vector3.zero;
 		activated = true;
 		animPlayed = false;

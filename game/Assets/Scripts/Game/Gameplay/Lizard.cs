@@ -47,6 +47,10 @@ public class Lizard : Actor, ScaleAnimationCallback {
 
 	private void destroyFloor() {
 		if(floorToDestroy && actor.getFloor(transform.position) != floorToDestroy) {
+			if(Debug.isDebugBuild) {
+				Debug.Log("Lizard destroyed floor " + floorToDestroy);
+			}
+
 			ScaleAnimation anim = floorToDestroy.GetComponent<ScaleAnimation>();
 			if(anim.scale() > 0) {
 				anim.run(this);
