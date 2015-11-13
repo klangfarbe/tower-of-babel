@@ -10,14 +10,22 @@ public class Prism : Actor {
 	public override bool zapped(GameObject by) {
 		Actor target = null;
 
-		if(by.transform.forward == input) {
+		var heading = transform.position - by.transform.position;
+		var direction = heading / heading.magnitude;
+
+		if(Debug.isDebugBuild) {
+			Debug.Log("prism zapped by " + by.name + " from " + by.transform.position
+				+ " with direction " + direction + " (in " + input + " / out " + output + ")");
+		}
+
+		if(direction == input) {
 			target = raycast(output);
-		} else if(by.transform.forward == -output) {
+		} else if(direction == -output) {
 			target = raycast(-input);
 		}
 
 		if(target) {
-			return target.zapped(by);
+			return target.zapped(gameObject);
 		}
 		return false;
 	}
