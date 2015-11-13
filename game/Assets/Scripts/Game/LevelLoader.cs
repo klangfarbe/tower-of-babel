@@ -33,6 +33,7 @@ public class LevelLoader : MonoBehaviour {
 	private GameObject objGrabber;
 	private GameObject objPusher;
 	private GameObject objZapper;
+	private bool hasConverter;
 
 	private List<UnityEngine.Object> objects = new List<UnityEngine.Object>();
 
@@ -409,6 +410,9 @@ public class LevelLoader : MonoBehaviour {
 		}
 		if(type == "ZAP") {
 			objZapper = instance;
+		}
+		if(type == "CVN" || type == "CVE") {
+			hasConverter = true;
 		}
 		objects.Add(instance);
 		return instance;

@@ -13,6 +13,7 @@ public class Conditions : MonoBehaviour {
 	private bool timeout = false;
 
 	private GameController gameController;
+	private LevelLoader level;
 
 	// ------------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ public class Conditions : MonoBehaviour {
 
 	void Start() {
 		gameController = GameObject.Find("Controller").GetComponent<GameController>();
+		level = GameObject.Find("Level").GetComponent<LevelLoader>();
 	}
 
 	// ------------------------------------------------------------------------
@@ -56,7 +58,9 @@ public class Conditions : MonoBehaviour {
 			StartCoroutine(gameController.levelFailed());
 		}
 
-		if(!zap && robotsDestroyed < robotsToDestroy) {
+		if(robotsDestroyed < robotsToDestroy) {
+			if(zap || (psh && level.HasConverter))
+				return;
 			levelStarted = false;
 			StartCoroutine(gameController.levelFailed());
 		}
