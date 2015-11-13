@@ -11,6 +11,9 @@ public class MouseInputController : BaseUIController {
 	protected float[] vLines;// = new float[5];
 	protected float[] hLines = new float[5];
 
+	private int sWidth = 0;
+	private int sHeight = 0;
+
 	// ------------------------------------------------------------------------
 
 	protected enum Quadrant {
@@ -24,6 +27,15 @@ public class MouseInputController : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	protected void Awake() {
+		UpdateVLines();
+	}
+
+	// ------------------------------------------------------------------------
+
+	protected void UpdateVLines() {
+		if(sWidth == Screen.width && sHeight == Screen.height)
+			return;
+
 		float deadzone = 10;
 		vLines = new float[] {
 			deadzone,
@@ -33,8 +45,13 @@ public class MouseInputController : BaseUIController {
 			Screen.width
 		};
 		hLines[0] = Screen.height / 3;
-		foreach(var item in vLines) {
-			Debug.Log("vLines: " + item);
+
+		sWidth = Screen.width;
+		sHeight = Screen.height;
+
+		if(Debug.isDebugBuild) {
+			Debug.Log("hLines: " + hLines[0]);
+			Debug.Log("vLines: " + vLines[0] + ", " + vLines[1] + ", " + vLines[2] + ", " + vLines[3] + ", " + vLines[4]);
 		}
 	}
 
@@ -67,6 +84,8 @@ public class MouseInputController : BaseUIController {
 
 	void Update () {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER  || UNITY_WEBGL
+		UpdateVLines();
+
 		// Zoom in/out
 		if(Input.GetAxis("Mouse ScrollWheel") < 0) {
 			cameraController.zoom(-0.5f);
