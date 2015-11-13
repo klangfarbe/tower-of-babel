@@ -120,6 +120,7 @@ MonoBehaviour:
   endPosition: {x: 0, y: 0, z: 0}
   startPosition: {x: 0, y: 0, z: 0}
   nextFloor: {fileID: 0}
+  speed: .699999988
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -131,15 +132,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2fde6fd878c974fb1f8c826c9fa459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {x: 0, y: 0, z: -1}
-  output: {x: 1, y: 0, z: 0}
+  input: {x: -1, y: 0, z: 0}
+  output: {x: 0, y: 0, z: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: input.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: output.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: output.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: input.x
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
