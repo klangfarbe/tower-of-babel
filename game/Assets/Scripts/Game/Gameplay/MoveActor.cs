@@ -6,11 +6,14 @@ public class MoveActor : MonoBehaviour {
 	public Vector3 endPosition;
 	public Vector3 startPosition;
 	public Floor nextFloor;
-	public float speed = 0.7f;
+
+	private float speed = 0.2f;
+	private float speedPushed = 0.5f;
 
 	private float deadZone = 0.005f;
 	private float startTime;
 	private bool smooth = false;
+	private bool pushed = false;
 
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
@@ -25,7 +28,7 @@ public class MoveActor : MonoBehaviour {
 
 	void Update() {
 		if(Walking) {
-			startTime += Time.deltaTime * speed;
+			startTime += Time.deltaTime * (pushed ? speedPushed : speed);
 			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		}
 	}
@@ -35,6 +38,7 @@ public class MoveActor : MonoBehaviour {
 	void FixedUpdate() {
 		// select the nearest pusher which pushed the object
 		// pushing has always priority over manual movements
+		// In case of pushing the movement speed increases
 		Vector3 v = Vector3.zero;
 
 		if(pushedBy.Count > 0) {
@@ -52,10 +56,12 @@ public class MoveActor : MonoBehaviour {
 					break;
 				}
 			}
+			pushed = true;
 			pushedBy.Clear();
 			moveQueue.Clear();
 		} else if(moveQueue.Count > 0 && !Walking) {
 			v = moveQueue.Dequeue();
+			pushed = false;
 		}
 
 		if(!Walking) {

@@ -4,7 +4,7 @@ using System.Collections;
 public class Lift : MonoBehaviour {
 	public bool isUp = false;
 
-	private float speed = 0.6f;
+	private float speed = 0.2f;
 	private float startTime;
 
 	private Vector3 offsetVector = new Vector3(0, 1.2f, 0);

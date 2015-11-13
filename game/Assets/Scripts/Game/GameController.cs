@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 	private CameraController cameraController;
 	private GUINotification gui;
 
+	public float globalGameSpeed = 1f;
 	public GameObject activeObject;
 	public SceneFader sceneFader;
 

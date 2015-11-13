@@ -3,8 +3,7 @@ using System.Collections;
 
 public class PushingCannon : Actor {
 	public bool rotating = false;
-	private float timeBeforeRotation = 1.2f;
-
+	private float timeBeforeRotation = 2.2f;
 	private float lastTime = 0;
 	private bool hasPushedInThisFrame = false;
 	private FadingLight spotlight;
@@ -44,6 +43,9 @@ public class PushingCannon : Actor {
 			}
 		}
 		if(rotating && Time.time - lastTime > timeBeforeRotation) {
+			if(Debug.isDebugBuild) {
+				Debug.Log("RPN: rotated after " + (Time.time - lastTime) + "s");
+			}
 			gameObject.transform.RotateAround(gameObject.transform.position, Vector3.up, 90);
 			lastTime = Time.time;
 			hasPushedInThisFrame = false;
