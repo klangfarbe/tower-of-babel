@@ -66,7 +66,7 @@ public class MouseInputController : BaseUIController {
 	// ------------------------------------------------------------------------
 
 	void Update () {
-#if UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_STANDALONE || UNITY_WEBPLAYER  || UNITY_WEBGL
 		// Zoom in/out
 		if(Input.GetAxis("Mouse ScrollWheel") < 0) {
 			cameraController.zoom(-0.5f);

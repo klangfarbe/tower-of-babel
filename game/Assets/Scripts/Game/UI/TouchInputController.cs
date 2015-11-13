@@ -1,8 +1,8 @@
-#if UNITY_IPHONE || UNITY_ANDROID
 using UnityEngine;
 using System.Collections;
 
 public class TouchInputController : MouseInputController {
+#if UNITY_IOS || UNITY_ANDROID
 	private float minPinchSpeed = 0.75F;
 	private float varianceInDistances = 2.0F;
 	private float touchDelta = 0.0F;
@@ -53,5 +53,5 @@ public class TouchInputController : MouseInputController {
 			}
 		}
 	}
-}
 #endif
+}
