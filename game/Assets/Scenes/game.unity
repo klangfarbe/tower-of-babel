@@ -1742,7 +1742,6 @@ GameObject:
   - 4: {fileID: 1481750321}
   - 114: {fileID: 1481750322}
   - 114: {fileID: 1481750324}
-  - 114: {fileID: 1481750323}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -1775,26 +1774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3a65fd9bce082439fdf265fe19d2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1481750323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1481750320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79109b508f187dc4799387fce1ff56db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startRect:
-    serializedVersion: 2
-    x: 400
-    y: 10
-    width: 100
-    height: 50
-  updateColor: 1
-  frequency: .5
-  nbDecimal: 1
 --- !u!114 &1481750324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,7 +1973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46322881d123f24e83d0072169c0c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalGameSpeed: 1
+  gameSpeed: 2.5
   activeObject: {fileID: 0}
   sceneFader: {fileID: 0}
 --- !u!114 &1877421567
