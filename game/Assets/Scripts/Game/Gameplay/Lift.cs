@@ -12,18 +12,20 @@ public class Lift : MonoBehaviour {
 	private Vector3 startScale;
 
 	private GameObject element;
+	private GameController gameController;
 
 	// ------------------------------------------------------------------------
 
 	void Start() {
 		startScale = endScale = transform.localScale;
+		gameController = GameObject.Find("Controller").GetComponent<GameController>();
 	}
 
 	// ------------------------------------------------------------------------
 
 	void Update () {
 		if(isPlaying()) {
-			startTime += Time.deltaTime * speed;
+			startTime += Time.deltaTime * speed * gameController.gameSpeed;
 			transform.localScale = Vector3.Lerp(startScale, endScale, startTime);
 //			getCarriedElement();
 			updateElementPosition();

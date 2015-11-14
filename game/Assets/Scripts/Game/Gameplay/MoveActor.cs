@@ -17,18 +17,20 @@ public class MoveActor : MonoBehaviour {
 
 	private List<GameObject> pushedBy = new List<GameObject>();
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
+	private GameController gameController;
 
 	// ------------------------------------------------------------------------
 
-	void Start () {
+	void Awake () {
 		startPosition = endPosition = transform.position;
+		gameController = GameObject.Find("Controller").GetComponent<GameController>();
 	}
 
 	// ------------------------------------------------------------------------
 
 	void Update() {
 		if(Walking) {
-			startTime += Time.deltaTime * (pushed ? speedPushed : speed);
+			startTime += Time.deltaTime * ((pushed ? speedPushed : speed) * gameController.gameSpeed);
 			transform.position = Vector3.Lerp(startPosition, endPosition, startTime);
 		}
 	}

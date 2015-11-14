@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Freezer : Actor {
-	private float cooldownTime = 3.5f;
-	private float freezeTime = 3.0f;
+	private float cooldownTime = 9f;
+	private float freezeTime = 9.5f;
 	private bool blocked = false;
 
 	// ------------------------------------------------------------------------
@@ -13,7 +13,7 @@ public class Freezer : Actor {
 			return false;
 		blocked = true;
 
-		instantiateParticle("FRZ_activated", freezeTime);
+		instantiateParticle("FRZ_activated", freezeTime / gameController.gameSpeed);
 
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Actor")) {
 			Actor a = g.GetComponent<Actor>();
@@ -32,7 +32,7 @@ public class Freezer : Actor {
 	// ------------------------------------------------------------------------
 
 	IEnumerator unfreeze() {
-		yield return new WaitForSeconds(freezeTime);
+		yield return new WaitForSeconds(freezeTime / gameController.gameSpeed);
 
 		if(Debug.isDebugBuild) {
 			Debug.Log(gameObject.name + ": Unfreeze at " + Time.time);
@@ -52,7 +52,7 @@ public class Freezer : Actor {
 	// ------------------------------------------------------------------------
 
 	IEnumerator cooldown() {
-		yield return new WaitForSeconds(cooldownTime);
+		yield return new WaitForSeconds(cooldownTime / gameController.gameSpeed);
 
 		if(Debug.isDebugBuild) {
 			Debug.Log(gameObject.name + ": Cooldown ended at " + Time.time);

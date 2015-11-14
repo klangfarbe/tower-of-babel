@@ -39,7 +39,7 @@ public class ZappingCannon : Actor {
 				hasZappedInThisFrame = false;
 			}
 		}
-		if(rotating && Time.time - lastTime > timeBeforeRotation) {
+		if(rotating && Time.time - lastTime > timeBeforeRotation / gameController.gameSpeed) {
 			if(Debug.isDebugBuild) {
 				Debug.Log("RZN: rotated after " + (Time.time - lastTime) + "s");
 			}

@@ -25,7 +25,7 @@ public class Conditions : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	void Start() {
+	void Awake() {
 		gameController = GameObject.Find("Controller").GetComponent<GameController>();
 		level = GameObject.Find("Level").GetComponent<LevelLoader>();
 	}
@@ -35,12 +35,6 @@ public class Conditions : MonoBehaviour {
 	private void checkWinningConditions() {
 		if(klondikesToGather == 0 && robotsToDestroy == 0) {
 			return;
-		}
-
-		if(timelimit > 0 && Time.time - startTime >= timelimit) {
-			levelStarted = false;
-			timeout = true;
-			StartCoroutine(gameController.levelFailed());
 		}
 
 		// find necessary objects to complete the level
@@ -53,21 +47,27 @@ public class Conditions : MonoBehaviour {
 			StartCoroutine(gameController.levelFailed());
 		}
 
-		if(!grb && klondikesGathered < klondikesToGather) {
+		else if(!grb && klondikesGathered < klondikesToGather) {
 			levelStarted = false;
 			StartCoroutine(gameController.levelFailed());
 		}
 
-		if(robotsDestroyed < robotsToDestroy) {
+		else if(robotsDestroyed < robotsToDestroy) {
 			if(zap || (psh && level.HasConverter))
 				return;
 			levelStarted = false;
 			StartCoroutine(gameController.levelFailed());
 		}
 
-		if(klondikesGathered == klondikesToGather && robotsDestroyed == robotsToDestroy) {
+		else if(klondikesGathered == klondikesToGather && robotsDestroyed == robotsToDestroy) {
 			levelStarted = false;
 			StartCoroutine(gameController.levelCompleted());
+		}
+
+		else if(timelimit > 0 && Time.time - startTime >= timelimit) {
+			levelStarted = false;
+			timeout = true;
+			StartCoroutine(gameController.levelFailed());
 		}
 	}
 
@@ -102,7 +102,7 @@ public class Conditions : MonoBehaviour {
 		klondikesToGather = klondikes;
 		robotsDestroyed = 0;
 		robotsToDestroy = robots;
-		this.timelimit = timelimit;
+		this.timelimit = (int)Mathf.Round((float)timelimit / gameController.gameSpeed);
 	}
 
 	// ------------------------------------------------------------------------

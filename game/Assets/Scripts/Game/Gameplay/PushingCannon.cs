@@ -42,7 +42,7 @@ public class PushingCannon : Actor {
 				hasPushedInThisFrame = false;
 			}
 		}
-		if(rotating && Time.time - lastTime > timeBeforeRotation) {
+		if(rotating && Time.time - lastTime > timeBeforeRotation / gameController.gameSpeed) {
 			if(Debug.isDebugBuild) {
 				Debug.Log("RPN: rotated after " + (Time.time - lastTime) + "s");
 			}

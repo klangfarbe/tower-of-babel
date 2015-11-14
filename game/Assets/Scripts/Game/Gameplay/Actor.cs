@@ -3,6 +3,13 @@ using System.Collections;
 
 public class Actor : MonoBehaviour {
 	private bool enable = false;
+	protected GameController gameController;
+
+	// ------------------------------------------------------------------------
+
+	void Awake () {
+		gameController = GameObject.Find("Controller").GetComponent<GameController>();
+	}
 
 	// ------------------------------------------------------------------------
 
