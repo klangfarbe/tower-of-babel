@@ -13,18 +13,17 @@ public class Freezer : Actor {
 			return false;
 		blocked = true;
 
-		instantiateParticle("FRZ_activated", freezeTime / gameController.gameSpeed);
+		if(Debug.isDebugBuild) {
+			Debug.Log(gameObject.name + ": Freeze start at " + Time.time);
+		}
+
+		playAudio(0);
 
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Actor")) {
 			Actor a = g.GetComponent<Actor>();
 			if(a)
 				a.Enable = false;
 		}
-
-		if(Debug.isDebugBuild) {
-			Debug.Log(gameObject.name + ": Freeze start at " + Time.time);
-		}
-
 		StartCoroutine(unfreeze());
 		return true;
 	}
@@ -38,14 +37,13 @@ public class Freezer : Actor {
 			Debug.Log(gameObject.name + ": Unfreeze at " + Time.time);
 		}
 
+		playAudio(1);
+
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Actor")) {
 			Actor a = g.GetComponent<Actor>();
 			if(a)
 				a.Enable = true;
 		}
-
-		instantiateParticle("FRZ_cooldown", freezeTime);
-
 		StartCoroutine(cooldown());
 	}
 
@@ -57,15 +55,6 @@ public class Freezer : Actor {
 		if(Debug.isDebugBuild) {
 			Debug.Log(gameObject.name + ": Cooldown ended at " + Time.time);
 		}
-
 		blocked = false;
-	}
-
-	// ------------------------------------------------------------------------
-
-	private void instantiateParticle(string name, float duration) {
-		GameObject prefab = (GameObject) Resources.Load(name);
-		Object o = Instantiate(prefab, transform.position + Vector3.up * 0.1f, prefab.transform.rotation);
-		Destroy(o, duration + 3f);
 	}
 }

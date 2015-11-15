@@ -113,9 +113,11 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public void playAudio() {
-		if(gameObject.GetComponent<AudioSource>()) {
-			gameObject.GetComponent<AudioSource>().Play();
+	public void playAudio(int index = 0) {
+		AudioSource[] audiofiles = gameObject.GetComponents<AudioSource>();
+		if(audiofiles != null && audiofiles.Length >= index) {
+			Debug.Log("playing audio file " + index);
+			audiofiles[index].Play();
 		}
 	}
 
