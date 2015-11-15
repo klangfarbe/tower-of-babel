@@ -26,12 +26,6 @@ public class MouseInputController : BaseUIController {
 
 	// ------------------------------------------------------------------------
 
-	protected void Awake() {
-		UpdateVLines();
-	}
-
-	// ------------------------------------------------------------------------
-
 	protected void UpdateVLines() {
 		if(sWidth == Screen.width && sHeight == Screen.height)
 			return;

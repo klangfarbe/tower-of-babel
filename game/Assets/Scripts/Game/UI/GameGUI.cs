@@ -26,7 +26,7 @@ public class GameGUI : BaseUIController {
 
 	// ------------------------------------------------------------------------
 
-	void Awake() {
+	void Start() {
 		setupGUIStyles();
 	}
 
