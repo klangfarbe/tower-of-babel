@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 public class Grabber : Actor {
-	public override void fire() {
+	public override bool fire() {
 		base.fire();
 
 		if(isOnMovingLift()) {
-			return;
+			return false;
 		}
 
 		RaycastHit hit;
 		if(!base.raycast(out hit))
-			return;
+			return false;
 
 		if(Debug.isDebugBuild) {
 			Debug.Log("Trying to grab " + hit.collider.gameObject.name + " (" + hit.collider.tag + ")");
@@ -22,8 +22,10 @@ public class Grabber : Actor {
 			if(Debug.isDebugBuild) {
 				Debug.Log("Could not grab " + hit.collider.gameObject.name + " (" + hit.collider.tag + ")");
 			}
+			return false;
 		} else if(Debug.isDebugBuild) {
 			Debug.Log("Grabbed " + hit.collider.gameObject.name + " (" + hit.collider.tag + ")");
 		}
+		return true;
 	}
 }

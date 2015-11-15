@@ -27,9 +27,10 @@ public class Actor : MonoBehaviour {
 
 	// ------------------------------------------------------------------------
 
-	public virtual void fire() {
+	public virtual bool fire() {
 		if(!Enable)
 			Enable = true;
+		return true;
 	}
 
 	// ------------------------------------------------------------------------

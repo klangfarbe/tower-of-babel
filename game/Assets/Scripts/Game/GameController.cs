@@ -25,7 +25,9 @@ public class GameController : MonoBehaviour {
 	public void actorFire() {
 		Actor actor = getActor();
 		if(actor) {
-			actor.fire();
+			if(!actor.fire()) {
+				GetComponent<AudioSource>().Play();
+			}
 		}
 	}
 
@@ -142,5 +144,19 @@ public class GameController : MonoBehaviour {
 
 	public void levelUnpause() {
 		Time.timeScale = 1f;
+	}
+
+	// ------------------------------------------------------------------------
+	// Methods for spider programming
+	// ------------------------------------------------------------------------
+	private bool programmingMode;
+
+	public bool ProgrammingMode {
+		get {
+			return this.programmingMode;
+		}
+		set {
+			this.programmingMode = value;
+		}
 	}
 }
